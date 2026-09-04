@@ -1,0 +1,1063 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>S.A. Entulho · caçamba e coleta de entulho em Manaus</title>
+<meta name="description" content="Retirada de entulho de obra, recicláveis e limpeza de fossa em toda Manaus. Caçamba estacionária e caminhão VUC. Empresa legalizada, com licenças Ibama, Semmas, Ipaam e Semulsp.">
+<meta name="theme-color" content="#2C332C">
+<link rel="canonical" href="https://www.saentulho.com.br/">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="S.A. Entulho">
+<meta property="og:title" content="S.A. Entulho · caçamba e coleta de entulho em Manaus">
+<meta property="og:description" content="Você enche, a gente tira. Caçamba estacionária e caminhão VUC em toda Manaus.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%232C332C'/><path d='M5 11h22l-3 13H8z' fill='%23069A2C'/></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=Geist:wght@300;400;500;600&display=swap">
+<link rel="stylesheet" href="scrollcraft.css">
+<style>
+/* ===========================================================================
+   S.A. ENTULHO
+   Gramática: split stage. Duas colunas em tensão a página inteira,
+   resolvidas pelo colapso no último ato.
+   Movimento assinatura: a linha de carga (pilha cumulativa + a virada).
+   O motor não é editado. Tudo aqui é markup e CSS da própria página.
+   =========================================================================== */
+
+:root {
+  /* dois fundos, um por lado, e eles seguram. drift é banido nesta gramática. */
+  /* A marca é verde. Amostrado do logo real (logoogogo.png):
+     #069A2C na palavra ENTULHO e na folhagem, #146821 no "S.A." e na
+     tagline, #60BC4A na folha clara. O #B83232 do tema BeTheme foi
+     descartado: era cor de template, não da marca. */
+  --sc-canvas:     #2C332C;
+  --sc-surface:    #3A443A;
+  --sc-ink:        #F0F4EE;
+  --sc-ink-soft:   #A8B4A6;
+  --sc-accent:     #4FC762;
+  --sc-accent-ink: #0E1A10;
+
+  --sae-verde:        #069A2C;   /* a cor da marca, como está no logo */
+  --sae-verde-escuro: #146821;
+  --sae-verde-claro:  #60BC4A;
+
+  --sc-font-display: "Archivo", "Archivo Narrow", system-ui, sans-serif;
+  --sc-font-text:    "Geist", system-ui, -apple-system, sans-serif;
+
+  /* o eixo do site. 0..1 = onde a borda da caçamba está na largura. */
+  --sae-split: 0.5;
+  --sae-lift:   0;     /* 0..1 o caminhão engatando a caçamba */
+  --sae-haul:   0;     /* 0..1 ela saindo carregada */
+  --sae-load:  0;      /* 0..1 o quanto a pilha já subiu */
+  --sae-nudge: 0px;    /* cutucão do ponteiro */
+  --sae-vw:    100vw;  /* largura sem a barra de rolagem, escrita pelo JS */
+  --sae-vh:    100vh;
+
+  --sae-rim: 16px;
+  --sae-safe: 0px;   /* faixa reservada para a caçamba no rodapé do telefone */
+  --sae-steel-1: #6E736B;
+  --sae-steel-2: #3D423C;
+  --sae-steel-3: #939A90;
+}
+
+/* os dois lados. `color` é reafirmado junto do token: `color` herda como
+   valor computado, então redefinir --sc-ink num galho não re-tinta o texto. */
+.side--waste {
+  --sc-canvas: #2C332C; --sc-surface: #3A443A;
+  --sc-ink: #F0F4EE; --sc-ink-soft: #A8B4A6;
+  --sc-accent: #4FC762; --sc-accent-ink: #0E1A10;
+  color: var(--sc-ink);
+  background-color: var(--sc-canvas);
+}
+.side--space {
+  --sc-canvas: #E9EDE4; --sc-surface: #F3F6EF;
+  --sc-ink: #161D17; --sc-ink-soft: #4A5450;
+  --sc-accent: #146821; --sc-accent-ink: #F4F8F2;
+  color: var(--sc-ink);
+  background-color: var(--sc-canvas);
+}
+
+body { background: #2C332C; }
+
+/* --------------------------------------------------------------- o split -- */
+.split {
+  display: grid;
+  grid-template-columns: 50% 1fr;
+  height: 100%;
+  width: 100%;
+}
+/* só o ato do pico segue a borda, porque só ele a move. */
+#chamar .split { grid-template-columns: calc(var(--sae-split) * var(--sae-vw)) 1fr; }
+.split__side { position: relative; overflow: hidden; min-width: 0; }
+
+/* a coluna é um quadro: mídia atrás, texto num bloco ancorado ao topo */
+.side__media { position: absolute; inset: 0; z-index: 0; }
+.side__media img,
+.side__media video { width: 100%; height: 100%; object-fit: cover; }
+
+/* chapa de fundo, para que a coluna nunca fique vazia enquanto a foto real
+   não chegou. não é foto falsa: é chão. */
+.side--waste .side__media {
+  background:
+    radial-gradient(120% 80% at 30% 8%, #404C3C 0%, transparent 62%),
+    linear-gradient(178deg, #354035 0%, #2C332C 58%, #232A24 100%);
+}
+.side--space .side__media {
+  background:
+    radial-gradient(120% 80% at 70% 6%, #F5F8F1 0%, transparent 60%),
+    linear-gradient(178deg, #EEF2E9 0%, #E9EDE4 60%, #DDE3D7 100%);
+}
+
+.side__copy {
+  position: relative; z-index: 2;
+  height: 100%;
+  display: flex; flex-direction: column; justify-content: flex-start;
+  gap: var(--sc-4);
+  padding: clamp(4.5rem, 11vh, 8rem) clamp(1.25rem, 3.4vw, 3.25rem) clamp(1.25rem, 3vw, 2.5rem);
+}
+.side__copy--bottom { justify-content: flex-end; }
+/* a direita desce, para que as duas manchetes formem uma diagonal em vez de
+   uma barra. a gramática pede tensão, não simetria. */
+/* A marca fica no alto e a manchete desce: as duas manchetes formam uma
+   diagonal em vez de uma barra, e a gramática pede tensão, não simetria. */
+.h-hero--drop { margin-top: clamp(4rem, 24vh, 15rem); }
+.side__copy--mid { justify-content: center; }
+
+/* uma coluna escura sob o texto, só onde ele está, nunca a moldura toda */
+.side--waste .side__copy::before {
+  content: ""; position: absolute; inset: 0 0 auto 0; height: 62%;
+  background: linear-gradient(to bottom,
+    rgba(40,48,40,0.88) 0%, rgba(40,48,40,0.58) 46%, rgba(40,48,40,0) 100%);
+  z-index: -1; pointer-events: none;
+}
+.side--space .side__copy::before {
+  content: ""; position: absolute; inset: 0 0 auto 0; height: 62%;
+  background: linear-gradient(to bottom,
+    rgba(238,242,233,0.92) 0%, rgba(238,242,233,0.66) 46%, rgba(238,242,233,0) 100%);
+  z-index: -1; pointer-events: none;
+}
+
+/* --------------------------------------------------------- tipografia --- */
+.h-hero {
+  font-family: var(--sc-font-display);
+  font-weight: 800;
+  font-size: var(--sc-t-3xl);
+  line-height: 0.96;
+  letter-spacing: -0.04em;
+  text-transform: uppercase;
+  margin: 0;
+  text-wrap: balance;
+}
+.h-act {
+  font-family: var(--sc-font-display);
+  font-weight: 700;
+  font-size: var(--sc-t-2xl);
+  line-height: 1.02;
+  letter-spacing: -0.032em;
+  text-transform: uppercase;
+  margin: 0;
+  text-wrap: balance;
+}
+.lede {
+  font-size: var(--sc-t-lg);
+  line-height: 1.34;
+  letter-spacing: -0.014em;
+  max-width: 26ch;
+  margin: 0;
+  font-weight: 400;
+}
+.body { font-size: var(--sc-t-base); line-height: 1.62; max-width: 46ch; color: var(--sc-ink-soft); margin: 0; text-wrap: pretty; }
+/* A gramática de split stage não tem barra de topo, então a marca não vira
+   chrome fixo: ela é parte da composição. Aparece na primeira tela, onde a
+   empresa se apresenta, e outra vez no fecho, onde a página assina.
+   width e height vêm como atributo no HTML, e dentro de um container flex em
+   coluna o height:auto não resolve pela proporção: o navegador usa a altura
+   intrínseca (132px) e a marca estica. aspect-ratio explícito conserta. */
+.mark {
+  width: clamp(10rem, 17vw, 15.5rem);
+  height: auto;
+  aspect-ratio: 600 / 132;
+  flex: 0 0 auto;
+  margin-bottom: var(--sc-2);
+}
+.mark--hero { width: clamp(9rem, 17vw, 15rem); margin-bottom: 0; }
+
+.meta {
+  font-family: var(--sc-font-display);
+  font-size: var(--sc-t-xs);
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--sc-ink-soft);
+  margin: 0;
+}
+
+/* ------------------------------------------------ o chrome: a borda ----- */
+/* a gramática não tem barra fixa. o divisor É o chrome: ele carrega o rótulo
+   dos dois lados e o medidor de carga, que é o progresso do argumento. */
+.rim {
+  position: fixed;
+  top: 0; bottom: 0;
+  left: calc(var(--sae-split) * var(--sae-vw));
+  width: var(--sae-rim);
+  margin-left: calc(var(--sae-rim) / -2);
+  z-index: 60;
+  pointer-events: none;
+  transform-origin: 50% 100%;
+  transform: rotate(calc(var(--sae-haul) * -7deg));
+  background: linear-gradient(90deg,
+    var(--sae-steel-2) 0%, var(--sae-steel-1) 34%,
+    var(--sae-steel-3) 52%, var(--sae-steel-1) 68%, var(--sae-steel-2) 100%);
+  box-shadow:
+    -6px 0 18px rgba(10,7,5,0.55),
+     6px 0 18px rgba(10,7,5,0.18),
+    inset 0 1px 0 rgba(255,255,255,0.34);
+}
+/* o filete de tinta de sinalização na aresta */
+.rim::before {
+  content: ""; position: absolute; inset: 0 auto 0 0; width: 2px;
+  background: var(--sae-verde); opacity: 0.92;
+}
+.rim__gauge {
+  position: absolute; inset: auto 2px 0 2px;
+  height: 100%;
+  background: linear-gradient(to top, var(--sae-verde-claro) 0%, var(--sae-verde) 100%);
+  transform-origin: 50% 100%;
+  transform: scaleY(var(--sae-load));
+  opacity: 0.92;
+}
+.rim__label {
+  position: absolute;
+  top: clamp(1.5rem, 5vh, 3.5rem);
+  font-family: var(--sc-font-display);
+  font-weight: 700;
+  font-size: 0.68rem;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  writing-mode: vertical-rl;
+  white-space: nowrap;
+  opacity: calc(1 - var(--sae-haul));
+}
+.rim__label--waste { right: calc(100% + 10px); color: #B7C4B4; transform: rotate(180deg); }
+.rim__label--space { left: calc(100% + 10px); color: #5B665C; }
+
+/* ---------------------------------------------- a linha de carga -------- */
+/* A caçamba está lá desde a primeira tela, e cada afirmação da página solta um
+   caco dentro dela. Quando chega no pico ela está cheia, o caminhão engata, e
+   ela vai embora carregada. É "você enche, a gente tira" executado em vez de
+   escrito. */
+/* o chão onde a caçamba fica. só existe no telefone. */
+.yard {
+  display: none;
+  position: fixed; left: 0; right: 0; bottom: 0;
+  height: calc(var(--sae-safe) + 4rem);
+  z-index: 4;
+  pointer-events: none;
+  /* aresta macia: o texto que rola dissolve dentro do pátio em vez de ser
+     decepado no meio de uma linha por uma borda dura. */
+  background: linear-gradient(to top,
+    #262E27 0%, #262E27 62%, rgba(38,46,39,0.86) 82%, rgba(38,46,39,0) 100%);
+  opacity: calc(1 - var(--sae-haul));
+}
+
+.pile {
+  position: fixed;
+  left: 0; bottom: 0;
+  width: calc(var(--sae-split) * var(--sae-vw));
+  height: 62vh;
+  z-index: 5;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+/* A caçamba, a carga e tudo mais viajam como uma peça só. Sem este invólucro
+   cada camada giraria em torno do próprio centro e a carga descolaria da
+   caixa no engate. */
+.rig {
+  position: absolute; inset: 0;
+  transform-origin: 96% 100%;
+  transform:
+    translateX(calc(var(--sae-haul) * -66vw))
+    rotate(calc(var(--sae-lift) * -7deg))
+    translateY(calc(var(--sae-lift) * -2.5%));
+}
+
+/* Duas camadas: o fundo (parede de trás e o vão) fica ATRÁS do entulho, a
+   frente (parede próxima, borda e nervuras) fica NA FRENTE. O entulho cai
+   entre as duas, e é isso que faz ele parecer dentro da caixa em vez de
+   colado por cima dela. */
+.skip__back, .skip__front {
+  position: absolute;
+  /* Os fallbacks são o que o JS mede na primeira passada; depois disso os
+     valores em px mandam, e a caixa para de reagir ao estreitamento da
+     coluna durante o colapso. */
+  left:   var(--sae-skip-l, 20%);
+  width:  var(--sae-skip-w, 78%);
+  top:    var(--sae-skip-t, 46%);
+  height: var(--sae-skip-h, 54%);
+}
+.skip__back  { z-index: 0; }
+.skip__front { z-index: 2; }
+.skip__back svg, .skip__front svg { width: 100%; height: 100%; overflow: visible; }
+
+/* A pintura na lateral da caçamba. É o alpha do logo real usado como
+   máscara, então a forma é a marca de verdade, não um texto parecido posto
+   no lugar dela. Recorte claro, como livery pintada em chapa. */
+.skip__mark {
+  position: absolute;
+  left: 16%; top: 40%; width: 58%;
+  aspect-ratio: 600 / 132;
+  z-index: 1;
+  background: #EAF6E6;
+  opacity: 0.94;
+  -webkit-mask: url("assets/logo.png") no-repeat center / contain;
+          mask: url("assets/logo.png") no-repeat center / contain;
+}
+
+.pile__field {
+  position: absolute; inset: 0;
+  z-index: 1;
+  transform: translateX(var(--sae-nudge));
+  transition: transform 420ms var(--sc-ease-out);
+}
+/* Cada caco já nasce no lugar dele DENTRO da caçamba. O que a entrada anima
+   é a queda até ali, e ela é uma transição comum, não uma escrita por quadro. */
+.pile__piece { position: absolute; }
+.pile__chip {
+  display: block; width: 100%; height: 100%;
+  border-radius: 1px;
+  opacity: 0;
+  transform: translateY(var(--drop, -34vh)) rotate(0deg);
+  transition:
+    transform 900ms cubic-bezier(0.34, 0.8, 0.3, 1),
+    opacity 200ms linear;
+  box-shadow: 0 2px 4px rgba(10,16,10,0.45);
+}
+.pile__piece.is-in .pile__chip { opacity: 1; transform: translateY(0) rotate(var(--r)); }
+
+/* a poeira assenta no rodape da coluna. sem aresta: o gradiente morre dentro
+   do proprio quadro, senao ele desenha uma linha horizontal atravessando a
+   coluna inteira, que foi exatamente o que a primeira rodada mostrou. */
+.pile__dust {
+  position: absolute; inset: 0; z-index: 0;
+  background: linear-gradient(to top,
+    rgba(48,58,48,0.66) 0%, rgba(48,58,48,0.28) 22%, rgba(48,58,48,0) 52%);
+  opacity: calc(var(--sae-load) * 0.7 * (1 - var(--sae-haul)));
+}
+
+/* --------------------------------------------------- ato 3: as linhas --- */
+.rows {
+  display: flex; flex-direction: column; justify-content: center; height: 100%;
+  /* o chao dos dois lados existe o ato inteiro. sem isto, o palco fica preto
+     ate o primeiro wipe passar, porque clip-path recorta a celula inteira. */
+  background: linear-gradient(90deg, #2C332C 0 50%, #E9EDE4 50% 100%);
+}
+.row {
+  display: grid;
+  grid-template-columns: 50% 1fr;
+  align-items: stretch;
+  border-top: 1px solid rgba(124,140,124,0.30);
+  min-height: 0;
+  flex: 1 1 0;
+}
+.row:last-child { border-bottom: 1px solid rgba(124,140,124,0.30); }
+.row__mat {
+  display: flex; align-items: center;
+  padding: var(--sc-4) clamp(1.25rem, 3.4vw, 3.25rem);
+  font-family: var(--sc-font-display);
+  font-weight: 700;
+  font-size: var(--sc-t-lg);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  color: #F0F4EE;
+}
+.row__act {
+  display: flex; align-items: center;
+  padding: var(--sc-4) clamp(1.25rem, 3.4vw, 3.25rem);
+}
+.row__act p {
+  margin: 0;
+  font-size: var(--sc-t-base);
+  line-height: 1.45;
+  color: #26302A;
+  max-width: 44ch;
+  text-wrap: pretty;
+}
+.row__act b { font-weight: 600; color: #161D17; }
+.row__mat span { display: block; }
+
+/* --------------------------------------------- ato 4: o documento ------- */
+.doc { padding-block: 0; }
+.doc__col {
+  padding: clamp(2.5rem, 6vh, 4.5rem) clamp(1.25rem, 3.4vw, 3.25rem);
+}
+/* a coluna do entulho fica transparente para que o monte continue visivel
+   no ato mais quieto, que é justamente quando ele está mais cheio. */
+.doc__col--waste { background-color: transparent; }
+/* e o texto ganha uma coluna de densidade só embaixo dele. nunca uma camada
+   escura no quadro inteiro. */
+.doc__block { position: relative; z-index: 5; }
+.doc__block::before {
+  content: ""; position: absolute; inset: -1.25rem -2rem; z-index: -1;
+  background: linear-gradient(90deg,
+    rgba(40,48,40,0.95) 0%, rgba(40,48,40,0.92) 58%, rgba(40,48,40,0) 100%);
+}
+.doc dl { margin: var(--sc-5) 0 0; font-size: var(--sc-t-sm); }
+.doc dt {
+  font-family: var(--sc-font-display);
+  font-size: 0.68rem; font-weight: 700;
+  letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--sc-ink-soft);
+  margin-top: var(--sc-4);
+}
+.doc dd { margin: 2px 0 0; line-height: 1.5; }
+
+/* -------------------------------------------------- ato 5: o fecho ------ */
+.close {
+  position: relative; z-index: 3;
+  height: 100%;
+  display: flex; flex-direction: column; justify-content: flex-end;
+  gap: var(--sc-4);
+  padding: clamp(3rem, 8vh, 6rem) clamp(1.25rem, 3.4vw, 3.25rem) clamp(1.5rem, 3vw, 2.5rem);
+}
+.cta {
+  display: inline-flex; align-items: center; gap: 0.55rem;
+  align-self: flex-start;
+  padding: 0.95rem 1.6rem;
+  background: var(--sc-accent);
+  color: var(--sc-accent-ink);
+  font-family: var(--sc-font-display);
+  font-weight: 700;
+  font-size: var(--sc-t-base);
+  letter-spacing: 0.01em;
+  text-decoration: none;
+  border-radius: 6px;
+  box-shadow: 0 1px 2px rgba(6,40,14,0.24), 0 6px 16px rgba(6,40,14,0.18);
+  transition: background 150ms var(--sc-ease-out), transform 120ms var(--sc-ease-out), box-shadow 150ms var(--sc-ease-out);
+  white-space: nowrap;
+}
+@media (hover: hover) and (pointer: fine) {
+  .cta:hover { background: #0C4E19; box-shadow: 0 2px 4px rgba(6,40,14,0.26), 0 10px 24px rgba(6,40,14,0.22); }
+}
+.cta:active { transform: translateY(1px); box-shadow: 0 1px 2px rgba(6,40,14,0.3); }
+.tel { font-family: var(--sc-font-display); font-weight: 600; font-size: var(--sc-t-lg); letter-spacing: -0.01em; color: inherit; text-decoration-color: rgba(22,29,23,0.35); }
+@media (hover: hover) and (pointer: fine) { .tel:hover { text-decoration-color: currentColor; } }
+
+.foot {
+  margin-top: var(--sc-6);
+  padding-top: var(--sc-4);
+  border-top: 1px solid rgba(22,29,23,0.16);
+  display: flex; flex-wrap: wrap; gap: var(--sc-2) var(--sc-6);
+  font-size: var(--sc-t-xs);
+  color: var(--sc-ink-soft);
+}
+.foot a { color: inherit; }
+
+/* Grão. O .sc-grain do motor é um filtro feTurbulence de tela cheia em 200%
+   por 200%, re-rasterizado a cada pintura: medido em 11s por quadro no
+   harness, e caro de verdade num telefone. Mesmo resultado visual com um
+   mosaico de ruído pré-renderizado de 128px, que o compositor guarda. */
+.grain {
+  position: fixed; inset: 0; pointer-events: none; z-index: 6;
+  opacity: 0.05;
+  background-image: url("assets/grain.png");
+  background-size: 128px 128px;
+  mix-blend-mode: overlay;
+}
+
+/* O fecho só existe depois que a caçamba vira. Sem isto, quem navega por
+   teclado tabula do topo direto para um botão em opacity 0: o alvo principal
+   da página, invisível e focável ao mesmo tempo. A regra só vale quando o
+   script está vivo, senão um erro de JS trancaria o CTA para sempre. */
+.wa {
+  position: fixed; z-index: 90;
+  right: clamp(1rem, 2.4vw, 2rem);
+  bottom: clamp(1rem, 2.4vw, 2rem);
+  display: inline-flex; align-items: center; gap: 0.6rem;
+  min-height: 52px;
+  padding: 0 1.25rem 0 1rem;
+  background: #12A03A;
+  color: #FFFFFF;
+  font-family: var(--sc-font-display);
+  font-weight: 700;
+  font-size: var(--sc-t-sm);
+  letter-spacing: 0.005em;
+  text-decoration: none;
+  border-radius: var(--sc-r-pill);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.22),
+    0 2px 6px rgba(8,32,14,0.28),
+    0 12px 28px rgba(8,32,14,0.24);
+  transition:
+    transform 200ms var(--sc-ease-out),
+    opacity 200ms var(--sc-ease-out),
+    background 150ms var(--sc-ease-out);
+}
+.wa__i { width: 26px; height: 26px; flex: 0 0 auto; }
+@media (hover: hover) and (pointer: fine) {
+  .wa:hover { background: #0E8730; transform: translateY(-2px); }
+}
+.wa:active { transform: translateY(1px); }
+/* Some quando o CTA do fecho abre: a página nunca mostra o mesmo botão duas
+   vezes ao mesmo tempo. `visibility` junto do transform tira ele da ordem de
+   foco também, senão o teclado pousa num alvo invisível. */
+.wa.is-done {
+  opacity: 0;
+  transform: translateY(120%);
+  visibility: hidden;
+}
+
+.sae-live .close [data-sc-cue] { visibility: hidden; }
+.sae-live .close.is-open [data-sc-cue] { visibility: visible; }
+
+.sr { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+
+/* --------------------------------------------------------- telefone ----- */
+/* abaixo de 860px o split gira 90 graus: entulho em cima, espaço embaixo,
+   e a borda fica horizontal. a gramática se mantém, a leitura também. */
+@media (max-width: 860px) {
+  :root { --sae-safe: 29vh; --sae-mob: 0.66; }  /* o divisor sobe para caber acima do pátio */
+  .split { grid-template-columns: 1fr; grid-template-rows: calc(50% * var(--sae-mob)) 1fr; }
+  /* a seção de fluxo nunca é dimensionada pela metade da tela: as colunas
+     empilham na altura do próprio conteúdo. */
+  .doc .split { grid-template-rows: auto auto; }
+  /* a regra de desktop tem especificidade de ID e sobrevive a esta media
+     query, entao a coluna precisa ser desfeita aqui explicitamente. Sem isto
+     os dois lados caem na mesma linha de 34px depois da virada e o fecho
+     inteiro some. */
+  #chamar .split {
+    grid-template-columns: 1fr;
+    grid-template-rows: calc(var(--sae-split) * var(--sae-vh) * var(--sae-mob)) 1fr;
+  }
+  .row { grid-template-columns: 1fr; grid-template-rows: auto auto; }
+  .rows { background: linear-gradient(180deg, #2C332C 0 33%, #E9EDE4 33% 100%); }
+  .rim {
+    left: 0; right: 0; width: auto;
+    top: calc(var(--sae-split) * var(--sae-vh) * var(--sae-mob)); bottom: auto;
+    height: var(--sae-rim);
+    margin-left: 0; margin-top: calc(var(--sae-rim) / -2);
+    transform-origin: 100% 50%;
+    transform: rotate(calc(var(--sae-haul) * 5deg));
+    background: linear-gradient(180deg,
+      var(--sae-steel-2) 0%, var(--sae-steel-1) 34%,
+      var(--sae-steel-3) 52%, var(--sae-steel-1) 68%, var(--sae-steel-2) 100%);
+    box-shadow: 0 -6px 18px rgba(10,7,5,0.55), 0 6px 18px rgba(10,7,5,0.18), inset 1px 0 0 rgba(255,255,255,0.3);
+  }
+  .rim::before { inset: 0 0 auto 0; width: auto; height: 2px; }
+  .rim__gauge {
+    inset: 2px; height: auto; width: auto;
+    transform-origin: 0 50%;
+    transform: scaleX(var(--sae-load));
+    background: linear-gradient(to right, var(--sae-verde-claro) 0%, var(--sae-verde) 100%);
+  }
+  .rim__label { top: auto; writing-mode: horizontal-tb; left: clamp(1rem, 5vw, 2rem); }
+  .rim__label--waste { right: auto; bottom: calc(100% + 8px); transform: none; }
+  .rim__label--space { left: clamp(1rem, 5vw, 2rem); top: calc(100% + 8px); }
+  /* No telefone a caçamba não cabe dentro da metade de cima: ali ela flutua
+     no meio da tela e cobre o texto. Ela desce para o rodapé da tela e passa
+     a receber o entulho caindo de cima, atravessando as palavras. A região
+     da pilha vira a tela inteira, para o caco ter de onde cair. */
+  .pile {
+    width: 100%;
+    height: 100%;
+    top: auto; bottom: 0;
+  }
+  /* na tela do telefone a caçamba tem metade de uma tela para viver, e a
+     92% de largura ela encostava nas duas bordas e engolia a composição. */
+  .skip__back, .skip__front {
+    left: var(--sae-skip-l, 19%); width: var(--sae-skip-w, 62%);
+    top: var(--sae-skip-t, 74%); height: var(--sae-skip-h, 24%);
+  }
+  .rig { transform: translateX(calc(var(--sae-haul) * -118vw)) rotate(calc(var(--sae-lift) * -5deg)); }
+  .h-hero { font-size: var(--sc-t-xl); }
+  .h-act  { font-size: var(--sc-t-xl); }
+  .lede   { font-size: var(--sc-t-base); max-width: 34ch; }
+  .side__copy { padding-top: clamp(2rem, 6vh, 3.5rem); gap: var(--sc-3); }
+  /* centralizado, o texto da coluna de baixo cai dentro do pátio */
+  .side__copy--mid { justify-content: flex-start; }
+  /* as linhas do ato 3 vivem num palco fixo, então aqui reservar por padding
+     funciona: elas não rolam em relação à tela enquanto o palco está preso. */
+  .rows { padding-bottom: var(--sae-safe); }
+  /* O pátio: a faixa fixa onde a caçamba fica parada. Ela é opaca, então
+     ocupa o rodapé da tela de verdade e esconde o que rola por trás. Reservar
+     espaço por padding não resolveria: enquanto a página rola, todo conteúdo
+     passa por todas as alturas da tela, e a caçamba só trocaria de vítima. */
+  .yard { display: block; }
+  .rows { justify-content: flex-start; padding-top: var(--sc-4); }
+
+  /* os rótulos do divisor saem da coluna do texto, que é alinhada à esquerda */
+  .rim__label { left: auto; right: clamp(1rem, 5vw, 2rem); font-size: 0.6rem; }
+  .rim__label--space { left: auto; right: clamp(1rem, 5vw, 2rem); }
+  .row__mat { font-size: var(--sc-t-base); padding-block: var(--sc-2); }
+  .row__act { font-size: var(--sc-t-sm); padding-block: var(--sc-2); }
+  .cta { width: 100%; justify-content: center; padding-block: 1.1rem; }
+  .mark { width: clamp(9rem, 50vw, 12.5rem); }
+  .h-hero--drop { margin-top: clamp(1rem, 4.5vh, 2.5rem); }
+  .wa {
+    left: clamp(0.75rem, 4vw, 1.25rem);
+    right: clamp(0.75rem, 4vw, 1.25rem);
+    bottom: clamp(0.75rem, 3vh, 1.25rem);
+    justify-content: center;
+    min-height: 56px;
+    font-size: var(--sc-t-base);
+  }
+  .skip__mark { left: 14%; width: 64%; top: 38%; }
+}
+
+/* ------------------------------------------------------ reduced motion -- */
+@media (prefers-reduced-motion: reduce) {
+  /* a caçamba enchendo continua: é ela que carrega o sentido. o que sai é o
+     engate, a viagem e o giro dos cacos. */
+  .rig { transform: none; }
+  .pile__chip { transition: opacity 220ms linear; transform: rotate(var(--r)); }
+  .pile__field { transition: none; transform: none; }
+  .pile { opacity: calc(1 - var(--sae-haul)); }
+  .rim { transform: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- A ação principal, disponível desde a primeira tela e desde a primeira
+     tecla. Some sozinha quando o CTA do fecho aparece, para a página nunca
+     mostrar o mesmo botão duas vezes. Mesmo rótulo em todo lugar. -->
+<a class="wa" id="wa" href="https://wa.me/5592994341227">
+  <svg class="wa__i" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+    <path fill="currentColor" d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0 0 20.885 3.4"/>
+  </svg>
+  <span class="wa__t">Chamar no WhatsApp</span>
+</a>
+
+<div class="grain" aria-hidden="true"></div>
+<div class="yard" aria-hidden="true"></div>
+
+<!-- o chrome: a borda da caçamba, com os dois rótulos e o medidor de carga -->
+<div class="rim" aria-hidden="true">
+  <span class="rim__gauge"></span>
+  <span class="rim__label rim__label--waste">Entulho</span>
+  <span class="rim__label rim__label--space">Espaço</span>
+</div>
+
+<!-- a linha de carga. o JS da página enche isto. -->
+<div class="pile" id="pile" aria-hidden="true">
+  <span class="pile__dust"></span>
+
+  <div class="rig">
+
+  <!-- a caçamba, atrás do entulho: o vão e a parede de trás -->
+  <div class="skip__back">
+    <svg viewBox="0 0 420 230" preserveAspectRatio="none">
+      <polygon points="26,30 394,30 406,70 14,70" fill="#16341B"/>
+      <rect x="26" y="22" width="368" height="9" fill="#0C4E19"/>
+    </svg>
+  </div>
+
+  <div class="pile__field" id="pileField"></div>
+
+  <!-- a caçamba, na frente do entulho: a parede próxima, a borda, as nervuras
+       e a pintura da empresa na lateral -->
+  <div class="skip__front">
+    <span class="skip__mark"></span>
+    <svg viewBox="0 0 420 230" preserveAspectRatio="none">
+      <polygon points="14,62 406,62 376,208 44,208" fill="#069A2C"/>
+      <polygon points="14,62 406,62 402,84 18,84" fill="#0A7920" opacity="0.55"/>
+      <g fill="#0C5A1B" opacity="0.5">
+        <polygon points="76,84 90,84 86,208 74,208"/>
+        <polygon points="146,84 160,84 158,208 146,208"/>
+        <polygon points="216,84 230,84 230,208 218,208"/>
+        <polygon points="286,84 300,84 302,208 290,208"/>
+        <polygon points="356,84 370,84 374,208 362,208"/>
+      </g>
+      <polygon points="10,52 410,52 406,64 14,64" fill="#60BC4A"/>
+      <rect x="10" y="52" width="400" height="2.5" fill="#8FD97C"/>
+      <rect x="60"  y="208" width="46" height="12" fill="#0C4E19"/>
+      <rect x="314" y="208" width="46" height="12" fill="#0C4E19"/>
+    </svg>
+  </div>
+
+  </div>
+</div>
+
+<main id="topo">
+
+  <!-- ======================================================= 1 · A OBRA ==
+       Reconhecimento. pin, 2.4. O split é estabelecido em 50/50 na primeira
+       tela, com as duas manchetes legíveis ao mesmo tempo, para que a pessoa
+       entenda o formato antes de rolar. -->
+  <section data-sc-act="pin" data-sc-span="2.4" aria-labelledby="h-obra">
+    <div data-sc-stage>
+      <div class="split">
+
+        <div class="split__side side--waste">
+          <div class="side__media" data-sc-parallax="-0.5">
+            <img src="assets/01-entulho.webp" alt="Entulho de obra acumulado junto ao muro de um prédio em Manaus." onerror="this.remove()">
+          </div>
+          <div class="side__copy">
+            <h1 class="h-hero" id="h-obra" data-sc-cue="0 0.86 0">
+              O entulho não sai sozinho.
+            </h1>
+          </div>
+        </div>
+
+        <div class="split__side side--space">
+          <div class="side__media" data-sc-parallax="-0.25">
+            <img src="assets/01-patio.webp" alt="O mesmo pátio, varrido e livre, depois da retirada." onerror="this.remove()">
+          </div>
+          <div class="side__copy">
+            <img class="mark mark--hero" src="assets/logo.png" width="600" height="132"
+                 alt="S.A. Entulho, gestão e destinação de resíduos."
+                 data-sc-cue="0 0.9 0" onerror="this.remove()">
+            <p class="h-hero h-hero--drop" data-sc-cue="0 0.86 0">O pátio volta a ser pátio.</p>
+            <p class="lede" data-sc-cue="0 0.9 0">
+              Caçamba estacionária e caminhão VUC em toda Manaus.
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- =================================================== 2 · O ACÚMULO ==
+       Incômodo. scrub, 2.8, dwell 0.34. O único clipe da página, e ele fica
+       dentro de uma coluna só, porque a gramática proíbe full-bleed antes da
+       resolução. A coluna da direita nomeia o custo, linha a linha. -->
+  <section data-sc-act="scrub" data-sc-span="2.8" data-sc-dwell="0.34" aria-labelledby="h-acumulo">
+    <div data-sc-stage>
+      <div class="split">
+
+        <div class="split__side side--waste">
+          <div class="side__media">
+            <img class="sc-stage__poster" src="assets/02-poster.webp" alt="" onerror="this.remove()">
+            <video data-sc-scrub
+                   data-sc-src="assets/02.mp4"
+                   data-sc-src-mobile="assets/02-m.mp4"
+                   muted playsinline preload="none"></video>
+          </div>
+        </div>
+
+        <div class="split__side side--space">
+          <div class="side__copy side__copy--mid">
+            <h2 class="h-act" id="h-acumulo" data-sc-cue="0 0.34 0" data-sc-kinetic="lines">
+              Cada dia que ele fica, ele cresce.
+            </h2>
+            <p class="lede" data-sc-cue="0.14 0.62">Ocupa a vaga, fecha a passagem, e junta água.</p>
+            <p class="lede" data-sc-cue="0.38 0.86">No verão amazônico, entulho parado vira combustível.</p>
+            <p class="lede" data-sc-cue="0.62 1 0.16 0.28">E o descarte continua no seu nome.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- =================================================== 3 · O DESTINO ==
+       Clareza. pin com reveal, 2.2. Uma limpeza é literalmente uma mudança de
+       estado, e é isso que um wipe é. Cada linha limpa a anterior ao passar.
+       O data-sc-reveal fica no wrapper da linha, nunca no tipo: clip-path
+       corta pela caixa de borda e decapitaria as ascendentes. -->
+  <section data-sc-act="pin" data-sc-span="2.2" aria-labelledby="h-destino">
+    <div data-sc-stage>
+      <h2 class="sr" id="h-destino">O que sai daqui, e para onde vai</h2>
+      <div class="rows">
+
+        <div class="row" data-sc-reveal="left" data-sc-reveal-at="0.04 0.28">
+          <div class="row__mat side--waste">Entulho de obra</div>
+          <div class="row__act side--space"><p><b>Caçamba estacionária.</b> Você enche, a gente tira.</p></div>
+        </div>
+
+        <div class="row" data-sc-reveal="left" data-sc-reveal-at="0.22 0.46">
+          <div class="row__mat side--waste">Rua estreita, garagem baixa</div>
+          <div class="row__act side--space"><p><b>Caminhão VUC.</b> Pioneira em Manaus com esse caminhão.</p></div>
+        </div>
+
+        <div class="row" data-sc-reveal="left" data-sc-reveal-at="0.40 0.64">
+          <div class="row__mat side--waste">Recicláveis</div>
+          <div class="row__act side--space"><p><b>Separados e destinados.</b> Não misturados no aterro.</p></div>
+        </div>
+
+        <div class="row" data-sc-reveal="left" data-sc-reveal-at="0.58 0.82">
+          <div class="row__mat side--waste">Fossa</div>
+          <div class="row__act side--space"><p><b>Sucção e limpeza.</b> Antes de transbordar, não depois.</p></div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ================================================= 4 · O DOCUMENTO ==
+       Confiança, e o ato mais quieto da página. flow + in, comprimido.
+       Credencial é informação, não experiência. Sem mídia, sem movimento
+       contínuo, tipografia menor do site. Isto é o vale antes do pico:
+       silêncio autorado, declarado no BRIEF.md. -->
+  <section data-sc-act="flow" class="doc" aria-labelledby="h-doc">
+    <div class="split">
+
+      <div class="split__side side--waste doc__col doc__col--waste">
+        <div class="doc__block">
+          <div data-sc-in data-sc-stagger="70">
+            <h2 class="h-act" id="h-doc">Empresa legalizada.</h2>
+            <p class="body" style="margin-top:var(--sc-4)">
+              A destinação é licenciada e documentada. É por isso que a caçamba
+              pode ficar na sua rua sem virar um problema seu.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="split__side side--space doc__col">
+        <dl data-sc-in data-sc-stagger="60">
+          <dt>Licenças de operação</dt>
+          <dd>Ibama · Semmas · Ipaam · Semulsp</dd>
+          <dt>Área de atendimento</dt>
+          <dd>Toda Manaus</dd>
+          <dt>Pagamento</dt>
+          <dd>Cartão de crédito e débito</dd>
+          <dt>Equipe</dt>
+          <dd>Motoristas treinados, caixas de entulho em bom estado</dd>
+        </dl>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- =================================================== 5 · A VIRADA ==
+       O PICO, e o fecho. pin, 3.8: o maior span da página por margem visível.
+       De p=0 a p≈0.35 nada acontece de propósito (silêncio autorado): a pilha
+       está no ponto mais cheio e a direita está vazia, para que a virada tenha
+       de onde vir. De 0.35 a 0.68 a borda vira e tudo sai de quadro. Depois, o
+       colapso: a coluna limpa toma a largura toda e o CTA mora dentro dela.
+       As cues finais são de um valor só, então a última tela nunca fica vazia,
+       e o rodapé vive dentro do palco: não há cauda morta depois do CTA. -->
+  <section id="chamar" data-sc-act="pin" data-sc-span="4.6" aria-labelledby="h-virada">
+    <div data-sc-stage>
+      <div class="split">
+
+        <div class="split__side side--waste">
+          <div class="side__copy">
+            <p class="lede" data-sc-cue="0 0.24 0">Tudo isso subiu enquanto você lia.</p>
+          </div>
+        </div>
+
+        <div class="split__side side--space">
+          <div class="side__media">
+            <img src="assets/05-patio.webp" alt="O pátio limpo, largo e livre, depois da retirada." onerror="this.remove()">
+          </div>
+          <div class="close">
+            <img class="mark" src="assets/logo.png" width="600" height="132"
+                 alt="S.A. Entulho, gestão e destinação de resíduos."
+                 data-sc-cue="0.70" onerror="this.remove()">
+            <h2 class="h-hero" id="h-virada" data-sc-cue="0.72" data-sc-kinetic="lines">A gente leva.</h2>
+            <p class="lede" data-sc-cue="0.75">
+              Marque a retirada pelo WhatsApp. Atendemos toda Manaus.
+            </p>
+            <a class="cta" href="https://wa.me/5592994341227" data-sc-cue="0.77" data-sc-rise="0">
+              Chamar no WhatsApp
+            </a>
+            <p class="meta" data-sc-cue="0.79">
+              Ou ligue <a class="tel" href="tel:+559230301112">(92) 3030-1112</a>
+            </p>
+            <footer class="foot" data-sc-cue="0.81">
+              <span>S.A. Entulho · Manaus, AM</span>
+              <span>WhatsApp <a href="https://wa.me/5592994341227">(92) 99434-1227</a></span>
+              <span>Ibama · Semmas · Ipaam · Semulsp</span>
+            </footer>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<script src="scrollcraft.js"></script>
+<script>
+ScrollCraft.mount(document.body);
+
+/* ===========================================================================
+   A LINHA DE CARGA
+   O movimento assinatura. JS da própria página: o motor não sabe que isto
+   existe e não foi tocado. Tudo é derivado do scroll e escrito em custom
+   properties, e a única coisa animada é transform e opacity.
+   =========================================================================== */
+(function () {
+  var root      = document.documentElement;
+  var field     = document.getElementById("pileField");
+  var pileBox   = document.getElementById("pile");
+  var peakAct   = document.getElementById("chamar");
+  var skipFront = document.querySelector(".skip__front");
+  if (!field || !peakAct || !skipFront) return;
+
+  var closeEl = peakAct.querySelector(".close");
+  var waBtn   = document.getElementById("wa");
+  document.documentElement.classList.add("sae-live");
+
+  var reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var fine    = matchMedia("(hover: hover) and (pointer: fine)").matches;
+
+  /* ---- os cacos ---------------------------------------------------------
+     Cada um tem massa, giro e lugar próprios. O perfil do monte é mais alto
+     junto da borda, porque um monte encosta na parede da caçamba. */
+  var TONES = ["#8A8177", "#6E6961", "#9B9184", "#5C574F", "#A79C8C", "#7A7268", "#4E4A44", "#B3A897"];
+  var N = 120;
+  var pieces = [];
+
+  function build() {
+    field.textContent = "";
+    pieces.length = 0;
+
+    /* zera antes de medir, senão a segunda passada mede o próprio congelamento */
+    ["--sae-skip-l","--sae-skip-w","--sae-skip-t","--sae-skip-h"]
+      .forEach(function (k) { pileBox.style.removeProperty(k); });
+    void pileBox.offsetWidth;
+
+    /* O vão da caçamba, medido do próprio SVG em vez de chutado: a borda
+       próxima está em y=62 de um viewBox de 230, e as paredes fecham em
+       x=46 e x=372 de 420. Se o CSS mudar, isto acompanha. */
+    var sx   = skipFront.offsetLeft;
+    var sy   = skipFront.offsetTop;
+    var sW   = skipFront.offsetWidth;
+    var sH   = skipFront.offsetHeight;
+    var rimY = sy + sH * (62 / 230);
+    var inL  = sx + sW * (46 / 420);
+    var inR  = sx + sW * (372 / 420);
+    var inW  = Math.max(40, inR - inL);
+
+    pileBox.style.setProperty("--sae-skip-l", sx + "px");
+    pileBox.style.setProperty("--sae-skip-w", sW + "px");
+    pileBox.style.setProperty("--sae-skip-t", sy + "px");
+    pileBox.style.setProperty("--sae-skip-h", sH + "px");
+
+    /* A carga é feita de fiadas, não de acaso: os primeiros cacos assentam no
+       fundo da caixa e os seguintes sobem por cima deles, a fiada de cima mais
+       estreita que a de baixo. As últimas cristam acima da borda, que é como
+       uma caçamba cheia de verdade fica. */
+    var PER_ROW = 15;
+    var nRows   = Math.ceil(N / PER_ROW);
+    var rowH    = (sH * 0.62) / nRows;
+
+    for (var i = 0; i < N; i++) {
+      var el = document.createElement("span");
+      el.className = "pile__piece";
+      var chip = document.createElement("i");
+      chip.className = "pile__chip";
+
+      var row = Math.floor(i / PER_ROW);
+      var col = i % PER_ROW;
+      var jit = ((i * 53) % 17) / 17;          /* determinístico, não aleatório */
+      var jx  = ((i * 29) % 13) / 13;
+
+      var sw = 38 + ((i * 37) % 62) - row * 2;  /* os cacos de cima são menores */
+      var sh = 16 + ((i * 23) % 26) - row;
+      sw = Math.max(12, sw); sh = Math.max(9, sh);
+
+      /* a fiada estreita conforme sobe */
+      var span = 1 - (row / nRows) * 0.44;
+      var fx   = (1 - span) / 2 + span * ((col + 0.10 + jx * 0.80) / PER_ROW);
+
+      el.style.width  = sw + "px";
+      el.style.height = sh + "px";
+      el.style.left   = Math.max(0, inL + fx * (inW - sw)) + "px";
+      el.style.top    = (rimY + sH * 0.34 - sh - row * rowH - jit * rowH * 0.45) + "px";
+      el.style.setProperty("--r", (((i * 71) % 34) - 17) + "deg");
+      chip.style.setProperty("--drop", -(18 + ((i * 67) % 26)) + "vh");
+
+      chip.style.background = TONES[i % TONES.length];
+      /* nem todo caco é um tijolo. um em cada tres vira lasca ou cunha, senao
+         a carga lê como uma parede caida em vez de entulho. */
+      var shape = i % 6;
+      if (shape === 1) chip.style.clipPath = "polygon(0 0, 100% 14%, 92% 100%, 6% 88%)";
+      else if (shape === 3) chip.style.clipPath = "polygon(8% 0, 100% 0, 86% 100%, 0 82%)";
+      else if (shape === 5) chip.style.clipPath = "polygon(0 22%, 74% 0, 100% 68%, 30% 100%)";
+      if (!reduced) chip.style.transitionDuration = (520 + ((i * 91) % 420)) + "ms, 200ms";
+
+      el.appendChild(chip);
+      field.appendChild(el);
+      pieces.push({ el: el, at: (i + 0.5) / N, on: false });
+    }
+  }
+
+  /* ---- medidas ---------------------------------------------------------- */
+  var peakTop = 0, peakTravel = 1, docFill = 1;
+
+  function measure() {
+    root.style.setProperty("--sae-vw", root.clientWidth + "px");
+    root.style.setProperty("--sae-vh", window.innerHeight + "px");
+    var r = peakAct.getBoundingClientRect();
+    peakTop    = r.top + window.scrollY;
+    peakTravel = Math.max(peakAct.offsetHeight - window.innerHeight, 1);
+    /* a caçamba enche do topo do documento até a beira do pico */
+    docFill    = Math.max(peakTop, 1);
+    build();
+    frame();
+  }
+
+  /* ---- o laço ----------------------------------------------------------- */
+  /* As quatro fases do pico, em progresso do próprio ato:
+       0    a 0.30  silêncio. a caçamba está cheia, a direita está vazia.
+       0.30 a 0.48  o engate: o caminhão levanta a frente dela.
+       0.48 a 0.72  ela sai carregada, e o divisor corre para a borda.
+       0.72 a 1     resolvido: uma coluna, o pátio, o telefone. */
+  var LIFT = [0.30, 0.48], HAUL = [0.48, 0.72];
+  function phase(p, r) { return Math.min(Math.max((p - r[0]) / (r[1] - r[0]), 0), 1); }
+  function smooth(t) { return t * t * (3 - 2 * t); }
+  var queued = false;
+  var curTip = 0;                     /* lido pelo cutucão, sem tocar no layout */
+
+  function frame() {
+    queued = false;
+    var y = window.scrollY;
+
+    /* carga: 0 no topo do documento, 1 quando o pico começa */
+    var load = Math.min(Math.max(y / docFill, 0), 1);
+    root.style.setProperty("--sae-load", load.toFixed(4));
+
+    for (var i = 0; i < pieces.length; i++) {
+      var p = pieces[i];
+      var want = load >= p.at;
+      if (want !== p.on) { p.on = want; p.el.classList.toggle("is-in", want); }
+    }
+
+    /* as fases, dirigidas pelo progresso do próprio ato do pico */
+    var pp     = Math.min(Math.max((y - peakTop) / peakTravel, 0), 1);
+    var lift = smooth(phase(pp, LIFT));
+    var haul = smooth(phase(pp, HAUL));
+
+    curTip = haul;
+    if (closeEl) closeEl.classList.toggle("is-open", haul > 0.55);
+    if (waBtn)   waBtn.classList.toggle("is-done", haul > 0.55);
+    root.style.setProperty("--sae-lift", lift.toFixed(4));
+    root.style.setProperty("--sae-haul", haul.toFixed(4));
+    root.style.setProperty("--sae-split",  (0.5 - 0.46 * haul).toFixed(4));
+  }
+
+  function onScroll() { if (!queued) { queued = true; requestAnimationFrame(frame); } }
+
+  addEventListener("scroll", onScroll, { passive: true });
+  addEventListener("resize", measure);
+  addEventListener("load", measure);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(measure);
+  measure();
+  setTimeout(measure, 400);
+
+  /* ---- o cutucão --------------------------------------------------------
+     A única técnica de corporificação da página. Desktop com ponteiro fino,
+     desligada sob reduced motion, e não carrega nenhum significado: se ela
+     não existir, a página continua inteira. */
+  if (fine && !reduced) {
+    addEventListener("pointermove", function (e) {
+      var edge = root.clientWidth * (0.5 - 0.46 * curTip);
+      var d = Math.abs(e.clientX - edge);
+      var k = Math.max(0, 1 - d / 260);
+      var dir = e.clientX < edge ? -1 : 1;
+      root.style.setProperty("--sae-nudge", (dir * k * 9).toFixed(1) + "px");
+    }, { passive: true });
+  }
+})();
+</script>
+</body>
+</html>
