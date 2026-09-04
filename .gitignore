@@ -7,3 +7,4 @@
 scrollcraft/builds/*/out/
 scrollcraft/builds/*/lab/
 scrollcraft/builds/*/node_modules/
+env.txt
