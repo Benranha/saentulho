@@ -516,8 +516,9 @@ body { background: #2C332C; }
 .sr { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 
 /* --------------------------------------------------------- telefone ----- */
-/* abaixo de 860px o split gira 90 graus: entulho em cima, espaço embaixo,
-   e a borda fica horizontal. a gramática se mantém, a leitura também. */
+/* abaixo de 860px o split gira 90 graus: entulho em cima, espaço embaixo.
+   A borda não é desenhada: deitada numa tela estreita ela vira uma barra
+   atravessada no meio do texto. O contraste dos dois fundos marca o corte. */
 @media (max-width: 860px) {
   :root { --sae-safe: 29vh; --sae-mob: 0.66; }  /* o divisor sobe para caber acima do pátio */
   .split { grid-template-columns: 1fr; grid-template-rows: calc(50% * var(--sae-mob)) 1fr; }
@@ -534,28 +535,12 @@ body { background: #2C332C; }
   }
   .row { grid-template-columns: 1fr; grid-template-rows: auto auto; }
   .rows { background: linear-gradient(180deg, #2C332C 0 33%, #E9EDE4 33% 100%); }
-  .rim {
-    left: 0; right: 0; width: auto;
-    top: calc(var(--sae-split) * var(--sae-vh) * var(--sae-mob)); bottom: auto;
-    height: var(--sae-rim);
-    margin-left: 0; margin-top: calc(var(--sae-rim) / -2);
-    transform-origin: 100% 50%;
-    transform: rotate(calc(var(--sae-haul) * 5deg));
-    background: linear-gradient(180deg,
-      var(--sae-steel-2) 0%, var(--sae-steel-1) 34%,
-      var(--sae-steel-3) 52%, var(--sae-steel-1) 68%, var(--sae-steel-2) 100%);
-    box-shadow: 0 -6px 18px rgba(10,7,5,0.55), 0 6px 18px rgba(10,7,5,0.18), inset 1px 0 0 rgba(255,255,255,0.3);
-  }
-  .rim::before { inset: 0 0 auto 0; width: auto; height: 2px; }
-  .rim__gauge {
-    inset: 2px; height: auto; width: auto;
-    transform-origin: 0 50%;
-    transform: scaleX(var(--sae-load));
-    background: linear-gradient(to right, var(--sae-verde-claro) 0%, var(--sae-verde) 100%);
-  }
-  .rim__label { top: auto; writing-mode: horizontal-tb; left: clamp(1rem, 5vw, 2rem); }
-  .rim__label--waste { right: auto; bottom: calc(100% + 8px); transform: none; }
-  .rim__label--space { left: clamp(1rem, 5vw, 2rem); top: calc(100% + 8px); }
+  /* No telefone a chapa de aço deitada atravessava a tela no meio da leitura:
+     entrava entre o título e o texto, e os dois rótulos caíam por cima da
+     composição. A troca de fundo entre os dois lados já marca o corte
+     sozinha, então aqui o divisor simplesmente não existe. No desktop ele
+     continua igual: lá ele é vertical, na borda, e não atravessa nada. */
+  .rim { display: none; }
   /* No telefone a caçamba não cabe dentro da metade de cima: ali ela flutua
      no meio da tela e cobre o texto. Ela desce para o rodapé da tela e passa
      a receber o entulho caindo de cima, atravessando as palavras. A região
@@ -588,9 +573,6 @@ body { background: #2C332C; }
   .yard { display: block; }
   .rows { justify-content: flex-start; padding-top: var(--sc-4); }
 
-  /* os rótulos do divisor saem da coluna do texto, que é alinhada à esquerda */
-  .rim__label { left: auto; right: clamp(1rem, 5vw, 2rem); font-size: 0.6rem; }
-  .rim__label--space { left: auto; right: clamp(1rem, 5vw, 2rem); }
   .row__mat { font-size: var(--sc-t-base); padding-block: var(--sc-2); }
   .row__act { font-size: var(--sc-t-sm); padding-block: var(--sc-2); }
   .cta { width: 100%; justify-content: center; padding-block: 1.1rem; }
