@@ -337,6 +337,40 @@ curtas e platô longo (`0.12 0.66 0.12 0.20` no lugar de `0.14 0.62`), e os
 spans voltaram para 2.4 / 3.4 / 2.4 / 4.2. Resultado: 12.8vh no desktop,
 13.1 no telefone, e a frase para de piscar.
 
+## As telas em branco, e o aviso de continuar
+
+O cliente relatou que em alguns pontos a tela ficava vazia quando ele parava
+de rolar. Procede, e o harness **não pegava**: ele mede se algo se move, não
+se há conteúdo. Varri a página de 0.25 em 0.25 de tela contando caracteres
+visíveis (opacidade efetiva acima de 0.35, dentro da viewport) e achei dois
+buracos:
+
+- **1.25 a 1.75 alturas de tela: zero caracteres.** A cauda do ato 1.
+- **8.5 a 11.0: quase nada por 2.5 alturas de tela.** O silêncio do ato 5.
+
+A causa do primeiro é a regra do kit que eu tinha quebrado: todo ato menos o
+último fecha a última cue numa janela que termina em 1. As do ato 1 fechavam
+em 0.86 e 0.9. Corrigido, ainda sobrava tela vazia, porque **um palco preso
+continua visível por uma tela inteira depois que o pin acaba**, deslizando
+para cima: com rampa de saída a cópia some antes disso. A forma correta ali é
+`0 1 0 0`, que segura em opacidade cheia e deixa a cópia sair de quadro junto
+com o palco.
+
+O segundo era o silêncio autorado esticado demais. A linha "Tudo isso subiu
+enquanto você lia" fechava em 0.24 e depois vinham o engate e a saída da
+caçamba sem texto nenhum. Ela passa a segurar até 0.72, e o fecho abre em
+0.68, então as duas se cruzam.
+
+Depois das correções o mínimo da página inteira saiu de **0 para 34
+caracteres**.
+
+**O aviso.** Mesmo sem buraco, o cliente pediu um sinal para quem para. Ele
+aparece quando o scroll fica 1.5s parado, some no primeiro toque na roda, e
+não existe em dois lugares: no herói, onde a instrução grande já está
+escrita, e depois que a caçamba saiu, porque aí a pessoa chegou. No desktop
+ele fica centrado na coluna de leitura, não no meio da página, senão monta em
+cima da linha do divisor.
+
 ## A ação
 
 Uma só, com **um rótulo, usado em todo lugar**: **"Chamar no WhatsApp"**,

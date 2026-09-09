@@ -490,6 +490,35 @@ body { background: #2C332C; }
    teclado tabula do topo direto para um botão em opacity 0: o alvo principal
    da página, invisível e focável ao mesmo tempo. A regra só vale quando o
    script está vivo, senão um erro de JS trancaria o CTA para sempre. */
+.keep {
+  position: fixed; z-index: 80;
+  left: 75%; bottom: clamp(1.25rem, 3.5vh, 2.75rem);
+  transform: translateX(-50%) translateY(10px);
+  opacity: 0;
+  visibility: hidden;
+  padding: 0.55rem 1.1rem;
+  border-radius: var(--sc-r-pill);
+  background: rgba(18,24,18,0.78);
+  border: 1px solid rgba(150,190,150,0.20);
+  color: #CFE6C6;
+  font-family: var(--sc-font-display);
+  font-size: var(--sc-t-xs);
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  pointer-events: none;
+  transition:
+    opacity 220ms var(--sc-ease-out),
+    transform 220ms var(--sc-ease-out),
+    visibility 0s linear 220ms;
+}
+.keep.is-on {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0);
+  transition-delay: 0s, 0s, 0s;
+}
+
 .wa {
   position: fixed; z-index: 90;
   right: clamp(1rem, 2.4vw, 2rem);
@@ -602,6 +631,8 @@ body { background: #2C332C; }
   .cta { width: 100%; justify-content: center; padding-block: 1.1rem; }
   .mark { width: clamp(9rem, 50vw, 12.5rem); }
   .h-hero--drop { margin-top: clamp(1rem, 4.5vh, 2.5rem); }
+  /* acima da barra do WhatsApp, que no telefone ocupa o rodape inteiro */
+  .keep { left: 50%; bottom: calc(56px + clamp(1.5rem, 4vh, 2.5rem)); }
   .wa {
     left: clamp(0.75rem, 4vw, 1.25rem);
     right: clamp(0.75rem, 4vw, 1.25rem);
@@ -615,6 +646,8 @@ body { background: #2C332C; }
 
 /* ------------------------------------------------------ reduced motion -- */
 @media (prefers-reduced-motion: reduce) {
+  .keep { transition: opacity 220ms linear, visibility 0s linear 220ms; transform: translateX(-50%); }
+  .keep.is-on { transform: translateX(-50%); }
   /* a caçamba enchendo continua: é ela que carrega o sentido. o que sai é o
      engate, a viagem e o giro dos cacos. */
   .rig { transform: none; }
@@ -639,6 +672,12 @@ body { background: #2C332C; }
 
 <div class="grain" aria-hidden="true"></div>
 <div class="yard" aria-hidden="true"></div>
+
+<!-- Aparece só quando a pessoa para de rolar e ainda não chegou no fim.
+     Some no primeiro toque na roda. É afordância, não enfeite: por isso ela
+     não existe enquanto a página está parada no herói, onde a instrução
+     grande já está escrita. -->
+<div class="keep" id="keep" aria-hidden="true">Continue rolando</div>
 
 <!-- o chrome: a borda da caçamba, com os dois rótulos e o medidor de carga -->
 <div class="rim" aria-hidden="true">
@@ -702,10 +741,10 @@ body { background: #2C332C; }
             <img src="assets/01-entulho.webp" alt="Entulho de obra acumulado junto ao muro de um prédio em Manaus." onerror="this.remove()">
           </div>
           <div class="side__copy">
-            <h1 class="h-hero" id="h-obra" data-sc-cue="0 0.86 0">
+            <h1 class="h-hero" id="h-obra" data-sc-cue="0 1 0 0">
               O entulho não sai sozinho.
             </h1>
-            <p class="hint" data-sc-cue="0 0.72 0 0.30">
+            <p class="hint" data-sc-cue="0 1 0 0.10">
               <b>Role a página.</b>
               <span>Cada coisa que você ler cai dentro da caçamba.</span>
             </p>
@@ -721,7 +760,7 @@ body { background: #2C332C; }
                  alt="S.A. Entulho, gestão e destinação de resíduos."
                  data-sc-cue="0 0.9 0" onerror="this.remove()">
             <p class="h-hero h-hero--drop" data-sc-cue="0 0.86 0">O pátio volta a ser pátio.</p>
-            <p class="lede" data-sc-cue="0 0.9 0">
+            <p class="lede" data-sc-cue="0 1 0 0">
               Caçamba estacionária e caminhão VUC em toda Manaus.
             </p>
           </div>
@@ -751,7 +790,7 @@ body { background: #2C332C; }
 
         <div class="split__side side--space">
           <div class="side__copy side__copy--mid">
-            <h2 class="h-act" id="h-acumulo" data-sc-cue="0 0.30 0 0.10" data-sc-kinetic="lines">
+            <h2 class="h-act" id="h-acumulo" data-sc-cue="0 0.46 0 0.14" data-sc-kinetic="lines">
               Cada dia que ele fica, ele cresce.
             </h2>
             <p class="lede" data-sc-cue="0.12 0.66 0.12 0.20">Ocupa a vaga, fecha a passagem, e junta água.</p>
@@ -848,7 +887,7 @@ body { background: #2C332C; }
 
         <div class="split__side side--waste">
           <div class="side__copy">
-            <p class="lede" data-sc-cue="0 0.24 0">Tudo isso subiu enquanto você lia.</p>
+            <p class="lede" data-sc-cue="0 0.72 0 0.14">Tudo isso subiu enquanto você lia.</p>
           </div>
         </div>
 
@@ -860,7 +899,7 @@ body { background: #2C332C; }
             <img class="mark" src="assets/logo.png" width="600" height="132"
                  alt="S.A. Entulho, gestão e destinação de resíduos."
                  data-sc-cue="0.70" onerror="this.remove()">
-            <h2 class="h-hero" id="h-virada" data-sc-cue="0.72" data-sc-kinetic="lines">A gente leva.</h2>
+            <h2 class="h-hero" id="h-virada" data-sc-cue="0.68" data-sc-kinetic="lines">A gente leva.</h2>
             <p class="lede" data-sc-cue="0.75">
               Marque a retirada pelo WhatsApp. Atendemos toda Manaus.
             </p>
@@ -904,6 +943,7 @@ ScrollCraft.mount(document.body);
 
   var closeEl = peakAct.querySelector(".close");
   var waBtn   = document.getElementById("wa");
+  var keepEl  = document.getElementById("keep");
   document.documentElement.classList.add("sae-live");
 
   var reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -1062,7 +1102,30 @@ ScrollCraft.mount(document.body);
     requestAnimationFrame(step);
   }
 
-  function onScroll() { if (!queued) { queued = true; requestAnimationFrame(frame); } }
+  /* O aviso de continuar. A pessoa para o mouse, ele aparece; ela toca na
+     roda, ele some. Não aparece no herói, onde a instrução grande já está
+     escrita, nem depois que a caçamba saiu, porque aí ela chegou. */
+  var idleTimer = 0;
+  function hideKeep() { if (keepEl) keepEl.classList.remove("is-on"); }
+  function showKeep() {
+    if (!keepEl) return;
+    var docH   = document.documentElement.scrollHeight;
+    var atEnd  = window.scrollY >= docH - window.innerHeight - 8;
+    var noHero = window.scrollY > window.innerHeight * 0.6;
+    var chegou = closeEl && closeEl.classList.contains("is-open");
+    if (atEnd || chegou || !noHero) return;
+    keepEl.classList.add("is-on");
+  }
+  function armIdle() {
+    hideKeep();
+    clearTimeout(idleTimer);
+    idleTimer = setTimeout(showKeep, 1500);
+  }
+
+  function onScroll() {
+    armIdle();
+    if (!queued) { queued = true; requestAnimationFrame(frame); }
+  }
 
   addEventListener("scroll", onScroll, { passive: true });
   addEventListener("resize", measure);
@@ -1071,6 +1134,7 @@ ScrollCraft.mount(document.body);
   measure();
   setTimeout(measure, 400);
   setTimeout(intro, 900);
+  armIdle();
 
   /* ---- o cutucão --------------------------------------------------------
      A única técnica de corporificação da página. Desktop com ponteiro fino,
