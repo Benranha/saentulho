@@ -55,7 +55,7 @@
   --sae-vw:    100vw;  /* largura sem a barra de rolagem, escrita pelo JS */
   --sae-vh:    100vh;
 
-  --sae-rim: 16px;
+  --sae-rim: 3px;
   --sae-safe: 0px;   /* faixa reservada para a caçamba no rodapé do telefone */
   --sae-steel-1: #6E736B;
   --sae-steel-2: #3D423C;
@@ -168,6 +168,18 @@ body { background: #2C332C; }
   margin: 0;
   font-weight: 400;
 }
+/* A página tem um mecanismo próprio, e ninguém adivinha mecanismo: sem esta
+   linha o visitante não sabe que a caçamba enche com o que ele lê. Não é um
+   enfeite de "role para explorar", é a instrução de uso do site, dita uma vez
+   e some no fim do primeiro ato. */
+.hint {
+  margin: var(--sc-6) 0 0;
+  max-width: 26ch;
+  font-size: var(--sc-t-sm);
+  line-height: 1.5;
+  color: var(--sc-ink-soft);
+}
+
 .body { font-size: var(--sc-t-base); line-height: 1.62; max-width: 46ch; color: var(--sc-ink-soft); margin: 0; text-wrap: pretty; }
 /* A gramática de split stage não tem barra de topo, então a marca não vira
    chrome fixo: ela é parte da composição. Aparece na primeira tela, onde a
@@ -206,42 +218,29 @@ body { background: #2C332C; }
   z-index: 60;
   pointer-events: none;
   transform-origin: 50% 100%;
-  transform: rotate(calc(var(--sae-haul) * -7deg));
-  background: linear-gradient(90deg,
-    var(--sae-steel-2) 0%, var(--sae-steel-1) 34%,
-    var(--sae-steel-3) 52%, var(--sae-steel-1) 68%, var(--sae-steel-2) 100%);
-  box-shadow:
-    -6px 0 18px rgba(10,7,5,0.55),
-     6px 0 18px rgba(10,7,5,0.18),
-    inset 0 1px 0 rgba(255,255,255,0.34);
-}
-/* o filete de tinta de sinalização na aresta */
-.rim::before {
-  content: ""; position: absolute; inset: 0 auto 0 0; width: 2px;
-  background: var(--sae-verde); opacity: 0.92;
+  transform: rotate(calc(var(--sae-haul) * -5deg));
+  background: rgba(150,166,150,0.30);
 }
 .rim__gauge {
-  position: absolute; inset: auto 2px 0 2px;
-  height: 100%;
-  background: linear-gradient(to top, var(--sae-verde-claro) 0%, var(--sae-verde) 100%);
+  position: absolute; inset: 0;
+  background: var(--sae-verde);
   transform-origin: 50% 100%;
   transform: scaleY(var(--sae-load));
-  opacity: 0.92;
 }
 .rim__label {
   position: absolute;
   top: clamp(1.5rem, 5vh, 3.5rem);
   font-family: var(--sc-font-display);
   font-weight: 700;
-  font-size: 0.68rem;
-  letter-spacing: 0.26em;
+  font-size: 0.6rem;
+  letter-spacing: 0.22em;
   text-transform: uppercase;
   writing-mode: vertical-rl;
   white-space: nowrap;
   opacity: calc(1 - var(--sae-haul));
 }
-.rim__label--waste { right: calc(100% + 10px); color: #B7C4B4; transform: rotate(180deg); }
-.rim__label--space { left: calc(100% + 10px); color: #5B665C; }
+.rim__label--waste { right: calc(100% + 12px); color: rgba(183,196,180,0.62); transform: rotate(180deg); }
+.rim__label--space { left: calc(100% + 12px); color: rgba(91,102,92,0.66); }
 
 /* ---------------------------------------------- a linha de carga -------- */
 /* A caçamba está lá desde a primeira tela, e cada afirmação da página solta um
@@ -541,17 +540,13 @@ body { background: #2C332C; }
     margin-left: 0; margin-top: calc(var(--sae-rim) / -2);
     transform-origin: 100% 50%;
     transform: rotate(calc(var(--sae-haul) * 5deg));
-    background: linear-gradient(180deg,
-      var(--sae-steel-2) 0%, var(--sae-steel-1) 34%,
-      var(--sae-steel-3) 52%, var(--sae-steel-1) 68%, var(--sae-steel-2) 100%);
-    box-shadow: 0 -6px 18px rgba(10,7,5,0.55), 0 6px 18px rgba(10,7,5,0.18), inset 1px 0 0 rgba(255,255,255,0.3);
+    background: rgba(150,166,150,0.30);
   }
-  .rim::before { inset: 0 0 auto 0; width: auto; height: 2px; }
   .rim__gauge {
-    inset: 2px; height: auto; width: auto;
+    inset: 0;
     transform-origin: 0 50%;
     transform: scaleX(var(--sae-load));
-    background: linear-gradient(to right, var(--sae-verde-claro) 0%, var(--sae-verde) 100%);
+    background: var(--sae-verde);
   }
   .rim__label { top: auto; writing-mode: horizontal-tb; left: clamp(1rem, 5vw, 2rem); }
   .rim__label--waste { right: auto; bottom: calc(100% + 8px); transform: none; }
@@ -575,6 +570,7 @@ body { background: #2C332C; }
   .h-hero { font-size: var(--sc-t-xl); }
   .h-act  { font-size: var(--sc-t-xl); }
   .lede   { font-size: var(--sc-t-base); max-width: 34ch; }
+  .hint   { margin-top: var(--sc-4); font-size: var(--sc-t-xs); max-width: 32ch; }
   .side__copy { padding-top: clamp(2rem, 6vh, 3.5rem); gap: var(--sc-3); }
   /* centralizado, o texto da coluna de baixo cai dentro do pátio */
   .side__copy--mid { justify-content: flex-start; }
@@ -699,6 +695,9 @@ body { background: #2C332C; }
             <h1 class="h-hero" id="h-obra" data-sc-cue="0 0.86 0">
               O entulho não sai sozinho.
             </h1>
+            <p class="hint" data-sc-cue="0 0.72 0 0.30">
+              Role a página. Cada coisa que você ler cai dentro da caçamba.
+            </p>
           </div>
         </div>
 
@@ -725,7 +724,7 @@ body { background: #2C332C; }
        Incômodo. scrub, 2.8, dwell 0.34. O único clipe da página, e ele fica
        dentro de uma coluna só, porque a gramática proíbe full-bleed antes da
        resolução. A coluna da direita nomeia o custo, linha a linha. -->
-  <section data-sc-act="scrub" data-sc-span="2.8" data-sc-dwell="0.34" aria-labelledby="h-acumulo">
+  <section data-sc-act="scrub" data-sc-span="3.4" data-sc-dwell="0.34" aria-labelledby="h-acumulo">
     <div data-sc-stage>
       <div class="split">
 
@@ -741,12 +740,12 @@ body { background: #2C332C; }
 
         <div class="split__side side--space">
           <div class="side__copy side__copy--mid">
-            <h2 class="h-act" id="h-acumulo" data-sc-cue="0 0.34 0" data-sc-kinetic="lines">
+            <h2 class="h-act" id="h-acumulo" data-sc-cue="0 0.30 0 0.10" data-sc-kinetic="lines">
               Cada dia que ele fica, ele cresce.
             </h2>
-            <p class="lede" data-sc-cue="0.14 0.62">Ocupa a vaga, fecha a passagem, e junta água.</p>
-            <p class="lede" data-sc-cue="0.38 0.86">No verão amazônico, entulho parado vira combustível.</p>
-            <p class="lede" data-sc-cue="0.62 1 0.16 0.28">E o descarte continua no seu nome.</p>
+            <p class="lede" data-sc-cue="0.12 0.66 0.12 0.20">Ocupa a vaga, fecha a passagem, e junta água.</p>
+            <p class="lede" data-sc-cue="0.36 0.90 0.12 0.20">No verão amazônico, entulho parado vira combustível.</p>
+            <p class="lede" data-sc-cue="0.60 1 0.10 0.18">E o descarte continua no seu nome.</p>
           </div>
         </div>
 
@@ -759,17 +758,17 @@ body { background: #2C332C; }
        estado, e é isso que um wipe é. Cada linha limpa a anterior ao passar.
        O data-sc-reveal fica no wrapper da linha, nunca no tipo: clip-path
        corta pela caixa de borda e decapitaria as ascendentes. -->
-  <section data-sc-act="pin" data-sc-span="2.2" aria-labelledby="h-destino">
+  <section data-sc-act="pin" data-sc-span="2.4" aria-labelledby="h-destino">
     <div data-sc-stage>
       <h2 class="sr" id="h-destino">O que sai daqui, e para onde vai</h2>
       <div class="rows">
 
-        <div class="row" data-sc-reveal="left" data-sc-reveal-at="0.04 0.28">
+        <div class="row" data-sc-reveal="left" data-sc-reveal-at="0.03 0.24">
           <div class="row__mat side--waste">Entulho de obra</div>
           <div class="row__act side--space"><p><b>Caçamba estacionária.</b> Você enche, a gente tira.</p></div>
         </div>
 
-        <div class="row" data-sc-reveal="left" data-sc-reveal-at="0.22 0.46">
+        <div class="row" data-sc-reveal="left" data-sc-reveal-at="0.20 0.44">
           <div class="row__mat side--waste">Rua estreita, garagem baixa</div>
           <div class="row__act side--space"><p><b>Caminhão VUC.</b> Pioneira em Manaus com esse caminhão.</p></div>
         </div>
@@ -779,7 +778,7 @@ body { background: #2C332C; }
           <div class="row__act side--space"><p><b>Separados e destinados.</b> Não misturados no aterro.</p></div>
         </div>
 
-        <div class="row" data-sc-reveal="left" data-sc-reveal-at="0.58 0.82">
+        <div class="row" data-sc-reveal="left" data-sc-reveal-at="0.60 0.84">
           <div class="row__mat side--waste">Fossa</div>
           <div class="row__act side--space"><p><b>Sucção e limpeza.</b> Antes de transbordar, não depois.</p></div>
         </div>
@@ -832,7 +831,7 @@ body { background: #2C332C; }
        colapso: a coluna limpa toma a largura toda e o CTA mora dentro dela.
        As cues finais são de um valor só, então a última tela nunca fica vazia,
        e o rodapé vive dentro do palco: não há cauda morta depois do CTA. -->
-  <section id="chamar" data-sc-act="pin" data-sc-span="4.6" aria-labelledby="h-virada">
+  <section id="chamar" data-sc-act="pin" data-sc-span="4.2" aria-labelledby="h-virada">
     <div data-sc-stage>
       <div class="split">
 
@@ -1013,7 +1012,7 @@ ScrollCraft.mount(document.body);
     var y = window.scrollY;
 
     /* carga: 0 no topo do documento, 1 quando o pico começa */
-    var load = Math.min(Math.max(y / docFill, 0), 1);
+    var load = Math.max(Math.min(Math.max(y / docFill, 0), 1), introLoad);
     root.style.setProperty("--sae-load", load.toFixed(4));
 
     for (var i = 0; i < pieces.length; i++) {
@@ -1035,6 +1034,23 @@ ScrollCraft.mount(document.body);
     root.style.setProperty("--sae-split",  (0.5 - 0.46 * haul).toFixed(4));
   }
 
+  /* A demonstração. Explicar por escrito ajuda, mas ver ajuda mais: poucos
+     segundos depois de abrir, alguns cacos caem sozinhos dentro da caçamba.
+     Depois disso o scroll assume, porque a carga é sempre o maior dos dois. */
+  var introLoad = 0;
+  function intro() {
+    if (reduced) { introLoad = 0.05; frame(); return; }
+    var t0 = 0, DUR = 1100, ALVO = 0.05;
+    function step(t) {
+      if (!t0) t0 = t;
+      var k = Math.min((t - t0) / DUR, 1);
+      introLoad = ALVO * (k * k * (3 - 2 * k));
+      frame();
+      if (k < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+
   function onScroll() { if (!queued) { queued = true; requestAnimationFrame(frame); } }
 
   addEventListener("scroll", onScroll, { passive: true });
@@ -1043,6 +1059,7 @@ ScrollCraft.mount(document.body);
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(measure);
   measure();
   setTimeout(measure, 400);
+  setTimeout(intro, 900);
 
   /* ---- o cutucão --------------------------------------------------------
      A única técnica de corporificação da página. Desktop com ponteiro fino,

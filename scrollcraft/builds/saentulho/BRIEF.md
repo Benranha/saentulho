@@ -294,6 +294,40 @@ Empilhamento: palcos em 1, pátio em 4, caçamba em 5, grão em 6, botão em 90.
 O pátio precisou passar de 1 para 4 porque `.sc-stage` também vive em 1 e vem
 depois no documento, então empatava e ganhava.
 
+## Três correções vindas de uso real
+
+O cliente olhou a página pronta e trouxe três críticas. Todas procedem.
+
+**1. "No início os usuários ficam em dúvida pra saber o que fazer."**
+A página tem um mecanismo próprio, e ninguém adivinha mecanismo: nada dizia
+que a caçamba enche com o que se lê. Entrou uma linha na primeira tela, junto
+da caçamba: *"Role a página. Cada coisa que você ler cai dentro da caçamba."*
+E uma demonstração: um segundo depois de abrir, alguns cacos caem sozinhos,
+passando pela boca da caçamba antes de assentar.
+
+Isto é um desvio consciente da regra que proíbe indicação de rolagem. A regra
+existe contra enfeite vazio, do tipo "role para explorar". Aqui é instrução de
+uso de um mecanismo bespoke, dita uma vez, e some no fim do primeiro ato.
+Sem ela o site tem um truque que ninguém descobre.
+
+**2. "A barra do meio não ficou boa."**
+Era uma chapa de aço de 16px com gradiente de cinco paradas, duas sombras
+externas e uma luz de aresta. Competia com o conteúdo pelo olho. Virou uma
+linha de 3px em cinza-verde, com o medidor de carga em verde da marca
+correndo dentro dela. O divisor continua sendo o chrome, só parou de gritar.
+
+**3. "As frases são muito rápidas e ficam difíceis de ler."**
+Procede, e a primeira correção foi pelo lado errado: aumentei o span dos
+atos, a página foi para 13.8vh no desktop e 14.1 no telefone, ou seja, dentro
+da faixa que o registro manda evitar e acima do teto de 14.
+
+O que deixa uma frase legível não é o comprimento do ato, é o **platô da
+cue**: o trecho em que ela fica em opacidade cheia, em vez de estar sempre
+subindo ou descendo uma rampa. As janelas do ato 2 passaram a ter rampas
+curtas e platô longo (`0.12 0.66 0.12 0.20` no lugar de `0.14 0.62`), e os
+spans voltaram para 2.4 / 3.4 / 2.4 / 4.2. Resultado: 12.8vh no desktop,
+13.1 no telefone, e a frase para de piscar.
+
 ## A ação
 
 Uma só, com **um rótulo, usado em todo lugar**: **"Chamar no WhatsApp"**,
