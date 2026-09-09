@@ -173,10 +173,29 @@ body { background: #2C332C; }
    enfeite de "role para explorar", é a instrução de uso do site, dita uma vez
    e some no fim do primeiro ato. */
 .hint {
-  margin: var(--sc-6) 0 0;
-  max-width: 26ch;
-  font-size: var(--sc-t-sm);
-  line-height: 1.5;
+  /* desce para junto da boca da caçamba: a ordem fica colada no objeto que
+     ela descreve, em vez de flutuar lá em cima perto do título. */
+  margin: auto 0 clamp(2rem, 33vh, 21rem);
+  max-width: 30ch;
+}
+/* Ênfase por peso e tamanho, que é o que a tipografia tem. Nada de seta,
+   de ícone de mouse, nem de barra colorida na lateral. */
+.hint b {
+  display: block;
+  font-family: var(--sc-font-display);
+  font-weight: 800;
+  font-size: var(--sc-t-xl);
+  line-height: 1.05;
+  letter-spacing: -0.025em;
+  /* no verde da marca: na página inteira o verde é a caçamba, o medidor e a
+     ação, então ele já significa "o mecanismo". a ordem entra nesse papel. */
+  color: var(--sae-verde-claro);
+  margin-bottom: 0.4rem;
+}
+.hint span {
+  display: block;
+  font-size: var(--sc-t-base);
+  line-height: 1.45;
   color: var(--sc-ink-soft);
 }
 
@@ -560,7 +579,11 @@ body { background: #2C332C; }
   .h-hero { font-size: var(--sc-t-xl); }
   .h-act  { font-size: var(--sc-t-xl); }
   .lede   { font-size: var(--sc-t-base); max-width: 34ch; }
-  .hint   { margin-top: var(--sc-4); font-size: var(--sc-t-xs); max-width: 32ch; }
+  /* no telefone a coluna do entulho é curta e a caçamba está no rodapé da
+     tela, não logo abaixo: a ordem volta para o fluxo normal, sob o título. */
+  .hint   { margin: var(--sc-4) 0 0; max-width: 34ch; }
+  .hint b { font-size: var(--sc-t-lg); }
+  .hint span { font-size: var(--sc-t-sm); }
   .side__copy { padding-top: clamp(2rem, 6vh, 3.5rem); gap: var(--sc-3); }
   /* centralizado, o texto da coluna de baixo cai dentro do pátio */
   .side__copy--mid { justify-content: flex-start; }
@@ -683,7 +706,8 @@ body { background: #2C332C; }
               O entulho não sai sozinho.
             </h1>
             <p class="hint" data-sc-cue="0 0.72 0 0.30">
-              Role a página. Cada coisa que você ler cai dentro da caçamba.
+              <b>Role a página.</b>
+              <span>Cada coisa que você ler cai dentro da caçamba.</span>
             </p>
           </div>
         </div>

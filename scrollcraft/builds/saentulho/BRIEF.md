@@ -305,6 +305,15 @@ da caçamba: *"Role a página. Cada coisa que você ler cai dentro da caçamba."
 E uma demonstração: um segundo depois de abrir, alguns cacos caem sozinhos,
 passando pela boca da caçamba antes de assentar.
 
+A primeira versão dessa linha era pequena demais e o cliente pediu mais
+destaque. Ficou em duas partes com hierarquia de verdade: **"Role a página."**
+em display, corpo `--sc-t-xl`, no verde da marca, e a explicação embaixo em
+corpo normal. E desceu para junto da boca da caçamba, para o olho ligar a
+ordem ao objeto que ela descreve, em vez de ela flutuar perto do título.
+O verde não é enfeite: na página inteira ele é a caçamba, o medidor e a ação,
+então já significa "o mecanismo". Ênfase por peso, tamanho e cor, que é o que
+a tipografia tem. Nada de seta, ícone de mouse ou barra colorida na lateral.
+
 Isto é um desvio consciente da regra que proíbe indicação de rolagem. A regra
 existe contra enfeite vazio, do tipo "role para explorar". Aqui é instrução de
 uso de um mecanismo bespoke, dita uma vez, e some no fim do primeiro ato.
