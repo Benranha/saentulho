@@ -295,6 +295,17 @@ a:focus-visible, button:focus-visible {
   will-change: transform;
 }
 .cena__cacamba svg { width: 100%; height: auto; display: block; }
+/* A pintura na lateral, como nas caçambas de verdade: o alpha do logo usado
+   como máscara, em branco. A forma é a marca, não um texto parecido. */
+.cena__livery {
+  position: absolute;
+  left: 17%; top: 40%; width: 58%;
+  aspect-ratio: 600 / 132;
+  background: #FFFFFF;
+  opacity: 0.92;
+  -webkit-mask: url("assets/logo.png") no-repeat center / contain;
+          mask: url("assets/logo.png") no-repeat center / contain;
+}
 .cena--escura .cena__predios { color: #3B463A; }
 /* no escuro o chão é uma névoa que sobe da base, não uma faixa atravessada */
 .cena--escura .cena__chao {
@@ -567,21 +578,22 @@ a:focus-visible, button:focus-visible {
       <div class="cena__chao"></div>
       <div class="cena__cacamba" data-par="-0.10">
         <svg viewBox="0 0 420 230" role="presentation">
-          <polygon points="26,30 394,30 406,70 14,70" fill="#16341B"/>
-          <polygon points="14,62 406,62 376,208 44,208" fill="#069A2C"/>
-          <polygon points="14,62 406,62 402,84 18,84" fill="#0A7920" opacity="0.55"/>
-          <g fill="#0C5A1B" opacity="0.5">
+          <polygon points="26,30 394,30 406,70 14,70" fill="#4A2A18"/>
+          <polygon points="14,62 406,62 376,208 44,208" fill="#DD6317"/>
+          <polygon points="14,62 406,62 402,84 18,84" fill="#B84C0E" opacity="0.55"/>
+          <g fill="#A8450B" opacity="0.5">
             <polygon points="76,84 90,84 86,208 74,208"/>
             <polygon points="146,84 160,84 158,208 146,208"/>
             <polygon points="216,84 230,84 230,208 218,208"/>
             <polygon points="286,84 300,84 302,208 290,208"/>
             <polygon points="356,84 370,84 374,208 362,208"/>
           </g>
-          <polygon points="10,52 410,52 406,64 14,64" fill="#60BC4A"/>
-          <rect x="10" y="52" width="400" height="2.5" fill="#8FD97C"/>
-          <rect x="60"  y="208" width="46" height="12" fill="#0C4E19"/>
-          <rect x="314" y="208" width="46" height="12" fill="#0C4E19"/>
+          <polygon points="10,52 410,52 406,64 14,64" fill="#F0842F"/>
+          <rect x="10" y="52" width="400" height="2.5" fill="#FFB877"/>
+          <rect x="60"  y="208" width="46" height="12" fill="#8A3A0A"/>
+          <rect x="314" y="208" width="46" height="12" fill="#8A3A0A"/>
         </svg>
+        <span class="cena__livery"></span>
       </div>
     </div>
   </section>
@@ -805,21 +817,22 @@ a:focus-visible, button:focus-visible {
       <div class="cena__chao"></div>
       <div class="cena__cacamba" data-par="-0.08">
         <svg viewBox="0 0 420 230" role="presentation">
-          <polygon points="26,30 394,30 406,70 14,70" fill="#16341B"/>
-          <polygon points="14,62 406,62 376,208 44,208" fill="#069A2C"/>
-          <polygon points="14,62 406,62 402,84 18,84" fill="#0A7920" opacity="0.55"/>
-          <g fill="#0C5A1B" opacity="0.5">
+          <polygon points="26,30 394,30 406,70 14,70" fill="#4A2A18"/>
+          <polygon points="14,62 406,62 376,208 44,208" fill="#DD6317"/>
+          <polygon points="14,62 406,62 402,84 18,84" fill="#B84C0E" opacity="0.55"/>
+          <g fill="#A8450B" opacity="0.5">
             <polygon points="76,84 90,84 86,208 74,208"/>
             <polygon points="146,84 160,84 158,208 146,208"/>
             <polygon points="216,84 230,84 230,208 218,208"/>
             <polygon points="286,84 300,84 302,208 290,208"/>
             <polygon points="356,84 370,84 374,208 362,208"/>
           </g>
-          <polygon points="10,52 410,52 406,64 14,64" fill="#60BC4A"/>
-          <rect x="10" y="52" width="400" height="2.5" fill="#8FD97C"/>
-          <rect x="60"  y="208" width="46" height="12" fill="#0C4E19"/>
-          <rect x="314" y="208" width="46" height="12" fill="#0C4E19"/>
+          <polygon points="10,52 410,52 406,64 14,64" fill="#F0842F"/>
+          <rect x="10" y="52" width="400" height="2.5" fill="#FFB877"/>
+          <rect x="60"  y="208" width="46" height="12" fill="#8A3A0A"/>
+          <rect x="314" y="208" width="46" height="12" fill="#8A3A0A"/>
         </svg>
+        <span class="cena__livery"></span>
       </div>
     </div>
   </section>
