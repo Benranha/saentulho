@@ -369,8 +369,8 @@ a:focus-visible, button:focus-visible {
   top: -14%; height: 128%;
   object-fit: cover;
   object-position: 64% center;
-  opacity: 0.34;
-  filter: grayscale(0.22);
+  opacity: 0.62;
+  filter: grayscale(0.08);
   will-change: transform;
 }
 /* O véu. Sem ele a foto disputa o texto: a corrente e a lateral da caçamba
@@ -382,17 +382,29 @@ a:focus-visible, button:focus-visible {
   pointer-events: none;
   background: linear-gradient(90deg,
     var(--carvao) 0%,
-    rgba(44, 51, 44, 0.90) 38%,
-    rgba(44, 51, 44, 0.62) 72%,
-    rgba(44, 51, 44, 0.46) 100%);
+    rgba(44, 51, 44, 0.92) 30%,
+    rgba(44, 51, 44, 0.44) 66%,
+    rgba(44, 51, 44, 0.06) 100%);
 }
-/* No telefone não há "outro lado": a coluna ocupa a largura toda, então o véu
-   é parelho e a foto vira textura de fundo. */
+/* No telefone não há "outro lado": a coluna ocupa a largura toda. Então o véu
+   deita — forte em cima, onde o texto mora, e aberto embaixo, na faixa de
+   respiro onde não há cópia nenhuma. É ali que a foto aparece inteira. */
 @media (max-width: 860px) {
-  .faixa::before { background: rgba(44, 51, 44, 0.82); }
-  .faixa__foto { object-position: 58% center; }
+  .faixa::before {
+    background: linear-gradient(to bottom,
+      var(--carvao) 0%,
+      rgba(44, 51, 44, 0.94) 42%,
+      rgba(44, 51, 44, 0.74) 66%,
+      rgba(44, 51, 44, 0.12) 100%);
+  }
+  .faixa__foto { object-position: 56% 72%; }
 }
 .faixa__in { position: relative; z-index: 2; }
+/* Com a foto aberta, parte do texto cai sobre a lateral clara da caçamba. A
+   sombra dá contraste local onde a foto é clara e desaparece onde ela é
+   escura — escurecer a foto de novo resolveria o contraste apagando o motivo
+   dela existir. */
+.faixa__in :is(h2, h3, p) { text-shadow: 0 1px 3px rgba(10, 16, 10, 0.62); }
 .faixa h2 span { color: var(--verde-claro); }
 
 /* ------------------------------------------------------------------ empresa -- */
