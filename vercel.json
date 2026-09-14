@@ -1,6 +1,6 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "outputDirectory": "scrollcraft/builds/saentulho",
+  "outputDirectory": "site",
   "cleanUrls": true,
   "trailingSlash": false,
   "headers": [

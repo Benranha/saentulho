@@ -1,10 +1,4 @@
 # nada disso precisa ir para a publicacao
-scrollcraft/builds/*/lab
-scrollcraft/builds/*/out
-scrollcraft/builds/*/node_modules
-scrollcraft/builds/*/package.json
-scrollcraft/builds/*/package-lock.json
-scrollcraft/builds/*/assets/_ENVIAR
-scrollcraft/FINGERPRINTS.md
+docs
 env.txt
 .env
