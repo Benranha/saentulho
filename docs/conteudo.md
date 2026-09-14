@@ -32,6 +32,24 @@ aparecer um número auditável, ele entra depois.
 - Aceita cartão de crédito e débito
 - Atende toda Manaus
 - Telefone **(92) 3030-1112** · WhatsApp **(92) 99434-1227**
+- **Sumaúma Ambiental é o nome antigo da mesma empresa.** Fotos antigas ainda
+  mostram essa marca pintada no caminhão. Não usar na página: quem chega lê um
+  nome diferente do título e fica na dúvida se achou a empresa certa.
+
+## As cores da frota (confirmado por foto do cliente)
+
+A **caçamba é laranja**, com a marca e os dois telefones pintados em branco na
+lateral. O **caminhão e o braço são verdes**. Isso não sai do logo, sai das
+fotos reais — a primeira versão desta página desenhou a caçamba em verde, tirando
+a cor do logo, e estava errada.
+
+| Peça | Cor |
+|---|---|
+| Corpo da caçamba | `#DD6317` |
+| Borda superior | `#F0842F`, com fio de luz em `#FFB877` |
+| Nervuras e sombra | `#B84C0E` / `#A8450B` |
+| Pés | `#8A3A0A` |
+| Pintura na lateral | branco, o alpha do logo usado como máscara |
 
 ## A paleta, amostrada do logo
 
