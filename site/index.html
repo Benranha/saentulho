@@ -238,7 +238,39 @@ a:focus-visible, button:focus-visible {
     radial-gradient(90% 60% at 18% 0%, #FFFFFF 0%, transparent 62%),
     linear-gradient(178deg, var(--osso) 0%, var(--osso-fundo) 100%);
 }
+/* O herói é o texto mais a foto ao lado. A foto entra numa coluna com teto de
+   30rem porque o arquivo tem 500px de largura: exibida perto do tamanho dela,
+   fica nítida, em vez de esticada como no fundo das faixas. */
+.hero__grid {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 30rem);
+  gap: clamp(2rem, 5vw, 4.5rem);
+  align-items: center;
+}
 .hero__txt { position: relative; z-index: 2; max-width: min(100%, 44rem); }
+.hero__foto { margin: 0; min-width: 0; will-change: transform; }
+.hero__foto img {
+  display: block;
+  width: 100%; height: auto;
+  aspect-ratio: 5 / 3;
+  object-fit: cover;
+  border-radius: var(--raio);
+  box-shadow: 0 1px 2px rgba(22, 29, 23, 0.14), 0 18px 40px rgba(22, 29, 23, 0.16);
+}
+.hero__foto figcaption {
+  margin-top: 0.7rem;
+  font-size: var(--t-micro);
+  letter-spacing: 0.02em;
+  color: var(--tinta-suave);
+}
+/* Abaixo de 960px a foto desce para baixo do texto e ocupa a largura toda —
+   que, num telefone, é quase exatamente a largura do arquivo. */
+@media (max-width: 960px) {
+  .hero__grid { grid-template-columns: 1fr; gap: 2.25rem; }
+  .hero__foto { margin-top: 0.5rem; }
+}
 .hero h1 { max-width: 15ch; }
 .hero h1 span { color: var(--verde); display: block; }
 .hero .lead { max-width: 40ch; }
@@ -400,6 +432,12 @@ a:focus-visible, button:focus-visible {
   .faixa__foto { object-position: 56% 72%; }
 }
 .faixa__in { position: relative; z-index: 2; }
+/* A faixa sem foto: sem véu (ele clarearia um lado sem motivo, já que não há
+   foto embaixo), sem sombra no texto e sem o rodapé alto que existia para
+   caber a foto. */
+.faixa--limpa { padding-block: clamp(5rem, 11vw, 8.5rem); }
+.faixa--limpa::before { content: none; }
+.faixa--limpa .faixa__in :is(h2, h3, p) { text-shadow: none; }
 /* Com a foto aberta, parte do texto cai sobre a lateral clara da caçamba. A
    sombra dá contraste local onde a foto é clara e desaparece onde ela é
    escura — escurecer a foto de novo resolveria o contraste apagando o motivo
@@ -547,7 +585,7 @@ a:focus-visible, button:focus-visible {
 
   <!-- ===================================================== herói ========= -->
   <section class="hero">
-    <div class="wrap">
+    <div class="wrap hero__grid">
      <div class="hero__txt">
       <p class="eyebrow">Manaus · Amazonas</p>
       <h1>O entulho não sai sozinho. <span>A gente leva.</span></h1>
@@ -571,6 +609,17 @@ a:focus-visible, button:focus-visible {
         <li>Semulsp</li>
       </ul>
      </div>
+
+     <!-- A foto de verdade, do lado do texto. Aqui ela é conteúdo e não
+          atmosfera: aparece inteira, sem véu, com legenda e texto alternativo.
+          E é onde ela fica mais nítida — exibida perto do tamanho do arquivo
+          original, em vez de esticada na largura da tela. -->
+     <figure class="hero__foto" data-par="0.04">
+       <img src="assets/fotos/patio.jpg" width="500" height="300" loading="eager"
+            alt="Caminhão da S.A. Entulho carregando uma caçamba laranja na via, em Manaus."
+            onerror="this.closest('figure').remove()">
+       <figcaption>Retirada de caçamba cheia, em Manaus.</figcaption>
+     </figure>
     </div>
 
     <!-- o cenário. duas camadas, velocidades diferentes, só no scroll. -->
@@ -781,9 +830,10 @@ a:focus-visible, button:focus-visible {
   </section>
 
   <!-- ===================================================== contato ======= -->
-  <section class="faixa" id="contato">
-    <img class="faixa__foto" src="assets/fotos/patio.jpg" alt="" aria-hidden="true"
-         data-par="0.10" loading="lazy" onerror="this.remove()">
+  <!-- Sem foto, de propósito: a única foto de caminhão com a marca atual passou
+       a abrir a página, e repeti-la aqui, numa página de cinco telas, lê como
+       falta de material. O fecho fica no escuro limpo, com a ação sozinha. -->
+  <section class="faixa faixa--limpa" id="contato">
     <div class="wrap faixa__in">
       <p class="eyebrow eyebrow--claro">Contato</p>
       <h2>Marque a retirada.</h2>
