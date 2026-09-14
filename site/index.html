@@ -541,12 +541,29 @@ a:focus-visible, button:focus-visible {
   font-weight: 700;
 }
 .pe a { color: inherit; }
+/* A linha de baixo: a empresa de um lado, o crédito de quem fez do outro.
+   Numa tela estreita as duas empilham em vez de espremer. */
 .pe__legal {
   margin: 2.5rem 0 0;
   padding-top: 1.25rem;
   border-top: 1px solid var(--borda-escura);
   font-size: var(--t-micro);
   color: rgba(168, 180, 166, 0.75);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.5rem 2rem;
+}
+.pe__legal p { margin: 0; }
+/* O crédito é assinatura, não anúncio: fica um tom abaixo do resto, e só o
+   nome é link. */
+.pe__credito a {
+  color: rgba(200, 214, 198, 0.9);
+  text-decoration-color: rgba(200, 214, 198, 0.35);
+  text-underline-offset: 3px;
+}
+@media (hover: hover) and (pointer: fine) {
+  .pe__credito a:hover { color: var(--verde-claro); text-decoration-color: currentColor; }
 }
 
 /* --------------------------------------------------------- menos movimento -- */
@@ -876,9 +893,13 @@ a:focus-visible, button:focus-visible {
         <span>Ibama · Semmas · Ipaam · Semulsp</span>
       </div>
     </div>
-    <p class="pe__legal">
-      S.A. Entulho · Gestão e destinação de resíduos · Manaus, Amazonas.
-    </p>
+    <div class="pe__legal">
+      <p>S.A. Entulho · Gestão e destinação de resíduos · Manaus, Amazonas.</p>
+      <p class="pe__credito">
+        Desenvolvido por
+        <a href="https://awtecnologia.net.br" target="_blank" rel="noopener">AW Tecnologia</a>
+      </p>
+    </div>
   </div>
 </footer>
 
