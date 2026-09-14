@@ -2,9 +2,9 @@
 .env
 .env.local
 *.key
-
-# trabalho intermediário do scroll-craft
-scrollcraft/builds/*/out/
-scrollcraft/builds/*/lab/
-scrollcraft/builds/*/node_modules/
 env.txt
+
+# sistema
+.DS_Store
+node_modules/
+.vercel

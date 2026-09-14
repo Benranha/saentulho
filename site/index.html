@@ -1,0 +1,909 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>S.A. Entulho · caçamba e retirada de entulho em Manaus</title>
+<meta name="description" content="Retirada de entulho de obra, recicláveis e limpeza de fossa em toda Manaus. Caçamba estacionária e caminhão VUC. Empresa legalizada, com licenças Ibama, Semmas, Ipaam e Semulsp.">
+<meta name="theme-color" content="#F3F6EF">
+<link rel="canonical" href="https://www.saentulho.com.br/">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="S.A. Entulho">
+<meta property="og:title" content="S.A. Entulho · caçamba e retirada de entulho em Manaus">
+<meta property="og:description" content="Você enche, a gente tira. Caçamba estacionária e caminhão VUC em toda Manaus.">
+<meta property="og:url" content="https://www.saentulho.com.br/">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%232C332C'/><path d='M5 11h22l-3 13H8z' fill='%23069A2C'/></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&family=Geist:wght@400;500;600&display=swap">
+<style>
+/* ===========================================================================
+   S.A. ENTULHO — landing page estática.
+   Uma página, um arquivo. O único JavaScript é o parallax das camadas
+   decorativas: ~25 linhas no fim do documento. Nada mais se move.
+   Cores amostradas do logo real: #069A2C (ENTULHO e folhagem),
+   #146821 (S.A. e tagline), #60BC4A (folha clara).
+   =========================================================================== */
+
+:root {
+  --verde:        #069A2C;
+  --verde-escuro: #146821;
+  --verde-claro:  #60BC4A;
+  --verde-wa:     #12A03A;
+
+  --osso:      #F3F6EF;   /* fundo claro principal */
+  --osso-fundo:#E9EDE4;   /* faixas claras alternadas */
+  --carvao:    #2C332C;   /* fundo escuro */
+  --carvao-2:  #222922;
+
+  --tinta:       #161D17;
+  --tinta-suave: #4A5450;
+  --tinta-clara: #F0F4EE;
+  --tinta-clara-suave: #A8B4A6;
+
+  --borda: rgba(22, 29, 23, 0.12);
+  --borda-escura: rgba(200, 220, 200, 0.14);
+
+  --display: "Archivo", system-ui, sans-serif;
+  --texto: "Geist", system-ui, -apple-system, sans-serif;
+
+  --gutter: clamp(1.25rem, 5vw, 3rem);
+  --largura: 1180px;
+  --secao: clamp(4rem, 9vw, 7rem);
+  --topo: 68px;
+
+  --t-display: clamp(2.35rem, 6.4vw, 4.6rem);
+  --t-h2:      clamp(1.7rem, 3.6vw, 2.75rem);
+  --t-h3:      clamp(1.1rem, 1.5vw, 1.3rem);
+  --t-lead:    clamp(1.05rem, 1.5vw, 1.28rem);
+  --t-body:    clamp(1rem, 1.1vw, 1.0625rem);
+  --t-small:   0.875rem;
+  --t-micro:   0.72rem;
+
+  --raio: 10px;
+}
+
+* { box-sizing: border-box; }
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+body {
+  margin: 0;
+  background: var(--osso);
+  color: var(--tinta);
+  font-family: var(--texto);
+  font-size: var(--t-body);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+img, svg { max-width: 100%; }
+a { color: inherit; }
+
+/* o grão: um mosaico de 128px, pintado uma vez. dá a textura industrial sem
+   custar nada, e não é animação. */
+.grao {
+  position: fixed; inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  opacity: 0.045;
+  background-image: url("assets/grain.png");
+  background-size: 128px 128px;
+  mix-blend-mode: multiply;
+}
+
+.wrap {
+  width: min(var(--largura), 100%);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.sr {
+  position: absolute; width: 1px; height: 1px;
+  padding: 0; margin: -1px; overflow: hidden;
+  clip-path: inset(50%); white-space: nowrap;
+}
+
+/* ------------------------------------------------------------- tipografia -- */
+.eyebrow {
+  font-family: var(--display);
+  font-size: var(--t-micro);
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--tinta-suave);
+  margin: 0 0 1rem;
+}
+.eyebrow--claro { color: var(--verde-claro); }
+
+h1, h2, h3 { font-family: var(--display); margin: 0; text-wrap: balance; }
+
+h1 {
+  font-size: var(--t-display);
+  font-weight: 800;
+  line-height: 0.98;
+  letter-spacing: -0.035em;
+  text-transform: uppercase;
+}
+h2 {
+  font-size: var(--t-h2);
+  font-weight: 700;
+  line-height: 1.04;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+}
+h3 {
+  font-size: var(--t-h3);
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.015em;
+}
+.lead {
+  font-size: var(--t-lead);
+  line-height: 1.45;
+  max-width: 34ch;
+  color: var(--tinta-suave);
+  margin: 1.25rem 0 0;
+  text-wrap: pretty;
+}
+p { text-wrap: pretty; }
+
+/* ------------------------------------------------------------------ botões -- */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 0.55rem;
+  min-height: 52px;
+  padding: 0 1.4rem;
+  border-radius: var(--raio);
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: var(--t-body);
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background-color 150ms ease, color 150ms ease, border-color 150ms ease;
+}
+.btn--wa {
+  background: var(--verde-wa);
+  color: #fff;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.2);
+}
+.btn--ghost {
+  border: 1.5px solid var(--borda);
+  color: var(--tinta);
+  background: transparent;
+}
+.btn--ghost-claro { border-color: var(--borda-escura); color: var(--tinta-clara); }
+@media (hover: hover) and (pointer: fine) {
+  .btn--wa:hover { background: #0E8730; }
+  .btn--ghost:hover { border-color: var(--verde-escuro); color: var(--verde-escuro); }
+  .btn--ghost-claro:hover { border-color: var(--verde-claro); color: var(--verde-claro); }
+}
+.btn:active { transform: translateY(1px); }
+.btn__i { width: 22px; height: 22px; flex: 0 0 auto; }
+
+a:focus-visible, button:focus-visible {
+  outline: 3px solid var(--verde);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* ------------------------------------------------------------------- topo -- */
+.topo {
+  position: sticky; top: 0;
+  z-index: 40;
+  height: var(--topo);
+  display: flex; align-items: center;
+  background: rgba(243, 246, 239, 0.94);
+  backdrop-filter: saturate(140%) blur(8px);
+  border-bottom: 1px solid var(--borda);
+}
+.topo__in {
+  display: flex; align-items: center; gap: 1.5rem;
+  width: min(var(--largura), 100%);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+.marca { display: flex; align-items: center; flex: 0 0 auto; }
+.marca img { width: clamp(8.5rem, 20vw, 11rem); height: auto; aspect-ratio: 600 / 132; display: block; }
+.nav { margin-left: auto; display: flex; align-items: center; gap: 1.75rem; }
+.nav__links { display: flex; align-items: center; gap: 1.75rem; }
+.nav a {
+  font-family: var(--display);
+  font-size: var(--t-small);
+  font-weight: 600;
+  text-decoration: none;
+  color: var(--tinta-suave);
+  transition: color 150ms ease;
+}
+@media (hover: hover) and (pointer: fine) { .nav a:hover { color: var(--verde-escuro); } }
+.topo .btn { min-height: 42px; padding-inline: 1.1rem; font-size: var(--t-small); }
+@media (max-width: 800px) {
+  .nav__links { display: none; }
+  .topo .btn__t { display: none; }
+  .topo .btn { padding-inline: 0.9rem; }
+}
+
+/* ------------------------------------------------------------------ herói -- */
+.hero {
+  position: relative;
+  overflow: hidden;
+  padding-top: clamp(3rem, 8vw, 6rem);
+  padding-bottom: clamp(14rem, 28vw, 22rem);
+  background:
+    radial-gradient(90% 60% at 18% 0%, #FFFFFF 0%, transparent 62%),
+    linear-gradient(178deg, var(--osso) 0%, var(--osso-fundo) 100%);
+}
+.hero__txt { position: relative; z-index: 2; max-width: min(100%, 44rem); }
+.hero h1 { max-width: 15ch; }
+.hero h1 span { color: var(--verde); display: block; }
+.hero .lead { max-width: 40ch; }
+.hero__acoes {
+  display: flex; flex-wrap: wrap; gap: 0.75rem;
+  margin-top: 2.25rem;
+}
+
+/* as licenças logo abaixo da dobra: é o que diferencia a empresa e é fato. */
+.selos {
+  display: flex; flex-wrap: wrap; gap: 0.5rem 1.5rem;
+  margin: 2.5rem 0 0;
+  padding: 0;
+  list-style: none;
+  font-family: var(--display);
+  font-size: var(--t-micro);
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--tinta-suave);
+}
+.selos li { display: flex; align-items: center; gap: 0.45rem; }
+.selos li::before {
+  content: "";
+  width: 7px; height: 7px;
+  background: var(--verde);
+  border-radius: 1px;
+  flex: 0 0 auto;
+}
+
+/* ------------------------------------------- o cenário: camadas de parallax -- */
+/* Duas camadas desenhadas, em velocidades diferentes. É o único movimento da
+   página, e ele só responde ao scroll. */
+.cena {
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  z-index: 1;
+  pointer-events: none;
+  line-height: 0;
+}
+.cena__camada { position: absolute; left: 0; right: 0; bottom: 0; will-change: transform; }
+.cena__predios { bottom: 0; color: #C3CEBE; }
+.cena__predios svg { width: 100%; height: clamp(7rem, 14vw, 11rem); display: block; }
+.cena__chao {
+  position: absolute; left: 0; right: 0; bottom: 0;
+  height: clamp(2.5rem, 5vw, 4rem);
+  background: linear-gradient(to bottom, var(--verde-escuro), #0E4C18);
+}
+.cena__cacamba {
+  position: absolute;
+  right: clamp(1rem, 6vw, 6rem);
+  bottom: clamp(2rem, 4.4vw, 3.4rem);
+  width: clamp(13rem, 30vw, 24rem);
+  will-change: transform;
+}
+.cena__cacamba svg { width: 100%; height: auto; display: block; }
+.cena--escura .cena__predios { color: #3B463A; }
+/* no escuro o chão é uma névoa que sobe da base, não uma faixa atravessada */
+.cena--escura .cena__chao {
+  height: clamp(4rem, 8vw, 6.5rem);
+  background: linear-gradient(to top, #1A211B 0%, rgba(26,33,27,0.72) 46%, rgba(26,33,27,0) 100%);
+}
+/* no escuro não há faixa de chão sólida, então a caçamba assenta na própria
+   base da cena, na mesma linha em que os prédios assentam. */
+.cena--escura .cena__cacamba { bottom: 0; }
+
+/* -------------------------------------------------------------- serviços --- */
+.secao { padding-block: var(--secao); scroll-margin-top: var(--topo); }
+.secao--osso { background: var(--osso-fundo); }
+.secao__cabeca { max-width: 46ch; margin-bottom: clamp(2.5rem, 5vw, 3.5rem); }
+.secao__cabeca p { color: var(--tinta-suave); margin: 1rem 0 0; max-width: 52ch; }
+
+.servicos {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(255px, 1fr));
+  gap: 1px;
+  background: var(--borda);
+  border: 1px solid var(--borda);
+  border-radius: var(--raio);
+  overflow: hidden;
+}
+.servico {
+  background: var(--osso);
+  padding: clamp(1.6rem, 3vw, 2.25rem);
+  display: flex; flex-direction: column; gap: 0.85rem;
+}
+.servico__icone {
+  width: 38px; height: 38px;
+  color: var(--verde);
+  margin-bottom: 0.35rem;
+}
+.servico p { margin: 0; color: var(--tinta-suave); font-size: var(--t-small); line-height: 1.55; }
+.servico__link {
+  margin-top: auto;
+  padding-top: 0.75rem;
+  font-family: var(--display);
+  font-size: var(--t-small);
+  font-weight: 700;
+  color: var(--verde-escuro);
+  text-decoration: none;
+  display: inline-flex; align-items: center; gap: 0.4rem;
+}
+.servico__link::after { content: "→"; transition: transform 150ms ease; }
+@media (hover: hover) and (pointer: fine) {
+  .servico__link:hover::after { transform: translateX(3px); }
+}
+
+/* ------------------------------------------------------------ faixa escura -- */
+.faixa {
+  position: relative;
+  overflow: hidden;
+  background: var(--carvao);
+  color: var(--tinta-clara);
+  padding-block: clamp(5rem, 11vw, 8.5rem) clamp(9rem, 18vw, 14rem);
+  scroll-margin-top: var(--topo);
+}
+.faixa .lead { color: var(--tinta-clara-suave); }
+.faixa__foto {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  opacity: 0.28;
+  filter: grayscale(0.3);
+}
+.faixa__in { position: relative; z-index: 2; }
+.faixa h2 span { color: var(--verde-claro); }
+
+/* ------------------------------------------------------------------ empresa -- */
+.duas {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: clamp(2rem, 5vw, 4.5rem);
+  align-items: start;
+}
+@media (max-width: 860px) { .duas { grid-template-columns: 1fr; } }
+.duas p { color: var(--tinta-suave); margin: 0 0 1rem; max-width: 52ch; }
+
+.fatos { margin: 0; border-top: 1px solid var(--borda); }
+.fatos > div {
+  display: grid;
+  grid-template-columns: minmax(8.5rem, 34%) 1fr;
+  gap: 1rem;
+  padding: 0.95rem 0;
+  border-bottom: 1px solid var(--borda);
+}
+.fatos dt {
+  font-family: var(--display);
+  font-size: var(--t-micro);
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--tinta-suave);
+  padding-top: 0.15rem;
+}
+.fatos dd { margin: 0; font-size: var(--t-small); line-height: 1.5; }
+@media (max-width: 520px) {
+  .fatos > div { grid-template-columns: 1fr; gap: 0.2rem; }
+}
+
+/* ------------------------------------------------------------------- passos -- */
+.passos {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: clamp(1.75rem, 4vw, 3rem);
+  counter-reset: passo;
+}
+.passo { border-top: 3px solid var(--verde); padding-top: 1.1rem; }
+.passo::before {
+  counter-increment: passo;
+  content: "0" counter(passo);
+  display: block;
+  font-family: var(--display);
+  font-size: var(--t-small);
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: var(--verde-escuro);
+  margin-bottom: 0.6rem;
+}
+.passo p { margin: 0.5rem 0 0; color: var(--tinta-suave); font-size: var(--t-small); line-height: 1.55; }
+/* os mesmos passos dentro da faixa escura */
+.faixa .passo { border-top-color: var(--verde-claro); }
+.faixa .passo::before { color: var(--verde-claro); }
+.faixa .passo p { color: var(--tinta-clara-suave); }
+
+/* ------------------------------------------------------------------ contato -- */
+.contato__acoes { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 2.25rem; }
+.contato__tel {
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: var(--t-lead);
+  color: var(--tinta-clara);
+  text-decoration-color: rgba(240, 244, 238, 0.4);
+  text-underline-offset: 4px;
+}
+
+/* -------------------------------------------------------------------- pé ---- */
+.pe {
+  background: var(--carvao-2);
+  color: var(--tinta-clara-suave);
+  padding-block: clamp(2.5rem, 5vw, 3.5rem);
+  font-size: var(--t-small);
+  border-top: 1px solid var(--borda-escura);
+}
+.pe__in { display: flex; flex-wrap: wrap; gap: 1.5rem 2.5rem; align-items: flex-start; }
+/* a marca no escuro: o alpha do PNG usado como máscara, em osso. O logo em
+   cores tem o "S.A." em verde-escuro e ele sumiria neste fundo. */
+.pe__marca {
+  width: 10.5rem;
+  aspect-ratio: 600 / 132;
+  background: var(--tinta-clara);
+  opacity: 0.88;
+  -webkit-mask: url("assets/logo.png") no-repeat left center / contain;
+          mask: url("assets/logo.png") no-repeat left center / contain;
+  flex: 0 0 auto;
+}
+.pe__col { display: flex; flex-direction: column; gap: 0.35rem; }
+.pe__col b {
+  font-family: var(--display);
+  font-size: var(--t-micro);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--tinta-clara);
+  font-weight: 700;
+}
+.pe a { color: inherit; }
+.pe__legal {
+  margin: 2.5rem 0 0;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--borda-escura);
+  font-size: var(--t-micro);
+  color: rgba(168, 180, 166, 0.75);
+}
+
+/* --------------------------------------------------------- menos movimento -- */
+@media (prefers-reduced-motion: reduce) {
+  .cena__camada, .cena__cacamba { transform: none !important; }
+  .btn:active { transform: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="grao" aria-hidden="true"></div>
+
+<header class="topo">
+  <div class="topo__in">
+    <a class="marca" href="#topo" aria-label="S.A. Entulho, início">
+      <img src="assets/logo.png" width="600" height="132" alt="S.A. Entulho · gestão e destinação de resíduos">
+    </a>
+    <nav class="nav" aria-label="Seções">
+      <span class="nav__links">
+        <a href="#servicos">Serviços</a>
+        <a href="#empresa">A empresa</a>
+        <a href="#contato">Contato</a>
+      </span>
+      <a class="btn btn--wa" href="https://wa.me/5592994341227">
+        <svg class="btn__i" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path fill="currentColor" d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0 0 20.885 3.4"/>
+        </svg>
+        <span class="btn__t">Chamar no WhatsApp</span>
+      </a>
+    </nav>
+  </div>
+</header>
+
+<main id="topo">
+
+  <!-- ===================================================== herói ========= -->
+  <section class="hero">
+    <div class="wrap">
+     <div class="hero__txt">
+      <p class="eyebrow">Manaus · Amazonas</p>
+      <h1>O entulho não sai sozinho. <span>A gente leva.</span></h1>
+      <p class="lead">
+        Retirada de resíduos de construção civil e material reciclável com
+        caçamba estacionária e caminhão VUC, em toda Manaus.
+      </p>
+      <div class="hero__acoes">
+        <a class="btn btn--wa" href="https://wa.me/5592994341227?text=Ol%C3%A1%2C%20quero%20pedir%20uma%20ca%C3%A7amba.">
+          <svg class="btn__i" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path fill="currentColor" d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0 0 20.885 3.4"/>
+          </svg>
+          <span>Chamar no WhatsApp</span>
+        </a>
+        <a class="btn btn--ghost" href="tel:+559230301112">(92) 3030-1112</a>
+      </div>
+      <ul class="selos">
+        <li>Ibama</li>
+        <li>Semmas</li>
+        <li>Ipaam</li>
+        <li>Semulsp</li>
+      </ul>
+     </div>
+    </div>
+
+    <!-- o cenário. duas camadas, velocidades diferentes, só no scroll. -->
+    <div class="cena" aria-hidden="true">
+      <div class="cena__camada cena__predios" data-par="0.06">
+        <svg viewBox="0 0 1600 200" preserveAspectRatio="xMidYMax slice">
+          <g fill="currentColor">
+            <rect x="0"    y="86"  width="118" height="114"/>
+            <rect x="130"  y="44"  width="92"  height="156"/>
+            <rect x="234"  y="104" width="150" height="96"/>
+            <rect x="396"  y="24"  width="104" height="176"/>
+            <rect x="512"  y="92"  width="128" height="108"/>
+            <rect x="652"  y="60"  width="86"  height="140"/>
+            <rect x="750"  y="112" width="164" height="88"/>
+            <rect x="926"  y="36"  width="96"  height="164"/>
+            <rect x="1034" y="96"  width="136" height="104"/>
+            <rect x="1182" y="66"  width="90"  height="134"/>
+            <rect x="1284" y="110" width="152" height="90"/>
+            <rect x="1448" y="52"  width="98"  height="148"/>
+            <rect x="1558" y="98"  width="120" height="102"/>
+          </g>
+          <g fill="rgba(255,255,255,0.5)">
+            <rect x="146"  y="62"  width="14" height="18"/><rect x="176" y="62"  width="14" height="18"/>
+            <rect x="146"  y="96"  width="14" height="18"/><rect x="176" y="96"  width="14" height="18"/>
+            <rect x="412"  y="44"  width="14" height="18"/><rect x="444" y="44"  width="14" height="18"/>
+            <rect x="412"  y="78"  width="14" height="18"/><rect x="444" y="78"  width="14" height="18"/>
+            <rect x="942"  y="56"  width="14" height="18"/><rect x="974" y="56"  width="14" height="18"/>
+            <rect x="942"  y="90"  width="14" height="18"/><rect x="974" y="90"  width="14" height="18"/>
+            <rect x="1464" y="72"  width="14" height="18"/><rect x="1496" y="72" width="14" height="18"/>
+          </g>
+        </svg>
+      </div>
+      <div class="cena__chao"></div>
+      <div class="cena__cacamba" data-par="-0.10">
+        <svg viewBox="0 0 420 230" role="presentation">
+          <polygon points="26,30 394,30 406,70 14,70" fill="#16341B"/>
+          <polygon points="14,62 406,62 376,208 44,208" fill="#069A2C"/>
+          <polygon points="14,62 406,62 402,84 18,84" fill="#0A7920" opacity="0.55"/>
+          <g fill="#0C5A1B" opacity="0.5">
+            <polygon points="76,84 90,84 86,208 74,208"/>
+            <polygon points="146,84 160,84 158,208 146,208"/>
+            <polygon points="216,84 230,84 230,208 218,208"/>
+            <polygon points="286,84 300,84 302,208 290,208"/>
+            <polygon points="356,84 370,84 374,208 362,208"/>
+          </g>
+          <polygon points="10,52 410,52 406,64 14,64" fill="#60BC4A"/>
+          <rect x="10" y="52" width="400" height="2.5" fill="#8FD97C"/>
+          <rect x="60"  y="208" width="46" height="12" fill="#0C4E19"/>
+          <rect x="314" y="208" width="46" height="12" fill="#0C4E19"/>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================================================== serviços ========= -->
+  <section class="secao" id="servicos">
+    <div class="wrap">
+      <div class="secao__cabeca">
+        <p class="eyebrow">O que fazemos</p>
+        <h2>Quatro serviços, um telefone.</h2>
+        <p>
+          Caçamba em perfeito estado, caminhão adequado, motorista treinado e
+          destinação licenciada. Da obra pequena ao condomínio.
+        </p>
+      </div>
+
+      <div class="servicos">
+
+        <article class="servico">
+          <svg class="servico__icone" viewBox="0 0 48 48" aria-hidden="true" focusable="false">
+            <path fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round"
+                  d="M4 14h40l-6 24H10z"/>
+            <path fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"
+                  d="M2 14h44M16 21v12M24 21v12M32 21v12"/>
+          </svg>
+          <h3>Coleta de entulho</h3>
+          <p>
+            Caçamba estacionária entregue na sua obra. Você enche no seu ritmo e
+            a gente retira. Resíduo de construção, demolição e reforma.
+          </p>
+          <a class="servico__link" href="https://wa.me/5592994341227?text=Ol%C3%A1%2C%20quero%20uma%20ca%C3%A7amba%20para%20entulho%20de%20obra.">Pedir caçamba</a>
+        </article>
+
+        <article class="servico">
+          <svg class="servico__icone" viewBox="0 0 48 48" aria-hidden="true" focusable="false">
+            <path fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round"
+                  d="M4 12h24v20H4zM28 19h8l8 8v5H28z"/>
+            <circle cx="14" cy="36" r="4" fill="none" stroke="currentColor" stroke-width="3"/>
+            <circle cx="36" cy="36" r="4" fill="none" stroke="currentColor" stroke-width="3"/>
+          </svg>
+          <h3>Caminhão VUC</h3>
+          <p>
+            Para rua estreita, garagem baixa e centro apertado, onde o caminhão
+            grande não entra. Pioneira em Manaus com esse caminhão.
+          </p>
+          <a class="servico__link" href="https://wa.me/5592994341227?text=Ol%C3%A1%2C%20preciso%20do%20caminh%C3%A3o%20VUC.">Falar sobre o VUC</a>
+        </article>
+
+        <article class="servico">
+          <svg class="servico__icone" viewBox="0 0 48 48" aria-hidden="true" focusable="false">
+            <path fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"
+                  d="M24 5 33 21H15zM12 26 5 38h16M36 26l7 12H27"/>
+            <path fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"
+                  d="m18 34 4 4-4 4"/>
+          </svg>
+          <h3>Resíduos recicláveis</h3>
+          <p>
+            Material reciclável recolhido e separado, com destinação correta em
+            vez de ir misturado para o aterro.
+          </p>
+          <a class="servico__link" href="https://wa.me/5592994341227?text=Ol%C3%A1%2C%20quero%20falar%20sobre%20coleta%20de%20recicl%C3%A1veis.">Falar sobre recicláveis</a>
+        </article>
+
+        <article class="servico">
+          <svg class="servico__icone" viewBox="0 0 48 48" aria-hidden="true" focusable="false">
+            <path fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round"
+                  d="M24 4c6 8 10 13 10 19a10 10 0 0 1-20 0c0-6 4-11 10-19z"/>
+            <path fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"
+                  d="M8 42h32"/>
+          </svg>
+          <h3>Limpeza de fossa</h3>
+          <p>
+            Sucção e limpeza de fossa, feitas antes de transbordar e não depois.
+            Atendimento residencial e comercial.
+          </p>
+          <a class="servico__link" href="https://wa.me/5592994341227?text=Ol%C3%A1%2C%20preciso%20de%20limpeza%20de%20fossa.">Agendar limpeza</a>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ================================================= faixa escura ====== -->
+  <section class="faixa">
+    <!-- Se a foto existir em assets/fotos/, ela entra atrás do texto.
+         Se não existir, o navegador remove a tag e o fundo segue chapado. -->
+    <img class="faixa__foto" src="assets/fotos/cacamba.jpg" alt="" aria-hidden="true"
+         loading="lazy" onerror="this.remove()">
+    <div class="wrap faixa__in">
+      <p class="eyebrow eyebrow--claro">Como funciona</p>
+      <h2>Você enche. <span>A gente tira.</span></h2>
+      <p class="lead">
+        A caçamba fica na sua rua sem virar um problema seu, porque a
+        destinação é licenciada e documentada do começo ao fim.
+      </p>
+
+      <div class="passos" style="margin-top: clamp(2.5rem, 5vw, 3.5rem)">
+        <div class="passo">
+          <h3>Você chama</h3>
+          <p>WhatsApp ou telefone. Diga o endereço e o tipo de material.</p>
+        </div>
+        <div class="passo">
+          <h3>A caçamba chega</h3>
+          <p>Posicionada onde dá, por motorista treinado, em caixa em bom estado.</p>
+        </div>
+        <div class="passo">
+          <h3>A gente retira</h3>
+          <p>Recolhemos a caçamba cheia e levamos o material para o destino correto.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="cena cena--escura" aria-hidden="true">
+      <div class="cena__camada cena__predios" data-par="0.05">
+        <svg viewBox="0 0 1600 200" preserveAspectRatio="xMidYMax slice">
+          <g fill="currentColor">
+            <rect x="0"    y="104" width="140" height="96"/>
+            <rect x="152"  y="66"  width="88"  height="134"/>
+            <rect x="256"  y="120" width="160" height="80"/>
+            <rect x="430"  y="48"  width="98"  height="152"/>
+            <rect x="542"  y="108" width="120" height="92"/>
+            <rect x="676"  y="78"  width="92"  height="122"/>
+            <rect x="782"  y="126" width="150" height="74"/>
+            <rect x="946"  y="58"  width="104" height="142"/>
+            <rect x="1064" y="112" width="128" height="88"/>
+            <rect x="1206" y="82"  width="94"  height="118"/>
+            <rect x="1314" y="122" width="146" height="78"/>
+            <rect x="1472" y="70"  width="102" height="130"/>
+          </g>
+        </svg>
+      </div>
+      <div class="cena__chao"></div>
+    </div>
+  </section>
+
+  <!-- =================================================== a empresa ======= -->
+  <section class="secao secao--osso" id="empresa">
+    <div class="wrap duas">
+      <div>
+        <p class="eyebrow">A empresa</p>
+        <h2>Empresa legalizada.</h2>
+        <p style="margin-top:1.5rem">
+          A S.A. Entulho é especializada na retirada de resíduos de construção
+          civil e material reciclável através de caçamba estacionária. Conta com
+          equipe de atendimento capacitada e motoristas treinados, caixas de
+          entulho em perfeito estado e caminhões novos e adequados.
+        </p>
+        <p>
+          Foi criada visando a preservação do meio ambiente, porque sabe a
+          importância da destinação correta dos resíduos. É por isso que cada
+          retirada é documentada: o que sai da sua obra tem para onde ir.
+        </p>
+      </div>
+
+      <dl class="fatos">
+        <div>
+          <dt>Licenças</dt>
+          <dd>Ibama · Semmas · Ipaam · Semulsp</dd>
+        </div>
+        <div>
+          <dt>Atendimento</dt>
+          <dd>Toda Manaus</dd>
+        </div>
+        <div>
+          <dt>Pagamento</dt>
+          <dd>Cartão de crédito e débito</dd>
+        </div>
+        <div>
+          <dt>Frota</dt>
+          <dd>Caçamba estacionária e caminhão VUC, pioneira em Manaus com esse caminhão</dd>
+        </div>
+        <div>
+          <dt>Equipe</dt>
+          <dd>Atendimento capacitado e motoristas treinados</dd>
+        </div>
+      </dl>
+    </div>
+  </section>
+
+  <!-- ===================================================== contato ======= -->
+  <section class="faixa" id="contato">
+    <img class="faixa__foto" src="assets/fotos/patio.jpg" alt="" aria-hidden="true"
+         loading="lazy" onerror="this.remove()">
+    <div class="wrap faixa__in">
+      <p class="eyebrow eyebrow--claro">Contato</p>
+      <h2>Marque a retirada.</h2>
+      <p class="lead">
+        Chame no WhatsApp com o endereço e o tipo de material. Atendemos toda
+        Manaus.
+      </p>
+      <div class="contato__acoes">
+        <a class="btn btn--wa" href="https://wa.me/5592994341227?text=Ol%C3%A1%2C%20quero%20marcar%20uma%20retirada.">
+          <svg class="btn__i" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path fill="currentColor" d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0 0 20.885 3.4"/>
+          </svg>
+          <span>Chamar no WhatsApp</span>
+        </a>
+        <a class="btn btn--ghost btn--ghost-claro" href="tel:+559230301112">Ligar (92) 3030-1112</a>
+      </div>
+    </div>
+
+    <div class="cena cena--escura" aria-hidden="true">
+      <div class="cena__camada cena__predios" data-par="0.05">
+        <svg viewBox="0 0 1600 200" preserveAspectRatio="xMidYMax slice">
+          <g fill="currentColor">
+            <rect x="0"    y="118" width="150" height="82"/>
+            <rect x="164"  y="80"  width="92"  height="120"/>
+            <rect x="270"  y="128" width="146" height="72"/>
+            <rect x="432"  y="62"  width="100" height="138"/>
+            <rect x="548"  y="116" width="132" height="84"/>
+            <rect x="694"  y="88"  width="88"  height="112"/>
+            <rect x="796"  y="132" width="158" height="68"/>
+            <rect x="968"  y="72"  width="98"  height="128"/>
+            <rect x="1080" y="120" width="134" height="80"/>
+            <rect x="1228" y="92"  width="90"  height="108"/>
+            <rect x="1332" y="128" width="150" height="72"/>
+            <rect x="1496" y="84"  width="104" height="116"/>
+          </g>
+        </svg>
+      </div>
+      <div class="cena__chao"></div>
+      <div class="cena__cacamba" data-par="-0.08">
+        <svg viewBox="0 0 420 230" role="presentation">
+          <polygon points="26,30 394,30 406,70 14,70" fill="#16341B"/>
+          <polygon points="14,62 406,62 376,208 44,208" fill="#069A2C"/>
+          <polygon points="14,62 406,62 402,84 18,84" fill="#0A7920" opacity="0.55"/>
+          <g fill="#0C5A1B" opacity="0.5">
+            <polygon points="76,84 90,84 86,208 74,208"/>
+            <polygon points="146,84 160,84 158,208 146,208"/>
+            <polygon points="216,84 230,84 230,208 218,208"/>
+            <polygon points="286,84 300,84 302,208 290,208"/>
+            <polygon points="356,84 370,84 374,208 362,208"/>
+          </g>
+          <polygon points="10,52 410,52 406,64 14,64" fill="#60BC4A"/>
+          <rect x="10" y="52" width="400" height="2.5" fill="#8FD97C"/>
+          <rect x="60"  y="208" width="46" height="12" fill="#0C4E19"/>
+          <rect x="314" y="208" width="46" height="12" fill="#0C4E19"/>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="pe">
+  <div class="wrap">
+    <div class="pe__in">
+      <div class="pe__marca" role="img" aria-label="S.A. Entulho"></div>
+      <div class="pe__col">
+        <b>Contato</b>
+        <span>WhatsApp <a href="https://wa.me/5592994341227">(92) 99434-1227</a></span>
+        <span>Telefone <a href="tel:+559230301112">(92) 3030-1112</a></span>
+      </div>
+      <div class="pe__col">
+        <b>Atendimento</b>
+        <span>Toda Manaus · AM</span>
+        <span>Cartão de crédito e débito</span>
+      </div>
+      <div class="pe__col">
+        <b>Licenças</b>
+        <span>Ibama · Semmas · Ipaam · Semulsp</span>
+      </div>
+    </div>
+    <p class="pe__legal">
+      S.A. Entulho · Gestão e destinação de resíduos · Manaus, Amazonas.
+    </p>
+  </div>
+</footer>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "name": "S.A. Entulho",
+  "description": "Retirada de resíduos de construção civil e material reciclável através de caçamba estacionária e caminhão VUC.",
+  "url": "https://www.saentulho.com.br/",
+  "telephone": "+55-92-3030-1112",
+  "areaServed": { "@type": "City", "name": "Manaus" },
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Manaus",
+    "addressRegion": "AM",
+    "addressCountry": "BR"
+  },
+  "paymentAccepted": "Cartão de crédito, cartão de débito"
+}
+</script>
+
+<script>
+/* O único script da página: o parallax. Move [data-par] em translate3d,
+   proporcional à posição do elemento na tela. Sem biblioteca, sem timeline,
+   sem observer. Desligado sob prefers-reduced-motion. */
+(function () {
+  if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+  var camadas = [].slice.call(document.querySelectorAll("[data-par]"));
+  if (!camadas.length) return;
+
+  var agendado = false;
+
+  function quadro() {
+    agendado = false;
+    var vh = window.innerHeight;
+    for (var i = 0; i < camadas.length; i++) {
+      var el = camadas[i];
+      var r = el.getBoundingClientRect();
+      if (r.bottom < -200 || r.top > vh + 200) continue;
+      /* -1 quando o elemento está saindo por cima, +1 quando está chegando */
+      var k = (r.top + r.height / 2 - vh / 2) / vh;
+      var d = k * parseFloat(el.getAttribute("data-par")) * vh;
+      el.style.transform = "translate3d(0," + d.toFixed(1) + "px,0)";
+    }
+  }
+
+  function aoRolar() {
+    if (!agendado) { agendado = true; requestAnimationFrame(quadro); }
+  }
+
+  addEventListener("scroll", aoRolar, { passive: true });
+  addEventListener("resize", aoRolar);
+  quadro();
+})();
+</script>
+</body>
+</html>
