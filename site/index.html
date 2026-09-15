@@ -4,16 +4,16 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>S.A. Entulho · caçamba e retirada de entulho em Manaus</title>
-<meta name="description" content="Retirada de entulho de obra, recicláveis e limpeza de fossa em toda Manaus. Caçamba estacionária e caminhão VUC. Empresa legalizada, com licenças Ibama, Semmas, Ipaam e Semulsp.">
+<meta name="description" content="Retirada de entulho de obra, recicláveis e limpeza de fossa em Manaus, Iranduba e Manacapuru. Caixa de entulho, caminhão poliguincho e VUC. Empresa legalizada, com licenças Ibama, Semmas, Ipaam e Semulsp.">
 <meta name="theme-color" content="#F3F6EF">
 <link rel="canonical" href="https://www.saentulho.com.br/">
 <meta property="og:locale" content="pt_BR">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="S.A. Entulho">
 <meta property="og:title" content="S.A. Entulho · caçamba e retirada de entulho em Manaus">
-<meta property="og:description" content="Você enche, a gente tira. Caçamba estacionária e caminhão VUC em toda Manaus.">
+<meta property="og:description" content="Você enche, a gente tira. Caixa de entulho e caminhão VUC em Manaus, Iranduba e Manacapuru.">
 <meta property="og:url" content="https://www.saentulho.com.br/">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%232C332C'/><path d='M5 11h22l-3 13H8z' fill='%23069A2C'/></svg>">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%232C332C'/><path d='M4 10h24v3H4z' fill='%23069A2C'/><path d='M6 13h20l-5 12H11z' fill='%23069A2C'/></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&family=Geist:wght@400;500;600&display=swap">
@@ -366,7 +366,7 @@ a:focus-visible, button:focus-visible {
    como máscara, em branco. A forma é a marca, não um texto parecido. */
 .cena__livery {
   position: absolute;
-  left: 17%; top: 40%; width: 58%;
+  left: 24%; top: 48%; width: 52%;
   aspect-ratio: 600 / 132;
   background: #FFFFFF;
   opacity: 0.92;
@@ -383,9 +383,12 @@ a:focus-visible, button:focus-visible {
 .secao__cabeca { max-width: 46ch; margin-bottom: clamp(2.5rem, 5vw, 3.5rem); }
 .secao__cabeca p { color: var(--tinta-suave); margin: 1rem 0 0; max-width: 52ch; }
 
+/* Três colunas, não auto-fit: com seis serviços, quatro colunas deixam duas
+   células vazias na segunda linha e o fundo da grade aparece como um bloco
+   cinza. Três fecham duas linhas cheias. */
 .servicos {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(255px, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 1px;
   background: var(--borda);
   border: 1px solid var(--borda);
@@ -397,6 +400,8 @@ a:focus-visible, button:focus-visible {
   padding: clamp(1.6rem, 3vw, 2.25rem);
   display: flex; flex-direction: column; gap: 0.85rem;
 }
+@media (max-width: 900px) { .servicos { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 560px) { .servicos { grid-template-columns: 1fr; } }
 .servico__icone {
   width: 38px; height: 38px;
   color: var(--verde);
@@ -427,7 +432,9 @@ a:focus-visible, button:focus-visible {
   padding-block: clamp(5rem, 11vw, 8.5rem) clamp(9rem, 18vw, 14rem);
   scroll-margin-top: var(--topo);
 }
-.faixa .lead { color: var(--tinta-clara-suave); }
+/* Mais largo que os 34ch do padrão: os textos das faixas escuras são de três
+   frases, e a essa altura o parágrafo já era uma coluna estreita e alta. */
+.faixa .lead { color: var(--tinta-clara-suave); max-width: 46ch; }
 /* A foto é a camada de parallax da faixa. Ela nasce mais alta que o quadro e
    sobe ancorada acima, para que a deriva nunca descubra a borda. */
 .faixa__foto {
@@ -435,14 +442,14 @@ a:focus-visible, button:focus-visible {
   left: 0; width: 100%;
   top: -14%; height: 128%;
   object-fit: cover;
-  object-position: 64% center;
+  object-position: 62% center;
   opacity: 0.62;
   filter: grayscale(0.08);
   will-change: transform;
 }
-/* O véu. Sem ele a foto disputa o texto: a corrente e a lateral da caçamba
-   cruzam justamente onde a cópia mora. Opaco do lado da leitura, aberto do
-   outro, onde a foto pode ser vista. */
+/* O véu. Sem ele a foto disputa o texto: o caminhão cruza justamente onde a
+   cópia mora. Opaco do lado da leitura, aberto do outro — à direita, onde a
+   caçamba içada aparece. */
 .faixa::before {
   content: "";
   position: absolute; inset: 0; z-index: 1;
@@ -464,7 +471,7 @@ a:focus-visible, button:focus-visible {
       rgba(44, 51, 44, 0.74) 66%,
       rgba(44, 51, 44, 0.12) 100%);
   }
-  .faixa__foto { object-position: 56% 72%; }
+  .faixa__foto { object-position: 58% 64%; }
 }
 .faixa__in { position: relative; z-index: 2; }
 /* A faixa sem foto: sem véu (ele clarearia um lado sem motivo, já que não há
@@ -489,6 +496,8 @@ a:focus-visible, button:focus-visible {
 }
 @media (max-width: 860px) { .duas { grid-template-columns: 1fr; } }
 .duas p { color: var(--tinta-suave); margin: 0 0 1rem; max-width: 52ch; }
+/* a segunda frase do título em verde e em linha própria, como no herói */
+#empresa h2 span { display: block; color: var(--verde); }
 
 .fatos { margin: 0; border-top: 1px solid var(--borda); }
 .fatos > div {
@@ -512,13 +521,41 @@ a:focus-visible, button:focus-visible {
   .fatos > div { grid-template-columns: 1fr; gap: 0.2rem; }
 }
 
+/* ------------------------------------------------------- missão e valores -- */
+/* Sete valores, então nada de cartão em grade fechada: em três colunas
+   sobrariam duas células vazias. Duas colunas de fios finos aceitam qualquer
+   número de itens e leem como documento, que é o que eles são. */
+.valores-titulo { margin: clamp(2.5rem, 5vw, 3.5rem) 0 0.5rem; }
+.valores {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: clamp(2rem, 5vw, 4.5rem);
+}
+@media (max-width: 760px) { .valores { grid-template-columns: 1fr; } }
+.valor {
+  border-top: 1px solid var(--borda);
+  padding: 1.15rem 0 1.25rem;
+}
+.valor h3 { margin: 0 0 0.4rem; }
+.valor p {
+  margin: 0;
+  color: var(--tinta-suave);
+  font-size: var(--t-small);
+  line-height: 1.55;
+  max-width: 46ch;
+}
+
 /* ------------------------------------------------------------------- passos -- */
+/* Quatro passos: quatro colunas ou duas, nunca três — com três, o último
+   passo fica sozinho na segunda linha. */
 .passos {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: clamp(1.75rem, 4vw, 3rem);
   counter-reset: passo;
 }
+@media (max-width: 1000px) { .passos { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 520px)  { .passos { grid-template-columns: 1fr; } }
 .passo { border-top: 3px solid var(--verde); padding-top: 1.1rem; }
 .passo::before {
   counter-increment: passo;
@@ -640,10 +677,11 @@ a:focus-visible, button:focus-visible {
     <div class="wrap hero__grid">
      <div class="hero__txt">
       <p class="eyebrow">Manaus · Amazonas</p>
-      <h1>O entulho não sai sozinho. <span>A gente leva.</span></h1>
+      <h1>O entulho não sai sozinho. <span>A gente retira.</span></h1>
       <p class="lead">
-        Retirada de resíduos de construção civil e material reciclável com
-        caçamba estacionária e caminhão VUC, em toda Manaus.
+        Coleta, transporte e destinação adequada de resíduos de construção
+        civil e materiais recicláveis, com segurança, agilidade e
+        responsabilidade ambiental em Manaus.
       </p>
       <div class="hero__acoes">
         <a class="btn btn--wa" href="https://wa.me/5592994341227?text=Ol%C3%A1%2C%20quero%20pedir%20uma%20ca%C3%A7amba.">
@@ -667,10 +705,10 @@ a:focus-visible, button:focus-visible {
           E é onde ela fica mais nítida — exibida perto do tamanho do arquivo
           original, em vez de esticada na largura da tela. -->
      <figure class="hero__foto" data-par="0.04">
-       <img src="assets/fotos/patio.jpg" width="500" height="300" loading="eager"
-            alt="Caminhão da S.A. Entulho carregando uma caçamba laranja na via, em Manaus."
+       <img src="assets/fotos/cacamba.jpg" width="500" height="300" loading="eager"
+            alt="Caçamba laranja da S.A. Entulho, com a marca pintada na lateral, sendo içada pelo caminhão."
             onerror="this.closest('figure').remove()">
-       <figcaption>Retirada de caçamba cheia, em Manaus.</figcaption>
+       <figcaption>Caçamba da S.A. Entulho sendo recolhida, em Manaus.</figcaption>
      </figure>
     </div>
 
@@ -706,21 +744,43 @@ a:focus-visible, button:focus-visible {
       </div>
       <div class="cena__chao"></div>
       <div class="cena__cacamba" data-par="-0.10">
-        <svg viewBox="0 0 420 230" role="presentation">
-          <polygon points="26,30 394,30 406,70 14,70" fill="#4A2A18"/>
-          <polygon points="14,62 406,62 376,208 44,208" fill="#DD6317"/>
-          <polygon points="14,62 406,62 402,84 18,84" fill="#B84C0E" opacity="0.55"/>
-          <g fill="#A8450B" opacity="0.5">
-            <polygon points="76,84 90,84 86,208 74,208"/>
-            <polygon points="146,84 160,84 158,208 146,208"/>
-            <polygon points="216,84 230,84 230,208 218,208"/>
-            <polygon points="286,84 300,84 302,208 290,208"/>
-            <polygon points="356,84 370,84 374,208 362,208"/>
+        <!-- A caixa da frota, de perfil: pontas inclinadas, barra superior
+             passando das bordas com os dois pinos de içamento, a faixa de
+             reforço no alto da lateral e as chapinhas com furo nos cantos de
+             baixo, onde a corrente engata. -->
+        <svg viewBox="0 0 440 240" role="presentation">
+          <!-- pés -->
+          <rect x="140" y="212" width="48" height="12" fill="#8A3A0A"/>
+          <rect x="252" y="212" width="48" height="12" fill="#8A3A0A"/>
+          <!-- os pinos de içamento: nascem atrás da barra e só despontam -->
+          <g fill="#E87724">
+            <rect x="132" y="36" width="11" height="22" rx="5.5"/>
+            <rect x="273" y="36" width="11" height="22" rx="5.5"/>
           </g>
-          <polygon points="10,52 410,52 406,64 14,64" fill="#F0842F"/>
-          <rect x="10" y="52" width="400" height="2.5" fill="#FFB877"/>
-          <rect x="60"  y="208" width="46" height="12" fill="#8A3A0A"/>
-          <rect x="314" y="208" width="46" height="12" fill="#8A3A0A"/>
+          <!-- o corpo -->
+          <polygon points="26,70 414,70 324,212 116,212" fill="#DD6317"/>
+          <!-- a faixa de reforço, mais escura, seguindo a inclinação -->
+          <polygon points="26,70 414,70 400,92 40,92" fill="#B84C0E" opacity="0.5"/>
+          <path d="M40 92H400" stroke="#A8450B" stroke-width="2" opacity="0.5"/>
+          <!-- as chapinhas de canto, com o furo da corrente -->
+          <g fill="#B84C0E">
+            <polygon points="116,190 116,212 96,212"/>
+            <polygon points="324,190 324,212 344,212"/>
+          </g>
+          <g fill="#7A3208">
+            <circle cx="106" cy="206" r="2.6"/>
+            <circle cx="334" cy="206" r="2.6"/>
+          </g>
+          <!-- os encaixes soldados na lateral -->
+          <g fill="#A8450B" opacity="0.7">
+            <rect x="148" y="92" width="16" height="6"/>
+            <rect x="276" y="92" width="16" height="6"/>
+          </g>
+          <!-- a barra de cima, passando das bordas, com o pé inclinado na ponta -->
+          <path d="M20 62 6 84" stroke="#E87724" stroke-width="12" stroke-linecap="round"/>
+          <rect x="12" y="54" width="416" height="16" fill="#F0842F"/>
+          <rect x="12" y="54" width="416" height="3" fill="#FFB877"/>
+          <rect x="12" y="67" width="416" height="3" fill="#B84C0E" opacity="0.45"/>
         </svg>
         <span class="cena__livery"></span>
       </div>
@@ -732,10 +792,10 @@ a:focus-visible, button:focus-visible {
     <div class="wrap">
       <div class="secao__cabeca">
         <p class="eyebrow">O que fazemos</p>
-        <h2>Quatro serviços, um telefone.</h2>
+        <h2>Soluções para o seu resíduo, do início ao destino.</h2>
         <p>
-          Caçamba em perfeito estado, caminhão adequado, motorista treinado e
-          destinação licenciada. Da obra pequena ao condomínio.
+          Coleta, transporte e destinação adequada para obras, empresas,
+          condomínios e residências em Manaus.
         </p>
       </div>
 
@@ -744,31 +804,31 @@ a:focus-visible, button:focus-visible {
         <article class="servico">
           <svg class="servico__icone" viewBox="0 0 48 48" aria-hidden="true" focusable="false">
             <path fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round"
-                  d="M4 14h40l-6 24H10z"/>
+                  d="M7 17h34l-7 19H14z"/>
             <path fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"
-                  d="M2 14h44M16 21v12M24 21v12M32 21v12"/>
+                  d="M3 14h42M10 24h28"/>
           </svg>
           <h3>Coleta de entulho</h3>
           <p>
-            Caçamba estacionária entregue na sua obra. Você enche no seu ritmo e
-            a gente retira. Resíduo de construção, demolição e reforma.
+            Locação de caixa de entulho para resíduos de construção, reforma e
+            demolição. Você solicita, nós entregamos e retiramos após o uso.
           </p>
-          <a class="servico__link" href="https://wa.me/5592994341227?text=Ol%C3%A1%2C%20quero%20uma%20ca%C3%A7amba%20para%20entulho%20de%20obra.">Pedir caçamba</a>
+          <a class="servico__link" href="https://wa.me/5592994341227?text=Ol%C3%A1%2C%20quero%20solicitar%20uma%20caixa%20de%20entulho.">Solicitar caixa</a>
         </article>
 
         <article class="servico">
           <svg class="servico__icone" viewBox="0 0 48 48" aria-hidden="true" focusable="false">
             <path fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round"
-                  d="M4 12h24v20H4zM28 19h8l8 8v5H28z"/>
+                  d="M6 15h22l-5 17H11zM4 12h26M28 19h8l8 8v5H28z"/>
             <circle cx="14" cy="36" r="4" fill="none" stroke="currentColor" stroke-width="3"/>
             <circle cx="36" cy="36" r="4" fill="none" stroke="currentColor" stroke-width="3"/>
           </svg>
           <h3>Caminhão VUC</h3>
           <p>
-            Para rua estreita, garagem baixa e centro apertado, onde o caminhão
-            grande não entra. Pioneira em Manaus com esse caminhão.
+            Coleta prática para locais com acesso restrito, como garagens, ruas
+            estreitas e áreas onde caminhões maiores não conseguem operar.
           </p>
-          <a class="servico__link" href="https://wa.me/5592994341227?text=Ol%C3%A1%2C%20preciso%20do%20caminh%C3%A3o%20VUC.">Falar sobre o VUC</a>
+          <a class="servico__link" href="https://wa.me/5592994341227?text=Ol%C3%A1%2C%20quero%20solicitar%20coleta%20com%20o%20caminh%C3%A3o%20VUC.">Solicitar coleta</a>
         </article>
 
         <article class="servico">
@@ -780,10 +840,10 @@ a:focus-visible, button:focus-visible {
           </svg>
           <h3>Resíduos recicláveis</h3>
           <p>
-            Material reciclável recolhido e separado, com destinação correta em
-            vez de ir misturado para o aterro.
+            Coleta e transporte de materiais recicláveis, com encaminhamento
+            para destinação adequada e foco no reaproveitamento.
           </p>
-          <a class="servico__link" href="https://wa.me/5592994341227?text=Ol%C3%A1%2C%20quero%20falar%20sobre%20coleta%20de%20recicl%C3%A1veis.">Falar sobre recicláveis</a>
+          <a class="servico__link" href="https://wa.me/5592994341227?text=Ol%C3%A1%2C%20quero%20falar%20sobre%20coleta%20de%20recicl%C3%A1veis.">Falar com nossa equipe</a>
         </article>
 
         <article class="servico">
@@ -795,10 +855,41 @@ a:focus-visible, button:focus-visible {
           </svg>
           <h3>Limpeza de fossa</h3>
           <p>
-            Sucção e limpeza de fossa, feitas antes de transbordar e não depois.
-            Atendimento residencial e comercial.
+            Sucção, limpeza e transporte de efluentes, com atendimento para
+            residências, condomínios e empresas.
           </p>
-          <a class="servico__link" href="https://wa.me/5592994341227?text=Ol%C3%A1%2C%20preciso%20de%20limpeza%20de%20fossa.">Agendar limpeza</a>
+          <a class="servico__link" href="https://wa.me/5592994341227?text=Ol%C3%A1%2C%20quero%20solicitar%20limpeza%20de%20fossa.">Solicitar atendimento</a>
+        </article>
+
+        <article class="servico">
+          <svg class="servico__icone" viewBox="0 0 48 48" aria-hidden="true" focusable="false">
+            <path fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round"
+                  d="M12 10h24v31H12z"/>
+            <path fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"
+                  d="M9 10h30M18 17h12M18 22h12"/>
+            <circle cx="31" cy="30" r="2" fill="currentColor"/>
+          </svg>
+          <h3>Banheiro químico</h3>
+          <p>
+            Locação de banheiro químico para obra, canteiro e evento, com
+            entrega, higienização e retirada no prazo combinado.
+          </p>
+          <a class="servico__link" href="https://wa.me/5592994341227?text=Ol%C3%A1%2C%20quero%20solicitar%20a%20loca%C3%A7%C3%A3o%20de%20banheiro%20qu%C3%ADmico.">Solicitar banheiro</a>
+        </article>
+
+        <article class="servico">
+          <svg class="servico__icone" viewBox="0 0 48 48" aria-hidden="true" focusable="false">
+            <path fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"
+                  d="M13 9v14a11 11 0 0 0 11 11h12"/>
+            <path fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"
+                  d="M6 9h14M30 28l6 6-6 6"/>
+          </svg>
+          <h3>Desentupimento</h3>
+          <p>
+            Desentupimento de pia, ralo, vaso e caixa de gordura, com
+            equipamento próprio, em residência, condomínio e empresa.
+          </p>
+          <a class="servico__link" href="https://wa.me/5592994341227?text=Ol%C3%A1%2C%20preciso%20de%20desentupimento.">Solicitar desentupimento</a>
         </article>
 
       </div>
@@ -806,31 +897,55 @@ a:focus-visible, button:focus-visible {
   </section>
 
   <!-- ================================================= faixa escura ====== -->
-  <section class="faixa">
-    <!-- Se a foto existir em assets/fotos/, ela entra atrás do texto.
-         Se não existir, o navegador remove a tag e o fundo segue chapado. -->
-    <img class="faixa__foto" src="assets/fotos/cacamba.jpg" alt="" aria-hidden="true"
-         data-par="0.10" loading="lazy" onerror="this.remove()">
+  <!-- Sem foto de fundo, por ora. A que morava aqui passou a abrir a página, e
+       a que sobrou (patio.jpg) é a que a cliente recusou — além de ser 500px
+       esticados três vezes na largura da tela. Quando chegar uma foto larga
+       (1920px, veja o README das fotos), tire a classe faixa--limpa e devolva
+       esta linha como primeira filha da seção. O véu, o parallax e a sombra do
+       texto já existem no CSS.
+
+       <img class="faixa__foto" src="assets/fotos/faixa.jpg" alt="" aria-hidden="true"
+            data-par="0.10" loading="lazy" onerror="this.remove()">
+  -->
+  <section class="faixa faixa--limpa">
     <div class="wrap faixa__in">
       <p class="eyebrow eyebrow--claro">Como funciona</p>
       <h2>Você enche. <span>A gente tira.</span></h2>
       <p class="lead">
-        A caçamba fica na sua rua sem virar um problema seu, porque a
-        destinação é licenciada e documentada do começo ao fim.
+        A caixa de entulho fica no local pelo período contratado. Você coloca o
+        material e, quando finalizar, nós fazemos a retirada e encaminhamos os
+        resíduos para a destinação adequada.
       </p>
 
       <div class="passos" style="margin-top: clamp(2.5rem, 5vw, 3.5rem)">
         <div class="passo">
-          <h3>Você chama</h3>
-          <p>WhatsApp ou telefone. Diga o endereço e o tipo de material.</p>
+          <h3>Você solicita</h3>
+          <p>
+            Entre em contato pelo WhatsApp ou telefone, informe o endereço, o
+            tipo de resíduo e o período necessário.
+          </p>
         </div>
         <div class="passo">
-          <h3>A caçamba chega</h3>
-          <p>Posicionada onde dá, por motorista treinado, em caixa em bom estado.</p>
+          <h3>A caixa de entulho chega</h3>
+          <p>
+            Entregamos a caixa de entulho no local combinado, posicionada em
+            local adequado para utilização.
+          </p>
+        </div>
+        <div class="passo">
+          <h3>Você enche a caixa de entulho</h3>
+          <p>
+            O cliente é responsável por colocar os resíduos dentro da caixa. A
+            S.A. Entulho não disponibiliza mão de obra para o carregamento do
+            material.
+          </p>
         </div>
         <div class="passo">
           <h3>A gente retira</h3>
-          <p>Recolhemos a caçamba cheia e levamos o material para o destino correto.</p>
+          <p>
+            Quando finalizar o uso, solicite a retirada. Nossa equipe recolhe a
+            caixa de entulho e encaminha os resíduos para a destinação adequada.
+          </p>
         </div>
       </div>
     </div>
@@ -842,17 +957,20 @@ a:focus-visible, button:focus-visible {
     <div class="wrap duas">
       <div>
         <p class="eyebrow">A empresa</p>
-        <h2>Empresa legalizada.</h2>
+        <h2>Empresa legalizada. <span>Resíduo no destino certo.</span></h2>
         <p style="margin-top:1.5rem">
-          A S.A. Entulho é especializada na retirada de resíduos de construção
-          civil e material reciclável através de caçamba estacionária. Conta com
-          equipe de atendimento capacitada e motoristas treinados, caixas de
-          entulho em perfeito estado e caminhões novos e adequados.
+          A S.A. Entulho atua na coleta, transporte e destinação adequada de
+          resíduos da construção civil e materiais recicláveis em Manaus.
         </p>
         <p>
-          Foi criada visando a preservação do meio ambiente, porque sabe a
-          importância da destinação correta dos resíduos. É por isso que cada
-          retirada é documentada: o que sai da sua obra tem para onde ir.
+          Trabalhamos com licenciamento ambiental, equipe capacitada e veículos
+          adequados para cada operação, garantindo segurança e responsabilidade
+          em todas as etapas do serviço.
+        </p>
+        <p>
+          Mais do que retirar o resíduo, nosso compromisso é garantir que ele
+          seja encaminhado para uma destinação ambientalmente adequada, com a
+          documentação necessária para assegurar sua rastreabilidade.
         </p>
       </div>
 
@@ -863,21 +981,104 @@ a:focus-visible, button:focus-visible {
         </div>
         <div>
           <dt>Atendimento</dt>
-          <dd>Toda Manaus</dd>
+          <dd>Manaus, Iranduba e Manacapuru</dd>
         </div>
         <div>
           <dt>Pagamento</dt>
-          <dd>Cartão de crédito e débito</dd>
+          <dd>Pix, cartão de crédito e débito</dd>
         </div>
         <div>
           <dt>Frota</dt>
-          <dd>Caçamba estacionária e caminhão VUC, pioneira em Manaus com esse caminhão</dd>
+          <dd>Caminhões poliguincho e VUC adequados a diferentes operações</dd>
         </div>
         <div>
           <dt>Equipe</dt>
           <dd>Atendimento capacitado e motoristas treinados</dd>
         </div>
       </dl>
+    </div>
+  </section>
+
+  <!-- ============================================== missão e valores ===== -->
+  <!-- Missão e valores saem da Política Integrada da empresa. A política em si
+       não está na página: ela é documento interno, e o que interessa a quem
+       está pedindo uma caçamba é o compromisso, não o sistema de gestão. -->
+  <section class="secao" id="missao">
+    <div class="wrap">
+      <div class="secao__cabeca">
+        <p class="eyebrow">Missão e valores</p>
+        <h2>Responsabilidade do começo ao fim.</h2>
+        <p>
+          Prestar serviços completos e responsáveis para a gestão de resíduos,
+          desde a coleta até a destinação final ambientalmente adequada, com
+          segurança, conformidade legal, rastreabilidade, agilidade e qualidade.
+        </p>
+        <p>
+          Atender às necessidades de cada cliente por meio de operações
+          eficientes, legalmente conformes e sustentáveis, com melhoria contínua
+          dos processos, proteção do meio ambiente e segurança das pessoas em
+          todas as nossas atividades.
+        </p>
+      </div>
+
+      <p class="eyebrow valores-titulo">Nossos valores</p>
+      <div class="valores">
+
+        <div class="valor">
+          <h3>Conformidade legal</h3>
+          <p>
+            Cumprimos a legislação e os requisitos aplicáveis ao nosso negócio.
+          </p>
+        </div>
+
+        <div class="valor">
+          <h3>Rastreabilidade</h3>
+          <p>
+            Destinação ambientalmente adequada dos resíduos, com documentação
+            que comprova para onde cada carga foi.
+          </p>
+        </div>
+
+        <div class="valor">
+          <h3>Melhoria contínua</h3>
+          <p>
+            Processos, serviços e equipamentos sempre mais eficientes, seguros
+            e de qualidade.
+          </p>
+        </div>
+
+        <div class="valor">
+          <h3>Valorização das pessoas</h3>
+          <p>
+            Colaboradores, fornecedores e parceiros em um ambiente seguro,
+            respeitoso e com oportunidades.
+          </p>
+        </div>
+
+        <div class="valor">
+          <h3>Satisfação do cliente</h3>
+          <p>
+            Atendimento ágil, comunicação transparente e soluções confiáveis.
+          </p>
+        </div>
+
+        <div class="valor">
+          <h3>Sustentabilidade</h3>
+          <p>
+            Práticas sustentáveis e economia circular, contribuindo para a
+            preservação dos recursos naturais.
+          </p>
+        </div>
+
+        <div class="valor">
+          <h3>Ética e transparência</h3>
+          <p>
+            Ética, transparência e responsabilidade em todas as nossas relações
+            e operações.
+          </p>
+        </div>
+
+      </div>
     </div>
   </section>
 
@@ -888,17 +1089,18 @@ a:focus-visible, button:focus-visible {
   <section class="faixa faixa--limpa" id="contato">
     <div class="wrap faixa__in">
       <p class="eyebrow eyebrow--claro">Contato</p>
-      <h2>Marque a retirada.</h2>
+      <h2>Precisa de uma caixa de entulho? <span>Fale com a gente.</span></h2>
       <p class="lead">
-        Chame no WhatsApp com o endereço e o tipo de material. Atendemos toda
-        Manaus.
+        Solicite seu orçamento pelo WhatsApp. Informe o endereço, o tipo de
+        resíduo e o serviço que precisa. Nossa equipe orienta você e passa as
+        condições para o atendimento.
       </p>
       <div class="contato__acoes">
-        <a class="btn btn--wa" href="https://wa.me/5592994341227?text=Ol%C3%A1%2C%20quero%20marcar%20uma%20retirada.">
+        <a class="btn btn--wa" href="https://wa.me/5592994341227?text=Ol%C3%A1%2C%20quero%20solicitar%20um%20or%C3%A7amento.">
           <svg class="btn__i" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
             <path fill="currentColor" d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0 0 20.885 3.4"/>
           </svg>
-          <span>Chamar no WhatsApp</span>
+          <span>Pedir orçamento no WhatsApp</span>
         </a>
         <a class="btn btn--ghost btn--ghost-claro" href="tel:+559230301112">Ligar (92) 3030-1112</a>
       </div>
@@ -930,8 +1132,8 @@ a:focus-visible, button:focus-visible {
       </div>
       <div class="pe__col">
         <b>Atendimento</b>
-        <span>Toda Manaus · AM</span>
-        <span>Cartão de crédito e débito</span>
+        <span>Manaus, Iranduba e Manacapuru · AM</span>
+        <span>Pix, cartão de crédito e débito</span>
       </div>
       <div class="pe__col">
         <b>Licenças</b>
@@ -953,17 +1155,21 @@ a:focus-visible, button:focus-visible {
   "@context": "https://schema.org",
   "@type": "LocalBusiness",
   "name": "S.A. Entulho",
-  "description": "Retirada de resíduos de construção civil e material reciclável através de caçamba estacionária e caminhão VUC.",
+  "description": "Coleta, transporte e destinação adequada de resíduos da construção civil e materiais recicláveis, com caixa de entulho, caminhão poliguincho e VUC.",
   "url": "https://www.saentulho.com.br/",
   "telephone": "+55-92-3030-1112",
-  "areaServed": { "@type": "City", "name": "Manaus" },
+  "areaServed": [
+    { "@type": "City", "name": "Manaus" },
+    { "@type": "City", "name": "Iranduba" },
+    { "@type": "City", "name": "Manacapuru" }
+  ],
+  "paymentAccepted": "Pix, cartão de crédito, cartão de débito",
   "address": {
     "@type": "PostalAddress",
     "addressLocality": "Manaus",
     "addressRegion": "AM",
     "addressCountry": "BR"
-  },
-  "paymentAccepted": "Cartão de crédito, cartão de débito"
+  }
 }
 </script>
 
