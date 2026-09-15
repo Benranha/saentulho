@@ -1,51 +1,55 @@
 # As fotos
 
-As duas aparecem de formas diferentes, e é de propósito.
-
 | Arquivo | Onde | Como |
 |---|---|---|
-| `patio.jpg` | no herói, ao lado do texto | **conteúdo**: aparece inteira, sem véu, com legenda e texto alternativo |
-| `cacamba.jpg` | faixa "Você enche. A gente tira." | **atmosfera**: fundo da faixa, atrás de um véu, e é a camada de parallax dela |
+| `cacamba.jpg` | no herói, ao lado do texto | **conteúdo**: aparece inteira, sem véu, com legenda e texto alternativo |
+| `patio.jpg` | em lugar nenhum, hoje | guardada no repositório, fora da página |
 
-A do herói é a que fica nítida, porque é exibida numa coluna com teto de 30rem
-— perto do tamanho do próprio arquivo. A da faixa é esticada na largura da
-tela, e o véu com a opacidade baixa é o que disfarça isso.
+A do herói é a caçamba laranja com a pintura branca da marca, sendo içada pelo
+caminhão. É a foto que mostra o produto e a marca ao mesmo tempo, e é exibida
+numa coluna com teto de 30rem — perto do tamanho do próprio arquivo, então
+fica nítida.
 
-Se o arquivo for removido, a foto do herói some junto com a legenda e a da
-faixa deixa o fundo chapado. A página não quebra em nenhum dos dois casos.
+Se o arquivo for removido, a foto do herói some junto com a legenda e a página
+não quebra.
 
-## A faixa de contato não tem foto
+## A faixa escura está sem foto
 
-De propósito. A única foto de caminhão com a marca atual é a `patio.jpg`, e ela
-passou a abrir a página; repetir a mesma imagem numa página de cinco telas lê
-como falta de material. O fecho fica no escuro limpo, com a ação sozinha.
+A `cacamba.jpg` morava no fundo da faixa "Você enche. A gente tira." e passou a
+abrir a página. A que sobrou, `patio.jpg`, foi recusada pela cliente — e, de
+qualquer forma, são 500px esticados quase três vezes na largura de uma tela de
+1440px, com um pneu e uma caixa enferrujada em primeiro plano.
 
-**Se aparecer outra foto de caminhão**, ela entra ali: basta salvar como
-`contato.jpg` e me pedir para ligar — são duas linhas.
+Então a faixa ficou com a classe `faixa--limpa`: fundo chapado, sem véu, sem
+sombra no texto e sem o rodapé alto que existia para caber a foto.
 
-## Limitação atual
+**Para trazer uma foto de volta ali**: salve como `faixa.jpg`, devolva a tag
+que está comentada no HTML logo antes da `<section class="faixa">` e tire a
+classe `faixa--limpa`. O véu, o parallax e a sombra do texto continuam no CSS.
 
-**As duas são 500x300.** No herói isso basta. No fundo da faixa, numa tela de
-1440px, a imagem é esticada quase três vezes e fica mole; o véu e a opacidade
-escondem quase todo o problema. Se existir o **original em resolução cheia**,
-é só substituir o arquivo pelo de mesmo nome que a nitidez melhora sozinha,
-sem mexer em código.
+## Se você for gerar ou pedir fotos novas
 
-Ideal: 1920px de largura, JPG com qualidade ~75 (até ~300 KB).
+O que a página precisa, em ordem de utilidade:
 
-## O que não usar
+| Nome do arquivo | Tamanho | Enquadramento |
+|---|---|---|
+| `faixa.jpg` | **1920×1080**, paisagem | o assunto à **direita** — o texto da faixa ocupa o terço esquerdo e o véu escurece esse lado. Serve para a faixa "Como funciona" |
+| `cacamba.jpg` | **1500×900** (5:3) | a caçamba laranja inteira no quadro, a pintura branca legível. Substitui a atual no herói com mais nitidez |
+| `contato.jpg` | **1920×1080**, paisagem | mesma regra da `faixa.jpg`. Hoje a faixa de contato é escura e limpa, e uma foto ali fecha a página |
 
-- **Foto com o nome Sumaúma Ambiental.** É o nome antigo da mesma empresa, mas
-  na página ela faz o visitante duvidar se achou a empresa certa. A que o
-  cliente enviou está guardada em `docs/fotos-recebidas/`.
-- **Lixo queimando.** Queima de resíduo a céu aberto é descarte irregular — o
-  oposto do que uma empresa licenciada vende. Numa seção de serviços, lê como
-  "é isso que fazem com o seu entulho".
-- **Entulho jogado em descampado**, pelo mesmo motivo. As duas só funcionariam
-  se a legenda enquadrasse explicitamente como *o problema*, e a página hoje
-  não tem esse espaço.
-- **Foto de banco de imagem com a marca d'água aplicada por cima**, ainda mais
-  quando o carimbo está cortado na borda do quadro.
+Em todas: JPG, qualidade ~75, até ~300 KB.
 
-O que funciona é o serviço acontecendo, com a marca atual visível: caçamba
-laranja, caminhão verde, prédio ou rua de Manaus atrás.
+**O que precisa aparecer:** caçamba **laranja** com a marca **S.A. Entulho**
+pintada em branco na lateral, caminhão e braço **verdes**, rua, obra ou pátio
+de Manaus atrás, luz de dia, serviço acontecendo (entrega, içamento, retirada).
+
+**O que não pode aparecer:**
+
+- **O nome Sumaúma Ambiental.** É o nome antigo da mesma empresa, mas na página
+  faz o visitante duvidar se achou a empresa certa. A foto que a cliente enviou
+  com essa marca está guardada em `docs/fotos-recebidas/`.
+- **Lixo queimando.** Queima a céu aberto é descarte irregular — o oposto do que
+  uma empresa licenciada vende.
+- **Entulho jogado em descampado**, pelo mesmo motivo.
+- **Caixa enferrujada ou amassada.** A página promete "caixa em bom estado".
+- **Marca d'água de banco de imagem.**

@@ -16,14 +16,38 @@ aparecer um número auditável, ele entra depois.
 > adequados. Foi criada visando a preservação do meio ambiente, porque sabe a
 > importância da destinação correta dos resíduos."
 
-## Os quatro serviços
+## Os serviços
 
-| Serviço | O que é |
+Texto aprovado pela cliente em setembro de 2026, usado verbatim na página.
+
+| Serviço | O que está escrito |
 |---|---|
-| Coleta de entulho | Caçamba estacionária entregue na obra, retirada depois de cheia |
-| Caminhão VUC | Para rua estreita e garagem baixa. Pioneira em Manaus com esse caminhão |
-| Resíduos recicláveis | Recolhidos e separados, com destinação correta |
-| Limpeza de fossa | Sucção e limpeza, residencial e comercial |
+| Coleta de entulho | Locação de caixa de entulho para resíduos de construção, reforma e demolição. Você solicita, nós entregamos e retiramos após o uso. |
+| Caminhão VUC | Coleta prática para locais com acesso restrito, como garagens, ruas estreitas e áreas onde caminhões maiores não conseguem operar. |
+| Resíduos recicláveis | Coleta e transporte de materiais recicláveis, com encaminhamento para destinação adequada e foco no reaproveitamento. |
+| Limpeza de fossa | Sucção, limpeza e transporte de efluentes, com atendimento para residências, condomínios e empresas. |
+| Banheiro químico | **Texto ainda não aprovado.** Escrito por nós a partir da sugestão de incluir o serviço. |
+| Desentupimento | **Texto ainda não aprovado.** Idem. |
+
+Os dois últimos entraram porque foram sugeridos, mas não vieram do site antigo
+nem de texto da cliente. Antes de publicar, confirmar com ela: a empresa faz
+mesmo os dois, e o texto está certo? Se não fizer, é só apagar os dois
+`<article class="servico">` do fim da grade.
+
+## Como funciona, em quatro passos
+
+Texto aprovado pela cliente, verbatim:
+
+1. **Você solicita** — Entre em contato pelo WhatsApp ou telefone, informe o
+   endereço, o tipo de resíduo e o período necessário.
+2. **A caixa de entulho chega** — Entregamos a caixa de entulho no local
+   combinado, posicionada em local adequado para utilização.
+3. **Você enche a caixa de entulho** — O cliente é responsável por colocar os
+   resíduos dentro da caixa. A S.A. Entulho não disponibiliza mão de obra para
+   o carregamento do material.
+4. **A gente retira** — Quando finalizar o uso, solicite a retirada. Nossa
+   equipe recolhe a caixa de entulho e encaminha os resíduos para a destinação
+   adequada.
 
 ## Os fatos
 
@@ -46,10 +70,28 @@ a cor do logo, e estava errada.
 | Peça | Cor |
 |---|---|
 | Corpo da caçamba | `#DD6317` |
-| Borda superior | `#F0842F`, com fio de luz em `#FFB877` |
-| Nervuras e sombra | `#B84C0E` / `#A8450B` |
+| Barra superior | `#F0842F`, com fio de luz em `#FFB877` |
+| Faixa de reforço e sombra | `#B84C0E` / `#A8450B` |
 | Pés | `#8A3A0A` |
 | Pintura na lateral | branco, o alpha do logo usado como máscara |
+
+## O desenho da caixa (confirmado por desenho técnico do cliente)
+
+A caçamba desenhada na página — e os ícones que a repetem — seguem o modelo
+real da frota, não uma caixa genérica:
+
+- **de perfil, um trapézio**: as duas pontas são inclinadas e a base tem pouco
+  mais da metade da largura da boca
+- **barra superior correndo o comprimento todo**, passando das bordas, com um
+  pé inclinado na ponta
+- **dois pinos de içamento** despontando da barra
+- **faixa de reforço** no alto da lateral, com a emenda visível
+- **chapinhas com furo** nos cantos de baixo, onde a corrente engata
+- lateral lisa: **não tem nervura vertical**, que era o que a primeira versão
+  desenhava
+
+Vale para o desenho do herói, para o ícone de coleta de entulho, para a caçamba
+do caminhão VUC e para o favicon.
 
 ## A paleta, amostrada do logo
 
