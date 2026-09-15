@@ -67,6 +67,17 @@ Texto aprovado pela cliente, verbatim:
    equipe recolhe a caixa de entulho e encaminha os resíduos para a destinação
    adequada.
 
+## O fecho, na faixa de contato (aprovado, verbatim)
+
+Título: **"Precisa de uma caixa de entulho? Fale com a gente."**
+
+> "Solicite seu orçamento pelo WhatsApp. Informe o endereço, o tipo de resíduo
+> e o serviço que precisa. Nossa equipe orienta você e passa as condições para
+> o atendimento."
+
+O botão passou a dizer **"Pedir orçamento no WhatsApp"**, e a mensagem que ele
+abre no aplicativo mudou junto: "Olá, quero solicitar um orçamento."
+
 ## Missão e valores
 
 Saem da **Política Integrada** da empresa (arte enviada pela cliente em
