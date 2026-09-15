@@ -442,7 +442,10 @@ a:focus-visible, button:focus-visible {
   left: 0; width: 100%;
   top: -14%; height: 128%;
   object-fit: cover;
-  object-position: 62% center;
+  /* Puxado para baixo de propósito: no alto das duas fotos há placa de loja e
+     telhado de galpão, coisas de outra marca que não têm por que aparecer. O
+     que fica é o caminhão e a caixa. */
+  object-position: 62% 76%;
   opacity: 0.62;
   filter: grayscale(0.08);
   will-change: transform;
@@ -456,9 +459,9 @@ a:focus-visible, button:focus-visible {
   pointer-events: none;
   background: linear-gradient(90deg,
     var(--carvao) 0%,
-    rgba(44, 51, 44, 0.92) 30%,
-    rgba(44, 51, 44, 0.44) 66%,
-    rgba(44, 51, 44, 0.06) 100%);
+    rgba(44, 51, 44, 0.95) 34%,
+    rgba(44, 51, 44, 0.72) 68%,
+    rgba(44, 51, 44, 0.46) 100%);
 }
 /* No telefone não há "outro lado": a coluna ocupa a largura toda. Então o véu
    deita — forte em cima, onde o texto mora, e aberto embaixo, na faixa de
@@ -467,9 +470,9 @@ a:focus-visible, button:focus-visible {
   .faixa::before {
     background: linear-gradient(to bottom,
       var(--carvao) 0%,
-      rgba(44, 51, 44, 0.94) 42%,
-      rgba(44, 51, 44, 0.74) 66%,
-      rgba(44, 51, 44, 0.12) 100%);
+      rgba(44, 51, 44, 0.95) 46%,
+      rgba(44, 51, 44, 0.82) 70%,
+      rgba(44, 51, 44, 0.3) 100%);
   }
   .faixa__foto { object-position: 58% 64%; }
 }
@@ -705,10 +708,10 @@ a:focus-visible, button:focus-visible {
           E é onde ela fica mais nítida — exibida perto do tamanho do arquivo
           original, em vez de esticada na largura da tela. -->
      <figure class="hero__foto" data-par="0.04">
-       <img src="assets/fotos/cacamba.jpg" width="500" height="300" loading="eager"
-            alt="Caçamba laranja da S.A. Entulho, com a marca pintada na lateral, sendo içada pelo caminhão."
+       <img src="assets/fotos/cacamba.jpg" width="1200" height="720" loading="eager"
+            alt="Caçamba laranja da S.A. Entulho cheia de entulho na calçada de um condomínio, com a marca e os dois telefones pintados em branco na lateral, e o caminhão chegando para a retirada."
             onerror="this.closest('figure').remove()">
-       <figcaption>Caçamba da S.A. Entulho sendo recolhida, em Manaus.</figcaption>
+       <figcaption>Caçamba cheia, pronta para a retirada, em Manaus.</figcaption>
      </figure>
     </div>
 
@@ -897,17 +900,13 @@ a:focus-visible, button:focus-visible {
   </section>
 
   <!-- ================================================= faixa escura ====== -->
-  <!-- Sem foto de fundo, por ora. A que morava aqui passou a abrir a página, e
-       a que sobrou (patio.jpg) é a que a cliente recusou — além de ser 500px
-       esticados três vezes na largura da tela. Quando chegar uma foto larga
-       (1920px, veja o README das fotos), tire a classe faixa--limpa e devolva
-       esta linha como primeira filha da seção. O véu, o parallax e a sombra do
-       texto já existem no CSS.
-
-       <img class="faixa__foto" src="assets/fotos/faixa.jpg" alt="" aria-hidden="true"
-            data-par="0.10" loading="lazy" onerror="this.remove()">
-  -->
-  <section class="faixa faixa--limpa">
+  <section class="faixa">
+    <!-- O caminhão carregado com as caixas novas. A cabine fica à esquerda,
+         embaixo da parte opaca do véu, e as caixas laranja ficam à direita,
+         onde o véu abre. Se o arquivo sumir, o navegador tira a tag e o fundo
+         volta a ser o escuro chapado. -->
+    <img class="faixa__foto" src="assets/fotos/faixa.jpg" alt="" aria-hidden="true"
+         data-par="0.10" loading="lazy" onerror="this.remove()">
     <div class="wrap faixa__in">
       <p class="eyebrow eyebrow--claro">Como funciona</p>
       <h2>Você enche. <span>A gente tira.</span></h2>
@@ -1083,10 +1082,11 @@ a:focus-visible, button:focus-visible {
   </section>
 
   <!-- ===================================================== contato ======= -->
-  <!-- Sem foto, de propósito: a única foto de caminhão com a marca atual passou
-       a abrir a página, e repeti-la aqui, numa página de cinco telas, lê como
-       falta de material. O fecho fica no escuro limpo, com a ação sozinha. -->
-  <section class="faixa faixa--limpa" id="contato">
+  <section class="faixa" id="contato">
+    <!-- A frota no fim da tarde, com a marca na porta. Mesma regra da outra
+         faixa: o assunto à direita, o véu opaco à esquerda, onde mora o texto. -->
+    <img class="faixa__foto" src="assets/fotos/contato.jpg" alt="" aria-hidden="true"
+         data-par="0.10" loading="lazy" onerror="this.remove()">
     <div class="wrap faixa__in">
       <p class="eyebrow eyebrow--claro">Contato</p>
       <h2>Precisa de uma caixa de entulho? <span>Fale com a gente.</span></h2>
