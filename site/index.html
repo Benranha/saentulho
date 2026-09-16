@@ -17,636 +17,12 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&family=Geist:wght@400;500;600&display=swap">
-<style>
-/* ===========================================================================
-   S.A. ENTULHO — landing page estática.
-   Uma página, um arquivo. O único JavaScript é o parallax das camadas
-   decorativas: ~25 linhas no fim do documento. Nada mais se move.
-   Cores amostradas do logo real: #069A2C (ENTULHO e folhagem),
-   #146821 (S.A. e tagline), #60BC4A (folha clara).
-   =========================================================================== */
-
-:root {
-  --verde:        #069A2C;
-  --verde-escuro: #146821;
-  --verde-claro:  #60BC4A;
-  --verde-wa:     #12A03A;
-
-  --osso:      #F3F6EF;   /* fundo claro principal */
-  --osso-fundo:#E9EDE4;   /* faixas claras alternadas */
-  --carvao:    #2C332C;   /* fundo escuro */
-  --carvao-2:  #222922;
-
-  --tinta:       #161D17;
-  --tinta-suave: #4A5450;
-  --tinta-clara: #F0F4EE;
-  --tinta-clara-suave: #A8B4A6;
-
-  --borda: rgba(22, 29, 23, 0.12);
-  --borda-escura: rgba(200, 220, 200, 0.14);
-
-  --display: "Archivo", system-ui, sans-serif;
-  --texto: "Geist", system-ui, -apple-system, sans-serif;
-
-  --gutter: clamp(1.25rem, 5vw, 3rem);
-  --largura: 1180px;
-  --secao: clamp(4rem, 9vw, 7rem);
-  --topo: 84px;
-
-  --t-display: clamp(2.35rem, 6.4vw, 4.6rem);
-  --t-h2:      clamp(1.7rem, 3.6vw, 2.75rem);
-  --t-h3:      clamp(1.1rem, 1.5vw, 1.3rem);
-  --t-lead:    clamp(1.05rem, 1.5vw, 1.28rem);
-  --t-body:    clamp(1rem, 1.1vw, 1.0625rem);
-  --t-small:   0.875rem;
-  --t-micro:   0.72rem;
-
-  --raio: 10px;
-}
-
-* { box-sizing: border-box; }
-
-html {
-  scroll-behavior: smooth;
-  -webkit-text-size-adjust: 100%;
-}
-@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
-
-body {
-  margin: 0;
-  background: var(--osso);
-  color: var(--tinta);
-  font-family: var(--texto);
-  font-size: var(--t-body);
-  line-height: 1.6;
-  -webkit-font-smoothing: antialiased;
-  overflow-x: hidden;
-}
-
-img, svg { max-width: 100%; }
-a { color: inherit; }
-
-/* o grão: um mosaico de 128px, pintado uma vez. dá a textura industrial sem
-   custar nada, e não é animação. */
-.grao {
-  position: fixed; inset: 0;
-  z-index: 3;
-  pointer-events: none;
-  opacity: 0.045;
-  background-image: url("assets/grain.png");
-  background-size: 128px 128px;
-  mix-blend-mode: multiply;
-}
-
-.wrap {
-  width: min(var(--largura), 100%);
-  margin-inline: auto;
-  padding-inline: var(--gutter);
-}
-
-.sr {
-  position: absolute; width: 1px; height: 1px;
-  padding: 0; margin: -1px; overflow: hidden;
-  clip-path: inset(50%); white-space: nowrap;
-}
-
-/* ------------------------------------------------------------- tipografia -- */
-.eyebrow {
-  font-family: var(--display);
-  font-size: var(--t-micro);
-  font-weight: 700;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--tinta-suave);
-  margin: 0 0 1rem;
-}
-.eyebrow--claro { color: var(--verde-claro); }
-
-h1, h2, h3 { font-family: var(--display); margin: 0; text-wrap: balance; }
-
-h1 {
-  font-size: var(--t-display);
-  font-weight: 800;
-  line-height: 0.98;
-  letter-spacing: -0.035em;
-  text-transform: uppercase;
-}
-h2 {
-  font-size: var(--t-h2);
-  font-weight: 700;
-  line-height: 1.04;
-  letter-spacing: -0.03em;
-  text-transform: uppercase;
-}
-h3 {
-  font-size: var(--t-h3);
-  font-weight: 700;
-  line-height: 1.2;
-  letter-spacing: -0.015em;
-}
-.lead {
-  font-size: var(--t-lead);
-  line-height: 1.45;
-  max-width: 34ch;
-  color: var(--tinta-suave);
-  margin: 1.25rem 0 0;
-  text-wrap: pretty;
-}
-p { text-wrap: pretty; }
-
-/* ------------------------------------------------------------------ botões -- */
-.btn {
-  display: inline-flex; align-items: center; justify-content: center; gap: 0.55rem;
-  min-height: 52px;
-  padding: 0 1.4rem;
-  border-radius: var(--raio);
-  font-family: var(--display);
-  font-weight: 700;
-  font-size: var(--t-body);
-  text-decoration: none;
-  white-space: nowrap;
-  transition: background-color 150ms ease, color 150ms ease, border-color 150ms ease;
-}
-.btn--wa {
-  background: var(--verde-wa);
-  color: #fff;
-  box-shadow: inset 0 1px 0 rgba(255,255,255,0.2);
-}
-.btn--ghost {
-  border: 1.5px solid var(--borda);
-  color: var(--tinta);
-  background: transparent;
-}
-.btn--ghost-claro { border-color: var(--borda-escura); color: var(--tinta-clara); }
-@media (hover: hover) and (pointer: fine) {
-  .btn--wa:hover { background: #0E8730; }
-  .btn--ghost:hover { border-color: var(--verde-escuro); color: var(--verde-escuro); }
-  .btn--ghost-claro:hover { border-color: var(--verde-claro); color: var(--verde-claro); }
-}
-.btn:active { transform: translateY(1px); }
-.btn__i { width: 22px; height: 22px; flex: 0 0 auto; }
-
-a:focus-visible, button:focus-visible {
-  outline: 3px solid var(--verde);
-  outline-offset: 3px;
-  border-radius: 4px;
-}
-
-/* ------------------------------------------------------------------- topo -- */
-.topo {
-  position: sticky; top: 0;
-  z-index: 40;
-  height: var(--topo);
-  display: flex; align-items: center;
-  background: rgba(243, 246, 239, 0.94);
-  backdrop-filter: saturate(140%) blur(8px);
-  border-bottom: 1px solid var(--borda);
-}
-.topo__in {
-  display: flex; align-items: center; gap: 1.5rem;
-  width: min(var(--largura), 100%);
-  margin-inline: auto;
-  padding-inline: var(--gutter);
-}
-.marca { display: flex; align-items: center; flex: 0 0 auto; min-width: 0; }
-.marca img { width: clamp(11rem, 22vw, 15rem); height: auto; aspect-ratio: 600 / 132; display: block; }
-.nav { margin-left: auto; display: flex; align-items: center; gap: 1.75rem; }
-.nav__links { display: flex; align-items: center; gap: 1.75rem; }
-/* Os links da nav, e só eles. Antes esta regra era `.nav a`, que também pegava
-   o botão dentro da nav: `.nav a` tem especificidade maior que `.btn--wa`, e o
-   texto do botão saía cinza-esverdeado sobre o verde em vez de branco. O mesmo
-   botão no herói, fora da nav, saía certo — foi o que denunciou o problema. */
-.nav__links a {
-  font-family: var(--display);
-  font-size: var(--t-small);
-  font-weight: 600;
-  text-decoration: none;
-  color: var(--tinta-suave);
-  transition: color 150ms ease;
-}
-@media (hover: hover) and (pointer: fine) { .nav__links a:hover { color: var(--verde-escuro); } }
-.topo .btn { min-height: 42px; padding-inline: 1.1rem; font-size: var(--t-small); }
-@media (max-width: 800px) {
-  .nav__links { display: none; }
-  /* A barra sobe de altura para a marca crescer dentro dela. O glifo do
-     WhatsApp sai do botão: ele já está no flutuante, logo abaixo, e sem ele o
-     botão encurta o bastante para a marca ocupar metade da largura. */
-  :root { --topo: 88px; }
-  .marca img { width: clamp(12rem, 52vw, 15rem); }
-  .topo .btn__i { display: none; }
-  .topo .btn { padding-inline: 1rem; }
-}
-
-/* ----------------------------------------------- o botão flutuante ------ */
-/* Existe nas duas larguras. O nome não vem junto: ele mora no botão da barra,
-   que fica sempre à vista. Aqui é só o glifo, então o nome vai em aria-label. */
-.wa-flutua {
-  position: fixed;
-  right: clamp(0.9rem, 2.4vw, 2rem);
-  bottom: clamp(0.9rem, 2.4vw, 2rem);
-  z-index: 50;
-  display: inline-flex;
-  align-items: center; justify-content: center;
-  width: 58px; height: 58px;
-  border-radius: 50%;
-  background: var(--verde-wa);
-  color: #FFFFFF;
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.22),
-    0 3px 8px rgba(8, 32, 14, 0.30),
-    0 12px 28px rgba(8, 32, 14, 0.26);
-  transition: transform 150ms ease, background-color 150ms ease;
-}
-.wa-flutua svg { width: 30px; height: 30px; }
-@media (hover: hover) and (pointer: fine) {
-  .wa-flutua:hover { background: #0E8730; transform: translateY(-2px); }
-}
-.wa-flutua:active { transform: scale(0.96); }
-
-/* ------------------------------------------------------------------ herói -- */
-.hero {
-  position: relative;
-  overflow: hidden;
-  padding-top: clamp(3rem, 8vw, 6rem);
-  padding-bottom: clamp(14rem, 28vw, 22rem);
-  background:
-    radial-gradient(90% 60% at 18% 0%, #FFFFFF 0%, transparent 62%),
-    linear-gradient(178deg, var(--osso) 0%, var(--osso-fundo) 100%);
-}
-/* O herói é o texto mais a foto ao lado. A foto entra numa coluna com teto de
-   30rem porque o arquivo tem 500px de largura: exibida perto do tamanho dela,
-   fica nítida, em vez de esticada como no fundo das faixas. */
-.hero__grid {
-  position: relative;
-  z-index: 2;
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 30rem);
-  gap: clamp(2rem, 5vw, 4.5rem);
-  align-items: center;
-}
-.hero__txt { position: relative; z-index: 2; max-width: min(100%, 44rem); }
-.hero__foto { margin: 0; min-width: 0; will-change: transform; }
-.hero__foto img {
-  display: block;
-  width: 100%; height: auto;
-  aspect-ratio: 5 / 3;
-  object-fit: cover;
-  border-radius: var(--raio);
-  box-shadow: 0 1px 2px rgba(22, 29, 23, 0.14), 0 18px 40px rgba(22, 29, 23, 0.16);
-}
-.hero__foto figcaption {
-  margin-top: 0.7rem;
-  font-size: var(--t-micro);
-  letter-spacing: 0.02em;
-  color: var(--tinta-suave);
-}
-/* Abaixo de 960px a foto desce para baixo do texto e ocupa a largura toda —
-   que, num telefone, é quase exatamente a largura do arquivo. */
-@media (max-width: 960px) {
-  .hero__grid { grid-template-columns: 1fr; gap: 2.25rem; }
-  .hero__foto { margin-top: 0.5rem; }
-}
-.hero h1 { max-width: 15ch; }
-.hero h1 span { color: var(--verde); display: block; }
-.hero .lead { max-width: 40ch; }
-.hero__acoes {
-  display: flex; flex-wrap: wrap; gap: 0.75rem;
-  margin-top: 2.25rem;
-}
-
-/* as licenças logo abaixo da dobra: é o que diferencia a empresa e é fato. */
-.selos {
-  display: flex; flex-wrap: wrap; gap: 0.5rem 1.5rem;
-  margin: 2.5rem 0 0;
-  padding: 0;
-  list-style: none;
-  font-family: var(--display);
-  font-size: var(--t-micro);
-  font-weight: 700;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--tinta-suave);
-}
-.selos li { display: flex; align-items: center; gap: 0.45rem; }
-.selos li::before {
-  content: "";
-  width: 7px; height: 7px;
-  background: var(--verde);
-  border-radius: 1px;
-  flex: 0 0 auto;
-}
-
-/* ------------------------------------------- o cenário: camadas de parallax -- */
-/* Duas camadas desenhadas, em velocidades diferentes. É o único movimento da
-   página, e ele só responde ao scroll. */
-.cena {
-  position: absolute;
-  left: 0; right: 0; bottom: 0;
-  z-index: 1;
-  pointer-events: none;
-  line-height: 0;
-}
-.cena__camada { position: absolute; left: 0; right: 0; bottom: 0; will-change: transform; }
-.cena__predios { bottom: 0; color: #C3CEBE; }
-.cena__predios svg { width: 100%; height: clamp(7rem, 14vw, 11rem); display: block; }
-.cena__chao {
-  position: absolute; left: 0; right: 0; bottom: 0;
-  height: clamp(2.5rem, 5vw, 4rem);
-  background: linear-gradient(to bottom, var(--verde-escuro), #0E4C18);
-}
-.cena__cacamba {
-  position: absolute;
-  right: clamp(1rem, 6vw, 6rem);
-  bottom: clamp(2rem, 4.4vw, 3.4rem);
-  width: clamp(13rem, 30vw, 24rem);
-  will-change: transform;
-}
-.cena__cacamba svg { width: 100%; height: auto; display: block; }
-/* A pintura na lateral, como nas caçambas de verdade: o alpha do logo usado
-   como máscara, em branco. A forma é a marca, não um texto parecido. */
-.cena__livery {
-  position: absolute;
-  left: 24%; top: 48%; width: 52%;
-  aspect-ratio: 600 / 132;
-  background: #FFFFFF;
-  opacity: 0.92;
-  -webkit-mask: url("assets/logo.png") no-repeat center / contain;
-          mask: url("assets/logo.png") no-repeat center / contain;
-}
-/* A cena desenhada existe só no herói. Nas faixas escuras quem faz esse papel
-   é a foto real, e desenhar uma caçamba por cima de uma caçamba fotografada
-   era ruído. */
-
-/* -------------------------------------------------------------- serviços --- */
-.secao { padding-block: var(--secao); scroll-margin-top: var(--topo); }
-.secao--osso { background: var(--osso-fundo); }
-.secao__cabeca { max-width: 46ch; margin-bottom: clamp(2.5rem, 5vw, 3.5rem); }
-.secao__cabeca p { color: var(--tinta-suave); margin: 1rem 0 0; max-width: 52ch; }
-
-/* Três colunas, não auto-fit: com seis serviços, quatro colunas deixam duas
-   células vazias na segunda linha e o fundo da grade aparece como um bloco
-   cinza. Três fecham duas linhas cheias. */
-.servicos {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 1px;
-  background: var(--borda);
-  border: 1px solid var(--borda);
-  border-radius: var(--raio);
-  overflow: hidden;
-}
-.servico {
-  background: var(--osso);
-  padding: clamp(1.6rem, 3vw, 2.25rem);
-  display: flex; flex-direction: column; gap: 0.85rem;
-}
-@media (max-width: 900px) { .servicos { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-@media (max-width: 560px) { .servicos { grid-template-columns: 1fr; } }
-.servico__icone {
-  width: 38px; height: 38px;
-  color: var(--verde);
-  margin-bottom: 0.35rem;
-}
-.servico p { margin: 0; color: var(--tinta-suave); font-size: var(--t-small); line-height: 1.55; }
-.servico__link {
-  margin-top: auto;
-  padding-top: 0.75rem;
-  font-family: var(--display);
-  font-size: var(--t-small);
-  font-weight: 700;
-  color: var(--verde-escuro);
-  text-decoration: none;
-  display: inline-flex; align-items: center; gap: 0.4rem;
-}
-.servico__link::after { content: "→"; transition: transform 150ms ease; }
-@media (hover: hover) and (pointer: fine) {
-  .servico__link:hover::after { transform: translateX(3px); }
-}
-
-/* ------------------------------------------------------------ faixa escura -- */
-.faixa {
-  position: relative;
-  overflow: hidden;
-  background: var(--carvao);
-  color: var(--tinta-clara);
-  padding-block: clamp(5rem, 11vw, 8.5rem) clamp(9rem, 18vw, 14rem);
-  scroll-margin-top: var(--topo);
-}
-/* Mais largo que os 34ch do padrão: os textos das faixas escuras são de três
-   frases, e a essa altura o parágrafo já era uma coluna estreita e alta. */
-.faixa .lead { color: var(--tinta-clara-suave); max-width: 46ch; }
-/* A foto é a camada de parallax da faixa. Ela nasce mais alta que o quadro e
-   sobe ancorada acima, para que a deriva nunca descubra a borda. */
-.faixa__foto {
-  position: absolute;
-  left: 0; width: 100%;
-  top: -14%; height: 128%;
-  object-fit: cover;
-  /* Puxado para baixo de propósito: no alto das duas fotos há placa de loja e
-     telhado de galpão, coisas de outra marca que não têm por que aparecer. O
-     que fica é o caminhão e a caixa. */
-  object-position: 62% 76%;
-  opacity: 0.62;
-  filter: grayscale(0.08);
-  will-change: transform;
-}
-/* O véu. Sem ele a foto disputa o texto: o caminhão cruza justamente onde a
-   cópia mora. Opaco do lado da leitura, aberto do outro — à direita, onde a
-   caçamba içada aparece. */
-.faixa::before {
-  content: "";
-  position: absolute; inset: 0; z-index: 1;
-  pointer-events: none;
-  background: linear-gradient(90deg,
-    var(--carvao) 0%,
-    rgba(44, 51, 44, 0.95) 34%,
-    rgba(44, 51, 44, 0.72) 68%,
-    rgba(44, 51, 44, 0.46) 100%);
-}
-/* No telefone não há "outro lado": a coluna ocupa a largura toda. Então o véu
-   deita — forte em cima, onde o texto mora, e aberto embaixo, na faixa de
-   respiro onde não há cópia nenhuma. É ali que a foto aparece inteira. */
-@media (max-width: 860px) {
-  .faixa::before {
-    background: linear-gradient(to bottom,
-      var(--carvao) 0%,
-      rgba(44, 51, 44, 0.95) 46%,
-      rgba(44, 51, 44, 0.82) 70%,
-      rgba(44, 51, 44, 0.3) 100%);
-  }
-  .faixa__foto { object-position: 58% 64%; }
-}
-.faixa__in { position: relative; z-index: 2; }
-/* A faixa sem foto: sem véu (ele clarearia um lado sem motivo, já que não há
-   foto embaixo), sem sombra no texto e sem o rodapé alto que existia para
-   caber a foto. */
-.faixa--limpa { padding-block: clamp(5rem, 11vw, 8.5rem); }
-.faixa--limpa::before { content: none; }
-.faixa--limpa .faixa__in :is(h2, h3, p) { text-shadow: none; }
-/* Com a foto aberta, parte do texto cai sobre a lateral clara da caçamba. A
-   sombra dá contraste local onde a foto é clara e desaparece onde ela é
-   escura — escurecer a foto de novo resolveria o contraste apagando o motivo
-   dela existir. */
-.faixa__in :is(h2, h3, p) { text-shadow: 0 1px 3px rgba(10, 16, 10, 0.62); }
-.faixa h2 span { color: var(--verde-claro); }
-
-/* ------------------------------------------------------------------ empresa -- */
-.duas {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-  gap: clamp(2rem, 5vw, 4.5rem);
-  align-items: start;
-}
-@media (max-width: 860px) { .duas { grid-template-columns: 1fr; } }
-.duas p { color: var(--tinta-suave); margin: 0 0 1rem; max-width: 52ch; }
-/* a segunda frase do título em verde e em linha própria, como no herói */
-#empresa h2 span { display: block; color: var(--verde); }
-
-.fatos { margin: 0; border-top: 1px solid var(--borda); }
-.fatos > div {
-  display: grid;
-  grid-template-columns: minmax(8.5rem, 34%) 1fr;
-  gap: 1rem;
-  padding: 0.95rem 0;
-  border-bottom: 1px solid var(--borda);
-}
-.fatos dt {
-  font-family: var(--display);
-  font-size: var(--t-micro);
-  font-weight: 700;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--tinta-suave);
-  padding-top: 0.15rem;
-}
-.fatos dd { margin: 0; font-size: var(--t-small); line-height: 1.5; }
-@media (max-width: 520px) {
-  .fatos > div { grid-template-columns: 1fr; gap: 0.2rem; }
-}
-
-/* ------------------------------------------------------- missão e valores -- */
-/* Sete valores, então nada de cartão em grade fechada: em três colunas
-   sobrariam duas células vazias. Duas colunas de fios finos aceitam qualquer
-   número de itens e leem como documento, que é o que eles são. */
-.valores-titulo { margin: clamp(2.5rem, 5vw, 3.5rem) 0 0.5rem; }
-.valores {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  column-gap: clamp(2rem, 5vw, 4.5rem);
-}
-@media (max-width: 760px) { .valores { grid-template-columns: 1fr; } }
-.valor {
-  border-top: 1px solid var(--borda);
-  padding: 1.15rem 0 1.25rem;
-}
-.valor h3 { margin: 0 0 0.4rem; }
-.valor p {
-  margin: 0;
-  color: var(--tinta-suave);
-  font-size: var(--t-small);
-  line-height: 1.55;
-  max-width: 46ch;
-}
-
-/* ------------------------------------------------------------------- passos -- */
-/* Quatro passos: quatro colunas ou duas, nunca três — com três, o último
-   passo fica sozinho na segunda linha. */
-.passos {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: clamp(1.75rem, 4vw, 3rem);
-  counter-reset: passo;
-}
-@media (max-width: 1000px) { .passos { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-@media (max-width: 520px)  { .passos { grid-template-columns: 1fr; } }
-.passo { border-top: 3px solid var(--verde); padding-top: 1.1rem; }
-.passo::before {
-  counter-increment: passo;
-  content: "0" counter(passo);
-  display: block;
-  font-family: var(--display);
-  font-size: var(--t-small);
-  font-weight: 700;
-  letter-spacing: 0.14em;
-  color: var(--verde-escuro);
-  margin-bottom: 0.6rem;
-}
-.passo p { margin: 0.5rem 0 0; color: var(--tinta-suave); font-size: var(--t-small); line-height: 1.55; }
-/* os mesmos passos dentro da faixa escura */
-.faixa .passo { border-top-color: var(--verde-claro); }
-.faixa .passo::before { color: var(--verde-claro); }
-.faixa .passo p { color: var(--tinta-clara-suave); }
-
-/* ------------------------------------------------------------------ contato -- */
-.contato__acoes { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 2.25rem; }
-.contato__tel {
-  font-family: var(--display);
-  font-weight: 700;
-  font-size: var(--t-lead);
-  color: var(--tinta-clara);
-  text-decoration-color: rgba(240, 244, 238, 0.4);
-  text-underline-offset: 4px;
-}
-
-/* -------------------------------------------------------------------- pé ---- */
-.pe {
-  background: var(--carvao-2);
-  color: var(--tinta-clara-suave);
-  padding-block: clamp(2.5rem, 5vw, 3.5rem);
-  font-size: var(--t-small);
-  border-top: 1px solid var(--borda-escura);
-}
-.pe__in { display: flex; flex-wrap: wrap; gap: 1.5rem 2.5rem; align-items: flex-start; }
-/* a marca no escuro. O logo em cores tem o "S.A." em verde-escuro e ele sumiria
-   neste fundo, então aqui entra a versão clara que o cliente enviou: o texto
-   sai em branco e a árvore mantém o verde, em vez de virar uma silhueta. */
-.pe__marca {
-  width: 10.5rem;
-  height: auto;
-  aspect-ratio: 600 / 132;
-  flex: 0 0 auto;
-}
-.pe__col { display: flex; flex-direction: column; gap: 0.35rem; }
-.pe__col b {
-  font-family: var(--display);
-  font-size: var(--t-micro);
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--tinta-clara);
-  font-weight: 700;
-}
-.pe a { color: inherit; }
-/* A linha de baixo: a empresa de um lado, o crédito de quem fez do outro.
-   Numa tela estreita as duas empilham em vez de espremer. */
-.pe__legal {
-  margin: 2.5rem 0 0;
-  padding-top: 1.25rem;
-  border-top: 1px solid var(--borda-escura);
-  font-size: var(--t-micro);
-  color: rgba(168, 180, 166, 0.75);
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  gap: 0.5rem 2rem;
-}
-.pe__legal p { margin: 0; }
-/* O crédito é assinatura, não anúncio: fica um tom abaixo do resto, e só o
-   nome é link. */
-.pe__credito a {
-  color: rgba(200, 214, 198, 0.9);
-  text-decoration-color: rgba(200, 214, 198, 0.35);
-  text-underline-offset: 3px;
-}
-@media (hover: hover) and (pointer: fine) {
-  .pe__credito a:hover { color: var(--verde-claro); text-decoration-color: currentColor; }
-}
-
-/* --------------------------------------------------------- menos movimento -- */
-@media (prefers-reduced-motion: reduce) {
-  .cena__camada, .cena__cacamba { transform: none !important; }
-  .btn:active { transform: none; }
-}
-</style>
+<!-- O CSS saiu do <style> e virou arquivo quando a página do FAQ nasceu: as
+     duas páginas dividem a mesma folha, em vez de duas cópias que se
+     desencontram na primeira mudança de cor. O `?v=` é o cache: os arquivos
+     de /assets são servidos como immutable, então trocar o número é o que
+     faz o navegador buscar a folha nova. -->
+<link rel="stylesheet" href="assets/estilo.css?v=2">
 </head>
 <body>
 
@@ -661,6 +37,7 @@ a:focus-visible, button:focus-visible {
       <span class="nav__links">
         <a href="#servicos">Serviços</a>
         <a href="#empresa">A empresa</a>
+        <a href="#perguntas">Perguntas</a>
         <a href="#contato">Contato</a>
       </span>
       <a class="btn btn--wa" href="https://wa.me/5592994341227">
@@ -911,9 +288,10 @@ a:focus-visible, button:focus-visible {
       <p class="eyebrow eyebrow--claro">Como funciona</p>
       <h2>Você enche. <span>A gente tira.</span></h2>
       <p class="lead">
-        A caixa de entulho fica no local pelo período contratado. Você coloca o
-        material e, quando finalizar, nós fazemos a retirada e encaminhamos os
-        resíduos para a destinação adequada.
+        A caixa de entulho fica no local pelo período contratado, de 1 a 4 dias,
+        conforme a opção escolhida pelo cliente. Durante esse prazo, você coloca
+        o material na caixa e, ao final do período contratado, realizamos a
+        retirada e encaminhamos os resíduos para a destinação adequada.
       </p>
 
       <div class="passos" style="margin-top: clamp(2.5rem, 5vw, 3.5rem)">
@@ -1023,6 +401,18 @@ a:focus-visible, button:focus-visible {
       <p class="eyebrow valores-titulo">Nossos valores</p>
       <div class="valores">
 
+        <!-- A segurança vem primeiro por pedido da cliente: é o principal valor
+             da empresa e tinha ficado de fora da arte da Política Integrada que
+             ela enviou. Os outros sete seguem a ordem do documento. -->
+        <div class="valor">
+          <h3>Segurança</h3>
+          <p>
+            A segurança das pessoas vem antes de tudo: equipe treinada,
+            equipamento adequado e procedimentos seguros em todas as nossas
+            atividades.
+          </p>
+        </div>
+
         <div class="valor">
           <h3>Conformidade legal</h3>
           <p>
@@ -1077,6 +467,106 @@ a:focus-visible, button:focus-visible {
           </p>
         </div>
 
+      </div>
+    </div>
+  </section>
+
+  <!-- =================================================== perguntas ======= -->
+  <!-- Seis perguntas, não as 120. As que a equipe responde no WhatsApp todo
+       dia antes de fechar um pedido: tamanho, prazo, onde a caixa fica, o que
+       pode ir dentro, onde a empresa atende e como pedir orçamento. O resto
+       mora em /faq, que é a página inteira. -->
+  <section class="secao secao--osso" id="perguntas">
+    <div class="wrap">
+      <div class="secao__cabeca">
+        <p class="eyebrow">Perguntas frequentes</p>
+        <h2>Antes de pedir a caixa.</h2>
+        <p>
+          As dúvidas que mais chegam ao nosso atendimento, respondidas aqui.
+        </p>
+      </div>
+
+      <div class="perguntas perguntas--duas">
+
+        <details class="pergunta">
+          <summary>Qual o tamanho da caixa de entulho?</summary>
+          <div class="pergunta__r">
+            <p>Nossa caixa de entulho padrão possui capacidade de 5 m³.</p>
+          </div>
+        </details>
+
+        <details class="pergunta">
+          <summary>Por quantos dias posso ficar com a caixa?</summary>
+          <div class="pergunta__r">
+            <p>
+              A locação padrão considera um período de 1 a 4 dias, conforme as
+              condições comerciais informadas no momento da contratação.
+            </p>
+          </div>
+        </details>
+
+        <details class="pergunta">
+          <summary>A caixa pode ficar na rua?</summary>
+          <div class="pergunta__r">
+            <p>
+              Sim. A caixa pode ficar estacionada em local onde seja permitido
+              estacionar carro, desde que não bloqueie acessos, garagens,
+              portões ou prejudique a circulação e a segurança no local.
+            </p>
+          </div>
+        </details>
+
+        <details class="pergunta">
+          <summary>Posso colocar qualquer tipo de material na caixa?</summary>
+          <div class="pergunta__r">
+            <p>
+              Não. O tipo de resíduo deve ser informado no momento do orçamento,
+              pois alguns materiais possuem regras específicas de transporte,
+              acondicionamento e destinação.
+            </p>
+          </div>
+        </details>
+
+        <details class="pergunta">
+          <summary>Quais cidades a S.A. Entulho atende?</summary>
+          <div class="pergunta__r">
+            <p>Atendemos Manaus, Iranduba e Manacapuru.</p>
+            <p>
+              O atendimento depende do tipo de serviço, localização e
+              disponibilidade logística. Para alguns serviços fora de Manaus,
+              nossa equipe realiza uma análise prévia da operação e apresenta as
+              condições comerciais correspondentes.
+            </p>
+          </div>
+        </details>
+
+        <details class="pergunta">
+          <summary>Como faço um orçamento?</summary>
+          <div class="pergunta__r">
+            <p>
+              Entre em contato com nossa equipe por WhatsApp ou telefone e
+              informe:
+            </p>
+            <ul>
+              <li>Serviço desejado</li>
+              <li>Endereço ou bairro</li>
+              <li>Cidade</li>
+              <li>Tipo de material ou resíduo</li>
+              <li>Quantidade aproximada</li>
+              <li>Data ou período desejado</li>
+              <li>Se o atendimento será para pessoa física ou empresa.</li>
+            </ul>
+          </div>
+        </details>
+
+      </div>
+
+      <div class="perguntas-mais">
+        <a class="btn btn--ghost" href="/faq">Ver todas as perguntas</a>
+        <p>
+          São 120 respostas sobre caixa, roll-on, fossa, banheiro químico,
+          documentação ambiental e orçamento.
+        </p>
       </div>
     </div>
   </section>
@@ -1138,6 +628,11 @@ a:focus-visible, button:focus-visible {
       <div class="pe__col">
         <b>Licenças</b>
         <span>Ibama · Semmas · Ipaam · Semulsp</span>
+      </div>
+      <div class="pe__col">
+        <b>Páginas</b>
+        <span><a href="#topo">Início</a></span>
+        <span><a href="/faq">Perguntas frequentes</a></span>
       </div>
     </div>
     <div class="pe__legal">
