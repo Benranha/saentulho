@@ -44,17 +44,38 @@ Texto aprovado pela cliente em setembro de 2026, usado verbatim na página.
 | Caminhão VUC | Coleta prática para locais com acesso restrito, como garagens, ruas estreitas e áreas onde caminhões maiores não conseguem operar. |
 | Resíduos recicláveis | Coleta e transporte de materiais recicláveis, com encaminhamento para destinação adequada e foco no reaproveitamento. |
 | Limpeza de fossa | Sucção, limpeza e transporte de efluentes, com atendimento para residências, condomínios e empresas. |
-| Banheiro químico | **Texto ainda não aprovado.** Escrito por nós a partir da sugestão de incluir o serviço. |
-| Desentupimento | **Texto ainda não aprovado.** Idem. |
+| Banheiro químico | Escrito por nós. O serviço está confirmado pelo FAQ. |
+| Desentupimento | Idem. |
 
-Os dois últimos entraram porque foram sugeridos, mas não vieram do site antigo
-nem de texto da cliente. Antes de publicar, confirmar com ela: a empresa faz
-mesmo os dois, e o texto está certo? Se não fizer, é só apagar os dois
-`<article class="servico">` do fim da grade.
+Os dois últimos entraram porque foram sugeridos, sem texto da cliente. **O FAQ
+que ela enviou em setembro de 2026 confirma que a empresa faz os dois** (itens
+45 e 51), então a pendência de "a empresa faz mesmo isso?" está resolvida — o
+que continua sendo nosso é a redação dos dois cartões.
+
+O FAQ também lista serviços que **não estão na grade da home**: caixa roll-on,
+hidrojateamento, limpeza de caixa de gordura, coleta de resíduos orgânicos,
+coleta de resíduos ambulatoriais, resíduos Classe II A e II B, compostagem e
+gestão de resíduos para empresas. Eles estão respondidos em `/faq`. Se a
+cliente quiser algum deles na home, é um `<article class="servico">` a mais —
+mas a grade é de três colunas e hoje fecha em duas linhas cheias com seis
+cartões; com sete ou oito sobra célula vazia.
 
 ## Como funciona, em quatro passos
 
-Texto aprovado pela cliente, verbatim:
+A abertura da faixa, verbatim, com a correção que a cliente mandou depois
+("aqui no site da S.A. eu vacilei, esqueci de colocar o período de 1 a 4
+dias"):
+
+> "A caixa de entulho fica no local pelo período contratado, de 1 a 4 dias,
+> conforme a opção escolhida pelo cliente. Durante esse prazo, você coloca o
+> material na caixa e, ao final do período contratado, realizamos a retirada e
+> encaminhamos os resíduos para a destinação adequada."
+
+O prazo bate com a resposta 7 do FAQ: "a locação padrão considera um período
+de 1 a 4 dias, conforme as condições comerciais informadas no momento da
+contratação".
+
+Os quatro passos, texto aprovado pela cliente, verbatim:
 
 1. **Você solicita** — Entre em contato pelo WhatsApp ou telefone, informe o
    endereço, o tipo de resíduo e o período necessário.
@@ -97,11 +118,18 @@ compromisso, não o sistema. Só a missão e os valores foram aproveitados.
 > das pessoas e o desenvolvimento de uma cultura de qualidade em todas as
 > nossas atividades."
 
-**Os sete valores** são os sete compromissos do documento, cada um com um nome
-curto na frente para virar título:
+**Os valores** são os compromissos do documento, cada um com um nome curto na
+frente para virar título. **A segurança vem primeiro e não sai do documento**:
+a cliente viu a página e escreveu "faltou aqui o nosso principal valor, a
+segurança — os outros estão Ok". A arte da Política Integrada que ela tinha
+enviado não trazia esse compromisso na lista de valores, embora a missão
+mencione "a segurança das pessoas". O texto do cartão é nosso, escrito com as
+palavras que já estão na missão; se ela tiver a redação oficial, é trocar o
+parágrafo.
 
 | Valor | Compromisso no documento |
 |---|---|
+| Segurança | **Não estava na arte.** Pedido da cliente, principal valor da empresa. |
 | Conformidade legal | Cumprir a legislação e os requisitos aplicáveis ao nosso negócio |
 | Rastreabilidade | Garantir a destinação ambientalmente adequada dos resíduos, com rastreabilidade e documentação que comprovem a correta destinação |
 | Melhoria contínua | Promover a melhoria contínua dos processos, serviços e equipamentos |
@@ -112,6 +140,42 @@ curto na frente para virar título:
 
 O fecho do cartaz ("Juntos, construímos um futuro mais limpo e sustentável")
 ficou de fora: é assinatura de peça gráfica, não conteúdo de página.
+
+## O FAQ
+
+As 120 perguntas de `/faq` saem do documento **"FAQ - S.A Entulho"** que a
+cliente enviou em setembro de 2026. As respostas estão **verbatim**. As únicas
+edições são de forma:
+
+- "S.A Entulho" vira "S.A. Entulho", com o ponto, como no resto do site
+- "PIX" vira "Pix", também como no resto do site
+- as listas soltas do PDF (uma linha por item) viram `<ul>`
+- os avisos de nova cobrança na troca de caixa viraram `.pergunta__nota`, o
+  parágrafo com o fio verde na lateral — no PDF eles eram parágrafo comum e
+  passavam batido, e é a dúvida que mais gera atrito depois
+
+Os quinze grupos são os do documento, na mesma ordem. O fecho ("não encontrou
+sua dúvida?") também é dele.
+
+**Fatos novos que só existiam no FAQ** e agora estão na página:
+
+| Fato | Onde |
+|---|---|
+| A caixa padrão é de **5 m³** | resposta 5 |
+| A locação padrão é de **1 a 4 dias** | resposta 7, e a faixa "Como funciona" |
+| Existe **caixa roll-on** para empresa e indústria, não indicada para entulho | respostas 20 a 31 |
+| Troca de caixa cheia por vazia é **nova locação e nova cobrança** | respostas 10, 25, 26, 66 e 93 |
+| Pode haver cobrança de **viagem perdida** quando o local não foi informado | resposta 19 |
+| O responsável assina a **cautela digital** com o motorista | resposta 115 |
+| A empresa trabalha com **MTR, CDF e SINIR** | respostas 68 a 73 |
+| O orçamento **não reserva** caminhão; a rota só é programada após o pagamento confirmado | resposta 111 |
+
+Uma diferença a notar entre o FAQ e a home: a lista de fatos da home diz "Pix,
+cartão de crédito e débito", enquanto o FAQ (respostas 38 a 42) diz que as
+formas de pagamento "são informadas no momento do orçamento e podem variar de
+acordo com o serviço contratado", com Pix e cartão sujeitos às condições
+vigentes. As duas afirmações convivem, mas se a cliente quiser uma só versão, a
+do FAQ é a mais recente.
 
 ## Os fatos
 
