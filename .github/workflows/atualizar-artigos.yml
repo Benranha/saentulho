@@ -1,0 +1,57 @@
+# Republica o site para trazer os artigos novos do ADC.
+#
+# POR QUE ISTO EXISTE. Nos outros três sites da empresa o Next revalida sozinho
+# de cinco em cinco minutos. Aqui não: o site é estático e os artigos são
+# escritos no deploy, por `scripts/gerar-artigos.mjs`. Sem alguém disparar um
+# deploy, artigo aprovado no ADC nunca aparece.
+#
+# O que este fluxo faz é só cutucar um Deploy Hook da Vercel. Ele não builda
+# nada, não commita nada e não tem acesso ao ADC.
+#
+# PARA LIGAR (enquanto o segredo não existir, ele avisa e sai sem erro):
+#   1. Vercel → projeto saentulho → Settings → Git → Deploy Hooks → criar um
+#      para a branch de produção e copiar a URL.
+#   2. GitHub → repositório → Settings → Secrets and variables → Actions →
+#      New repository secret, com o nome VERCEL_DEPLOY_HOOK.
+#
+# Depois de aprovar um artigo no ADC e querer vê-lo no ar agora, rode este
+# fluxo pela aba Actions ("Run workflow") em vez de esperar o horário.
+
+name: Atualizar artigos
+
+on:
+  schedule:
+    # Horário de Manaus é UTC-4. Isto roda às 8h, 11h, 14h e 17h, de segunda a
+    # sexta: quatro janelas no horário comercial, em vez de um deploy por hora
+    # a semana inteira para um blog que publica de vez em quando.
+    - cron: "0 12,15,18,21 * * 1-5"
+  workflow_dispatch:
+
+# Sem permissão nenhuma: o fluxo só faz uma requisição para fora.
+permissions: {}
+
+jobs:
+  republicar:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Disparar o deploy
+        env:
+          GANCHO: ${{ secrets.VERCEL_DEPLOY_HOOK }}
+        run: |
+          if [ -z "$GANCHO" ]; then
+            echo "::notice::VERCEL_DEPLOY_HOOK não está configurado."
+            echo "O site continua no ar; só não vai buscar artigo novo sozinho."
+            echo "As instruções estão no topo deste arquivo."
+            exit 0
+          fi
+
+          codigo=$(curl -sS -o /dev/null -w '%{http_code}' -X POST "$GANCHO")
+          echo "A Vercel respondeu $codigo."
+
+          # 2xx é aceite. Qualquer outra coisa é falha de verdade e tem de
+          # aparecer vermelha: um gancho revogado falharia em silêncio, e o
+          # site ficaria meses sem artigo novo sem ninguém notar.
+          case "$codigo" in
+            2*) echo "Deploy disparado." ;;
+            *)  echo "::error::O Deploy Hook recusou ($codigo). Confira se ele ainda existe na Vercel."; exit 1 ;;
+          esac

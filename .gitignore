@@ -8,3 +8,10 @@ env.txt
 .DS_Store
 node_modules/
 .vercel
+
+# saida do build (scripts/gerar-artigos.mjs): sai pronta no deploy e nao se
+# versiona. Para ver a secao na sua maquina, rode o script antes de servir.
+site/artigos.html
+site/artigos/
+site/sitemap.xml
+site/robots.txt
