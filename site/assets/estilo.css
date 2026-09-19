@@ -850,3 +850,134 @@ a:focus-visible, button:focus-visible {
   text-transform: uppercase;
   color: var(--tinta-clara);
 }
+
+/* ======================================================= artigos ======== */
+/* A seção de artigos, escrita por scripts/gerar-artigos.mjs a partir do feed
+   do ADC. Sem classe nova de layout: reusa `.cabeca-faq`, `.secao`, `.wrap`,
+   `.eyebrow` e `.lead`, que é o que faz ela parecer o mesmo site. */
+
+/* A listagem é uma lista de fios, como as perguntas do FAQ — não cartões. Com
+   três ou quatro artigos, grade de cartões vira um vazio no fim da linha. */
+/* Sem a barra grudenta de assuntos que o FAQ tem abaixo do cabeçalho, o vão
+   padrão da seção deixava uma tela quase vazia entre o título e o primeiro
+   artigo. */
+.secao--artigos { padding-top: clamp(2rem, 4vw, 3rem); }
+
+.artigos { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--borda); }
+.artigo-item { padding-block: clamp(1.5rem, 3vw, 2.25rem); border-bottom: 1px solid var(--borda); }
+.artigo-item__data {
+  margin: 0 0 0.6rem;
+  font-family: var(--display);
+  font-size: var(--t-micro);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--verde-escuro);
+}
+/* Título de artigo é frase, não rótulo: sai do versalete global do h2 e fica
+   como o texto das perguntas do FAQ, que também são frases na fonte display.
+   Versalete aqui mastigaria manchete escrita pela redação. */
+.artigo-item__t {
+  margin: 0;
+  font-size: var(--t-h3);
+  max-width: 32ch;
+  text-transform: none;
+  letter-spacing: -0.015em;
+}
+.artigo-item__t a { color: var(--tinta); text-decoration: none; }
+@media (hover: hover) and (pointer: fine) {
+  .artigo-item__t a:hover { color: var(--verde-escuro); }
+}
+.artigo-item__c {
+  margin: 0.7rem 0 0;
+  max-width: 62ch;
+  color: var(--tinta-suave);
+  font-size: var(--t-small);
+  line-height: 1.6;
+}
+
+/* Estado vazio: é o que se vê antes do primeiro artigo aprovado e também
+   quando o ADC não respondeu na hora do deploy. Fio verde na lateral, o mesmo
+   da nota do FAQ — é aviso, não erro. */
+.artigos-vazio { max-width: 60ch; padding-left: 1rem; border-left: 3px solid var(--verde); }
+.artigos-vazio__t { margin: 0 0 0.7rem; font-family: var(--display); font-weight: 700; font-size: var(--t-h3); }
+.artigos-vazio p { margin: 0 0 0.7rem; color: var(--tinta-suave); font-size: var(--t-small); line-height: 1.6; }
+.artigos-vazio__acao { margin-top: 1.25rem; }
+
+/* A foto do artigo, quando o ADC manda uma. `aspect-ratio` vem do width/height
+   na tag, então o texto não pula quando ela carrega. */
+.artigo-foto { margin: 0 0 clamp(1.75rem, 4vw, 2.5rem); max-width: 48rem; }
+.artigo-foto img { width: 100%; height: auto; border-radius: var(--raio); display: block; }
+.artigo-foto figcaption {
+  margin-top: 0.6rem;
+  color: var(--tinta-suave);
+  font-size: var(--t-small);
+  line-height: 1.5;
+}
+
+/* O corpo do artigo. A allowlist do ADC é curta — p, h2, h3, strong, em, ul,
+   ol, li, a, blockquote, br — e está toda estilizada aqui: nada cai no estilo
+   do navegador. */
+.prosa { max-width: 62ch; }
+.prosa > * { margin: 0; }
+/* Zera primeiro e empilha depois, nesta ordem: invertido, um seletor mais
+   específico zeraria o topo de todo parágrafo e colaria o texto no título. */
+.prosa > * + * { margin-top: 1.1em; }
+.prosa p { color: var(--tinta-suave); font-size: var(--t-body); line-height: 1.7; }
+/* Pelo mesmo motivo do título da listagem. E sem isto o h2 e o h3 do corpo
+   sairiam os dois em versalete, quase do mesmo tamanho: dois níveis de
+   subtítulo indistinguíveis dentro do texto. */
+.prosa > h2 {
+  margin-top: 2.3em;
+  font-size: var(--t-h3);
+  text-transform: none;
+  letter-spacing: -0.015em;
+}
+.prosa > h3 {
+  margin-top: 2em;
+  font-family: var(--display);
+  font-size: var(--t-small);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--tinta);
+}
+/* Marcador quadrado verde, o mesmo das listas do FAQ e dos selos do herói. */
+.prosa ul { list-style: none; padding: 0; display: grid; gap: 0.4rem; }
+.prosa ul li { position: relative; padding-left: 1.1rem; }
+.prosa ul li::before {
+  content: "";
+  position: absolute;
+  left: 0; top: 0.62em;
+  width: 6px; height: 6px;
+  background: var(--verde);
+  border-radius: 1px;
+}
+.prosa ol { padding-left: 1.3rem; display: grid; gap: 0.4rem; }
+.prosa ol li::marker { color: var(--verde); font-family: var(--display); font-weight: 700; }
+.prosa li { color: var(--tinta-suave); font-size: var(--t-body); line-height: 1.6; }
+.prosa > blockquote {
+  margin-top: 1.9em;
+  padding-left: 1rem;
+  border-left: 3px solid var(--verde);
+  color: var(--tinta);
+}
+.prosa blockquote p { margin: 0 0 0.6rem; color: var(--tinta); }
+.prosa blockquote p:last-child { margin-bottom: 0; }
+.prosa a { color: var(--verde-escuro); text-underline-offset: 3px; }
+.prosa strong { color: var(--tinta); font-weight: 600; }
+
+.artigo-volta {
+  margin: clamp(2.5rem, 5vw, 3.5rem) 0 0;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--borda);
+}
+.artigo-volta a {
+  font-family: var(--display);
+  font-size: var(--t-micro);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--verde-escuro);
+  text-decoration: none;
+}

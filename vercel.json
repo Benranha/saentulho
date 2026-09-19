@@ -1,5 +1,6 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
+  "buildCommand": "node scripts/gerar-artigos.mjs",
   "outputDirectory": "site",
   "cleanUrls": true,
   "trailingSlash": false,
