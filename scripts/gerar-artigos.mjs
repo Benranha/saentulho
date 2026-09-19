@@ -205,13 +205,17 @@ function cabeca({ titulo, descricao, caminho, og }) {
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&family=Geist:wght@400;500;600&display=swap">
 <!-- A mesma folha da home. Ver o comentário em index.html sobre o \`?v=\`. -->
 <link rel="stylesheet" href="/assets/estilo.css?v=${VERSAO_CSS}">
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-B8PXC97HZ7"></script>
+<!-- A mesma tag das paginas escritas a mao. Ver o comentario em index.html:
+     o carregador e o do Google Ads, e o GA4 entra no mesmo gtag.js com um
+     segundo \`config\`. Se esta secao carregasse so o GA4, a tag do Ads faltaria
+     em todas as paginas de artigo e as conversoes vindas dali nao contariam. -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=AW-18387814949"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
 
+  gtag('config', 'AW-18387814949');
   gtag('config', 'G-B8PXC97HZ7');
 </script>
 </head>
