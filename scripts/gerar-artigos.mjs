@@ -283,6 +283,44 @@ const RODAPE = `
   </div>
 </footer>
 
+<!-- As mesmas conversoes das paginas escritas a mao. Entra aqui no RODAPE, e
+     nao em cada template, porque o rodape e o unico pedaco que a listagem e
+     todo artigo compartilham: assim nenhuma pagina nova nasce sem medir.
+     Sem isto, os quatro links desta pagina (o botao do topo, o flutuante e os
+     dois do pe) abririam o WhatsApp sem contar conversao nenhuma.
+
+     \`beacon\` nao e enfeite: nenhum destes links e target="_blank", entao o
+     clique ja esta descarregando a pagina quando o registro precisa sair. -->
+<script>
+(function () {
+  var CONVERSOES = {
+    whatsapp: 'AW-18387814949/h4SdCP76if0cEKWU_79E',
+    telefone: 'AW-18387814949/WDX0COT-if0cEKWU_79E'
+  };
+
+  function disparar(sendTo) {
+    if (typeof gtag !== 'function') return;
+    gtag('event', 'conversion', {
+      'send_to': sendTo,
+      'value': 1.0,
+      'currency': 'BRL',
+      'transport_type': 'beacon'
+    });
+  }
+
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest ? e.target.closest('a[href]') : null;
+    if (!a) return;
+    var href = a.getAttribute('href') || '';
+    if (/wa\.me|api\.whatsapp\.com/i.test(href)) {
+      disparar(CONVERSOES.whatsapp);
+    } else if (/^tel:/i.test(href)) {
+      disparar(CONVERSOES.telefone);
+    }
+  }, true);
+})();
+</script>
+
 </body>
 </html>
 `;
