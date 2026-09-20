@@ -312,7 +312,7 @@ const RODAPE = `
     var a = e.target.closest ? e.target.closest('a[href]') : null;
     if (!a) return;
     var href = a.getAttribute('href') || '';
-    if (/wa\.me|api\.whatsapp\.com/i.test(href)) {
+    if (/wa\\.me|api\\.whatsapp\\.com/i.test(href)) {
       disparar(CONVERSOES.whatsapp);
     } else if (/^tel:/i.test(href)) {
       disparar(CONVERSOES.telefone);
