@@ -726,7 +726,12 @@
 <!-- Conversões do Google Ads. Um único ouvinte no documento decide pelo href,
      então os botões de WhatsApp e os links de telefone continuam sendo <a>
      comuns: nada de onclick espalhado por 14 links que alguém esquece de
-     copiar no próximo botão. -->
+     copiar no próximo botão.
+
+     `transport_type: 'beacon'` não é enfeite: nenhum desses links é
+     target="_blank", então o clique já está descarregando a página quando o
+     registro precisa sair. Sem isso o navegador cancela a requisição e a
+     conversão se perde justo no clique que mais interessa. -->
 <script>
 (function () {
   var CONVERSOES = {
@@ -739,7 +744,8 @@
     gtag('event', 'conversion', {
       'send_to': sendTo,
       'value': 1.0,
-      'currency': 'BRL'
+      'currency': 'BRL',
+      'transport_type': 'beacon'
     });
   }
 
