@@ -118,6 +118,24 @@ O `slug` de cada artigo vira nome de arquivo, então ele é conferido contra
 ignorado com aviso no log — quem escreve em disco a partir de dado de fora
 confere.
 
+### Despublicar no ADC também tira do ar
+
+O artigo despublicado **não some do feed**: ele continua vindo, marcado com
+`removido: true`. Sumir seria indistinguível de "nada mudou" para quem lê o
+feed por `?desde=`, e o post ficaria publicado aqui para sempre.
+
+O gerador trata essa marca como ordem de retirada: não escreve a página, e o
+artigo sai também da listagem e do `sitemap.xml`, que saem da mesma lista. Como
+a pasta `site/artigos/` é refeita do zero a cada geração, o HTML da vez anterior
+não sobrevive e a URL passa a responder 404.
+
+Feed sem o campo — um ADC anterior a ele — continua publicando normalmente: a
+comparação é com `true`, não com valor verdadeiro qualquer, para campo ausente
+nunca apagar a seção.
+
+Vale a regra da seção seguinte também para a retirada: ela acontece **no próximo
+deploy**, não no clique.
+
 ### O artigo aprovado só aparece no próximo deploy
 
 É a diferença real entre este site e os outros três da empresa, que revalidam

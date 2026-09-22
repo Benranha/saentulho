@@ -524,6 +524,26 @@ async function main() {
   const brutos = await buscarArtigos();
 
   const artigos = brutos
+    // Despublicar no ADC tira o post do ar aqui.
+    //
+    // O feed não some com o artigo despublicado: manda ele marcado com
+    // `removido`. Some-lo seria indistinguível de "nada mudou" para quem lê o
+    // feed por `?desde=`, e o post ficaria publicado para sempre. A marca é a
+    // ordem de retirada — e aqui retirar é simplesmente não gerar a página: a
+    // pasta é refeita do zero logo abaixo, então o HTML anterior não sobrevive,
+    // e o artigo também sai da listagem e do sitemap, que saem desta lista.
+    //
+    // A comparação é com `true`, não com valor verdadeiro qualquer: um feed que
+    // ainda não conheça o campo manda `undefined`, e aí o certo é continuar
+    // publicando o que já estava no ar, nunca apagar a seção inteira por causa
+    // de um campo ausente.
+    .filter((artigo) => {
+      if (artigo?.removido !== true) {
+        return true;
+      }
+      console.info(`[artigos] despublicado no ADC, sai do ar: ${artigo?.slug}`);
+      return false;
+    })
     .filter((artigo) => {
       if (typeof artigo?.slug === "string" && SLUG_VALIDO.test(artigo.slug)) {
         return true;
