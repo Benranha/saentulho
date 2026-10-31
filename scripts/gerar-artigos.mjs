@@ -265,6 +265,7 @@ const RODAPE = `
         <b>Atendimento</b>
         <span>Manaus, Iranduba e Manacapuru · AM</span>
         <span>Pix, cartão de crédito e débito</span>
+        <span>Sábado: atendemos até as 16h</span>
       </div>
       <div class="pe__col">
         <b>Páginas</b>
